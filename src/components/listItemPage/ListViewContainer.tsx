@@ -15,17 +15,16 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
-import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
-
 import {STORAGE_ROW_ID} from "@/lib/constants";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 
 import {listActions} from "@/store/features/list/listSlice";
-import RowContainer from "./RowContainer";
+import RowItem from "./RowItem";
 
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
+import RowsContainer from "./RowsContainer";
 
 const ContentCard = dynamic(() => import("./ContentCard"));
 
@@ -33,9 +32,6 @@ function ListViewContainer() {
   const dispatch = useAppDispatch();
 
   const contents = useAppSelector((state) => state.list.contents);
-  const rows = useAppSelector((state) => state.list.rows);
-
-  const contentsId = useMemo(() => rows.map((col) => col.id), [rows]);
 
   const activeRow = useAppSelector((state) => state.list.activeRow);
   const activeContent = useAppSelector((state) => state.list.activeContent);
@@ -117,29 +113,20 @@ function ListViewContainer() {
         modifiers={[restrictToWindowEdges]}
         collisionDetection={pointerWithin}
       >
-        <div className="flex justify-center w-full gap-5">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-y-0.5">
-              <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
-                {rows.map((row) => (
-                  <RowContainer
-                    key={row.id}
-                    row={row}
-                    contents={contents.filter((content) => content.rowId === row.id)}
-                  />
-                ))}
-              </SortableContext>
-            </div>
+        <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full">
+          <div className="flex flex-col gap-3 flex-1 lg:max-w-[900px]">
+            <RowsContainer />
             <StorageContainer
               contents={contents.filter((content) => content.rowId === STORAGE_ROW_ID)}
             />
           </div>
+
           <RightContainer />
         </div>
 
         <DragOverlay>
           {activeRow && (
-            <RowContainer
+            <RowItem
               row={activeRow}
               contents={contents.filter((content) => content.rowId === activeRow.id)}
             />

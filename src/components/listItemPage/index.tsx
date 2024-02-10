@@ -5,7 +5,6 @@ import {useEffect} from "react";
 import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {createListFromDb} from "@/lib/utils";
-import {Skeleton} from "@nextui-org/react";
 import ListViewContainer from "./ListViewContainer";
 
 const ListItemPage = ({id}: {id: string}) => {
@@ -21,8 +20,8 @@ const ListItemPage = ({id}: {id: string}) => {
           createListFromDb({
             id: data?.data?.id,
             name: data?.data?.name,
-            rows: data?.data?.rows,
-            storage: data?.data?.storage,
+            rows: data?.data?.contentsData?.rows,
+            storage: data?.data?.contentsData?.storage,
           }),
         ),
       );

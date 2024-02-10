@@ -10,11 +10,9 @@ export const POST = (_request: Request) =>
       const response = await prisma.list.create({
         data: {
           name: body.name,
-          rows: {
-            set: body.rows,
-          },
-          storage: {
-            set: body.storage,
+          contentsData: {
+            rows: body.rows,
+            storage: body.storage,
           },
         },
       });

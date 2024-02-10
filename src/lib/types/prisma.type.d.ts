@@ -1,5 +1,10 @@
 declare global {
   namespace PrismaJson {
+    type ListData = {
+      rows: RowsType[];
+      storage: ContentType[];
+    };
+
     type RowsType = {
       name: string;
       row_id: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useMemo} from "react";
+import {useMemo} from "react";
 import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {STORAGE_ROW_ID} from "@/lib/constants";
 
@@ -29,8 +29,8 @@ const StorageContainer = ({contents}: Props) => {
   }, [contents]);
 
   return (
-    <Skeleton isLoaded={!fetchLoading}>
-      <div ref={setNodeRef} className="bg-content1 w-[900px] flex flex-col gap-5 p-5">
+    <Skeleton isLoaded={!fetchLoading} className="rounded-b-medium">
+      <div ref={setNodeRef} className="bg-content1 w-full flex flex-col gap-5 p-5">
         <div className="flex">
           <h2 className="text-2xl">Box</h2>
         </div>

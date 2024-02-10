@@ -23,15 +23,17 @@ const ListSaveButton = () => {
   };
 
   return (
-    <Button
-      color="success"
-      isDisabled={!hasUnsavedChanges}
-      isLoading={isFetching}
-      onClick={handleSaveClick}
-      className="mt-5"
-    >
-      {hasUnsavedChanges ? "Save" : "Saved"}
-    </Button>
+    <>
+      <Button
+        color="success"
+        isDisabled={!hasUnsavedChanges}
+        isLoading={isFetching}
+        onClick={handleSaveClick}
+        className="mt-5"
+      >
+        {hasUnsavedChanges ? "Save" : "Saved"}
+      </Button>
+    </>
   );
 };
 

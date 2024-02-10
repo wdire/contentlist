@@ -11,9 +11,6 @@ import {
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
 
-import {Skeleton} from "@nextui-org/react";
-import {useAppSelector} from "@/store";
-import listSelectors from "@/store/features/list/listSelectors";
 import {Row, Content} from "../../lib/types/list.type";
 import ContentCard from "./ContentCard";
 import RowOptionsPopover from "./RowOptionsPopover";
@@ -26,9 +23,7 @@ interface Props {
   contents: Content[];
 }
 
-const RowContainer = memo(function RowContainer({row, contents}: Props) {
-  const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
-
+const RowItem = memo(function RowItem({row, contents}: Props) {
   const contentIds = useMemo(() => {
     return contents.map((content) => content.id);
   }, [contents]);
@@ -49,12 +44,7 @@ const RowContainer = memo(function RowContainer({row, contents}: Props) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={"w-[900px] flex bg-content1 relative"}>
-      <Skeleton
-        isLoaded={!fetchLoading}
-        className="w-full h-full absolute z-40 pointer-events-none"
-      ></Skeleton>
-
+    <div ref={setNodeRef} style={style} className={"w-full flex bg-content1 relative"}>
       <div
         {...attributes}
         {...listeners}
@@ -85,4 +75,4 @@ const RowContainer = memo(function RowContainer({row, contents}: Props) {
   );
 });
 
-export default RowContainer;
+export default RowItem;

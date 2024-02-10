@@ -1,3 +1,4 @@
+import {STORAGE_ROW_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
 import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
@@ -48,6 +49,10 @@ export const listSlice = createSlice({
       state.contents = action.payload.contents;
       state.info = action.payload.info;
     },
+    editListInfo: (state, action: PayloadAction<{name: string}>) => {
+      state.info.name = action.payload.name;
+      state.hasUnsavedChanges = true;
+    },
     addContent: (state, action: PayloadAction<Content>) => {
       state.contents.push(action.payload);
       state.hasUnsavedChanges = true;
@@ -68,6 +73,19 @@ export const listSlice = createSlice({
       state.rows[rowIndex].title = action.payload.title;
 
       state.hasUnsavedChanges = true;
+    },
+    deleteRow: (state, action: PayloadAction<Row>) => {
+      state.contents = state.contents.map((c) => {
+        if (c.rowId === action.payload.id) {
+          return {
+            ...c,
+            rowId: STORAGE_ROW_ID,
+          };
+        }
+
+        return c;
+      });
+      state.rows = state.rows.filter((r) => r.id !== action.payload.id);
     },
     onDragStart: (
       state,

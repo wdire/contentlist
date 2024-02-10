@@ -21,8 +21,10 @@ export const PUT = (_request: Request, _params: RequestParams) =>
         },
         data: {
           name: body.name,
-          rows: body.rows,
-          storage: body.storage,
+          contentsData: {
+            rows: body.rows,
+            storage: body.storage,
+          },
         },
       });
 

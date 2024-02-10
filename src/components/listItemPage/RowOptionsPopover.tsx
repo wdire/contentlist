@@ -3,7 +3,7 @@ import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 import clsx from "clsx";
-import {Settings} from "lucide-react";
+import {Settings, Trash} from "lucide-react";
 import React, {useState} from "react";
 
 const ColorItem = ({
@@ -62,6 +62,11 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
     setIsPopoverOpen(false);
   };
 
+  const handleRowDeleteClick = () => {
+    dispatch(listActions.deleteRow(row));
+    setIsPopoverOpen(false);
+  };
+
   const resetStates = () => {
     console.log("resetStates");
     setRowTitleInputValue(row.title);
@@ -94,6 +99,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
               onKeyDown={(key) =>
                 (key.key === "Enter" || key.which === 13) && handleEditButtonClick()
               }
+              maxLength={40}
             />
           </div>
 
@@ -113,9 +119,18 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
             </div>
           </div>
 
-          <Button color="warning" className="mt-4" onClick={handleEditButtonClick}>
-            Edit
-          </Button>
+          <div className="flex justify-between items-center mt-4">
+            <Button color="warning" onClick={handleEditButtonClick}>
+              Edit
+            </Button>
+
+            <div
+              className="text-red-500 transition-all hover:text-red-400 active:text-red-600 active:scale-95 cursor-pointer"
+              onClick={handleRowDeleteClick}
+            >
+              <Trash />
+            </div>
+          </div>
         </div>
       </PopoverContent>
     </Popover>
