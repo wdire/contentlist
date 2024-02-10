@@ -1,5 +1,3 @@
-import {Row} from "./types/list.type";
-
 export const STORAGE_ROW_ID = "__STORAGE_ROW__";
 
 // PrismaJson.RowsType["color"][]
