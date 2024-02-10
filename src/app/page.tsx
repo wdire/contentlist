@@ -1,11 +1,9 @@
-"use client";
-
-import {Button} from "@/components/ui/Button";
+import ListItems from "@/components/home/listItems";
 
 export default function Home() {
   return (
     <>
-      <Button>sadsa</Button>
+      <ListItems />
     </>
   );
 }

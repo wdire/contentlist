@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import {Poppins} from "next/font/google";
 import "../styles/globals.scss";
 import clsx from "clsx";
+import {Providers} from "@/lib/providers";
 
 const poppinsFont = Poppins({
   subsets: ["latin"],
@@ -21,10 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={clsx("min-h-screen bg-background font-sans antialiased", poppinsFont.variable)}
-      >
-        <main className="min-h-screen h-full">{children}</main>
+      <body className={clsx(poppinsFont.variable)}>
+        <Providers>
+          <main className="min-h-screen h-full">{children}</main>
+        </Providers>
       </body>
     </html>
   );

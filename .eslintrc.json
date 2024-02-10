@@ -11,27 +11,26 @@
     "next/core-web-vitals",
     "plugin:storybook/recommended"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "import",
-    "prettier",
-    "eslint-comments"
-  ],
+  "plugins": ["@typescript-eslint", "import", "prettier", "eslint-comments"],
   "rules": {
     "import/prefer-default-export": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-use-before-define": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-param-reassign": ["error", {"props": false}],
     "global-require": "off",
     "no-use-before-define": "off",
     "no-shadow": "off",
+    "quotes": "off",
     "@typescript-eslint/no-shadow": "error",
-    "import/no-extraneous-dependencies": [
-      "error"
-    ],
+    "import/no-extraneous-dependencies": ["error"],
     "@typescript-eslint/explicit-member-accessibility": "off",
     "lines-between-class-members": "off",
     "no-underscore-dangle": "off",
+    "no-useless-return": "off",
     "prettier/prettier": [
       "error",
       {
@@ -52,11 +51,7 @@
     "no-console": [
       "error",
       {
-        "allow": [
-          "info",
-          "warn",
-          "error"
-        ]
+        "allow": ["info", "warn", "error", "log"]
       }
     ]
   }
