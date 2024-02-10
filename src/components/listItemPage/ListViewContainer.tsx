@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import {useCallback, useMemo, useRef} from "react";
+import {useCallback, useRef} from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -9,6 +9,7 @@ import {
   DragOverlay,
   DragStartEvent,
   PointerSensor,
+  TouchSensor,
   UniqueIdentifier,
   pointerWithin,
   useSensor,
@@ -40,6 +41,11 @@ function ListViewContainer() {
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
       activationConstraint: {
         distance: 10,
       },
@@ -101,7 +107,7 @@ function ListViewContainer() {
   );
 
   return (
-    <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden px-[40px] pt-20">
+    <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden px-4 md:px-[40px] py-20">
       <DndContext
         id="main-dnd"
         sensors={sensors}

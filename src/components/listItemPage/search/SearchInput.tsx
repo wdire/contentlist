@@ -42,7 +42,7 @@ const SearchInput = ({
   return (
     <Input
       classNames={{
-        base: "max-w-xs",
+        base: "w-full lg:max-w-xs",
         input: "ml-1",
         inputWrapper: "h-[48px]",
       }}

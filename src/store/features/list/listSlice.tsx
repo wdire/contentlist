@@ -19,13 +19,13 @@ export type ListState = {
   hasUnsavedChanges: boolean;
 };
 
-const defaultRows: Row[] = [
+/* const defaultRows: Row[] = [
   {id: "S", title: "S", color: "red"},
   {id: "A", title: "A", color: "orange"},
   {id: "B", title: "B", color: "light-orange"},
   {id: "C", title: "C", color: "lime-green"},
   {id: "D", title: "D", color: "green"},
-];
+]; */
 
 const initialState: ListState = {
   info: {

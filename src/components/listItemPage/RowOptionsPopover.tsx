@@ -83,7 +83,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
   return (
     <Popover placement="left" backdrop="opaque" isOpen={isPopoverOpen} onOpenChange={onOpenChange}>
       <PopoverTrigger>
-        <div className="py-4 px-2 cursor-pointer text-default-500 transition-colors hover:text-default-700">
+        <div className="py-4 px-2 cursor-pointer text-default-500 transition-colors hover:text-default-700 select-none">
           <Settings />
         </div>
       </PopoverTrigger>

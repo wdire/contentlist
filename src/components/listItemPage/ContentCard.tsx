@@ -27,7 +27,7 @@ const ContentCard = memo(function ContentCard({content}: Props) {
   };
 
   const wrapperClassName = clsx(
-    "w-[80px] overflow-hidden max-h-[150px] min-h-[90px] items-center",
+    "w-[50px] md:w-[80px] overflow-hidden max-h-[150px] items-center select-none touch-none",
     "flex text-left cursor-grab relative content",
     {
       "opacity-50": isDragging,
