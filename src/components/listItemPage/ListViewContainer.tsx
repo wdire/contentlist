@@ -10,6 +10,7 @@ import {
   DragStartEvent,
   PointerSensor,
   UniqueIdentifier,
+  pointerWithin,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -114,10 +115,11 @@ function ListViewContainer() {
         onDragCancel={() => console.log("onDragCancel")}
         autoScroll={true}
         modifiers={[restrictToWindowEdges]}
+        collisionDetection={pointerWithin}
       >
         <div className="flex justify-center w-full gap-5">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-y-1">
+            <div className="flex flex-col gap-y-0.5">
               <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
                 {rows.map((row) => (
                   <RowContainer

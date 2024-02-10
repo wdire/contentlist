@@ -16,6 +16,7 @@ import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import {Row, Content} from "../../lib/types/list.type";
 import ContentCard from "./ContentCard";
+import RowOptionsPopover from "./RowOptionsPopover";
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   defaultAnimateLayoutChanges({...args, wasDragging: true});
@@ -51,8 +52,9 @@ const RowContainer = memo(function RowContainer({row, contents}: Props) {
     <div ref={setNodeRef} style={style} className={"w-[900px] flex bg-content1 relative"}>
       <Skeleton
         isLoaded={!fetchLoading}
-        className="w-full h-full absolute pointer-events-none"
+        className="w-full h-full absolute z-40 pointer-events-none"
       ></Skeleton>
+
       <div
         {...attributes}
         {...listeners}
@@ -60,19 +62,24 @@ const RowContainer = memo(function RowContainer({row, contents}: Props) {
           backgroundColor: `var(--rowColor-${row.color})`,
         }}
         className={
-          "w-[110px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center"
+          "w-[110px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center relative"
         }
       >
-        <div className="flex gap-2 text-zinc-900 font-normal text-lg">{row.title}</div>
+        <div className="flex gap-2 text-zinc-900 font-normal text-base break-all text-center">
+          {row.title}
+        </div>
       </div>
 
       {/* Row content container */}
-      <div className="flex flex-grow flex-wrap gap-2 min-h-[80px] m-2">
+      <div className="flex flex-grow flex-wrap min-h-[80px]">
         <SortableContext items={contentIds} strategy={rectSortingStrategy}>
           {contents.map((content) => (
             <ContentCard key={content.id} content={content} />
           ))}
         </SortableContext>
+      </div>
+      <div className="flex justify-center items-center w-14">
+        <RowOptionsPopover row={row} />
       </div>
     </div>
   );

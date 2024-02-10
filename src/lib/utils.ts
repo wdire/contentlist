@@ -14,6 +14,14 @@ export const randColor = () => {
   return rowColors[Math.floor(Math.random() * rowColors.length)];
 };
 
+export const createNewRow = (): Row => {
+  return {
+    color: "yellow",
+    title: "NEW",
+    id: generateId(),
+  };
+};
+
 export const createListFromDb = ({
   rows,
   name,
@@ -47,7 +55,7 @@ export const createListFromDb = ({
       return (
         r?.contents?.map((c): Content => {
           return {
-            id: c.name,
+            id: generateId(),
             rowId: r.row_id,
             data: {
               name: c.name,
@@ -64,7 +72,7 @@ export const createListFromDb = ({
     ...list.contents,
     ...(storage.map((c): Content => {
       return {
-        id: c.name,
+        id: generateId(),
         rowId: STORAGE_ROW_ID,
         data: {
           name: c.name,

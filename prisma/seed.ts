@@ -8,6 +8,7 @@ const listData: Prisma.ListCreateInput[] = [
       {
         name: "S",
         row_id: "S",
+        color: "red",
         contents: [
           {
             name: "One Piece",
@@ -24,6 +25,7 @@ const listData: Prisma.ListCreateInput[] = [
       {
         name: "A",
         row_id: "A",
+        color: "blue",
         contents: [
           {
             name: "One Punch Man",
@@ -44,7 +46,9 @@ const listData: Prisma.ListCreateInput[] = [
       },
       {
         name: "B",
+        color: "green",
         row_id: "B",
+        contents: [],
       },
     ],
   },

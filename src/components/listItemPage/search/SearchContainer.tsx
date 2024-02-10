@@ -12,7 +12,6 @@ const SearchContainer = () => {
 
   return (
     <>
-      <h2 className="text-2xl mb-2 dark">Search</h2>
       <SearchInput searchTrigger={trigger} />
       <SearchResults data={data?.data} isLoading={isFetching} />
       <SelectedSearchResult />

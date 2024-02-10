@@ -1,4 +1,3 @@
-import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {Content, Row} from "@/lib/types/list.type";
 import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
@@ -16,12 +15,15 @@ export type ListState = {
   activeRow: Row | null;
   activeContent: Content | null;
   fetchLoading: boolean;
+  hasUnsavedChanges: boolean;
 };
 
 const defaultRows: Row[] = [
   {id: "S", title: "S", color: "red"},
   {id: "A", title: "A", color: "orange"},
   {id: "B", title: "B", color: "light-orange"},
+  {id: "C", title: "C", color: "lime-green"},
+  {id: "D", title: "D", color: "green"},
 ];
 
 const initialState: ListState = {
@@ -30,10 +32,11 @@ const initialState: ListState = {
     name: undefined,
   },
   contents: [],
-  rows: defaultRows,
+  rows: [],
   activeContent: null,
   activeRow: null,
   fetchLoading: true,
+  hasUnsavedChanges: false,
 };
 
 export const listSlice = createSlice({
@@ -47,11 +50,25 @@ export const listSlice = createSlice({
     },
     addContent: (state, action: PayloadAction<Content>) => {
       state.contents.push(action.payload);
+      state.hasUnsavedChanges = true;
+    },
+    onSaved: (state) => {
+      state.hasUnsavedChanges = false;
     },
     addRow: (state, action: PayloadAction<Row>) => {
-      state.rows.push(action.payload);
+      if (state.rows.length < 10) {
+        state.rows.push(action.payload);
+        state.hasUnsavedChanges = true;
+      }
     },
+    editRowInfo: (state, action: PayloadAction<Row>) => {
+      const rowIndex = state.rows.findIndex((r) => r.id === action.payload.id);
 
+      state.rows[rowIndex].color = action.payload.color;
+      state.rows[rowIndex].title = action.payload.title;
+
+      state.hasUnsavedChanges = true;
+    },
     onDragStart: (
       state,
       action: PayloadAction<{
@@ -93,6 +110,7 @@ export const listSlice = createSlice({
       const overRowIndex = state.rows.findIndex((row) => row.id === overId);
 
       state.rows = arrayMove(state.rows, activeRowIndex, overRowIndex);
+      state.hasUnsavedChanges = true;
     },
 
     onDragMove: (
@@ -122,6 +140,8 @@ export const listSlice = createSlice({
         const activeIndex = state.contents.findIndex((t) => t.id === activeId);
         const overIndex = state.contents.findIndex((t) => t.id === overId);
 
+        state.hasUnsavedChanges = true;
+
         if (state.contents[activeIndex].rowId !== state.contents[overIndex].rowId) {
           state.contents[activeIndex].rowId = state.contents[overIndex].rowId;
           console.log("HEEYYY", activeIndex, overIndex);
@@ -138,6 +158,8 @@ export const listSlice = createSlice({
         state.contents[activeIndex].rowId = overId;
 
         // console.log("activeIndex overId", activeIndex, overId);
+
+        state.hasUnsavedChanges = true;
 
         state.contents = arrayMove(state.contents, activeIndex, activeIndex);
       }

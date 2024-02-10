@@ -38,8 +38,8 @@ const ContentCard = memo(function ContentCard({content}: Props) {
     <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={wrapperClassName}>
       <Image
         src={content.data.image_url}
-        width={400}
-        height={400}
+        width={80}
+        height={120}
         alt={content.data.name}
         className="object-contain w-full h-full pointer-events-none block select-none"
       />
