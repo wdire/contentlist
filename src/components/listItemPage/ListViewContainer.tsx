@@ -26,6 +26,7 @@ import RowItem from "./RowItem";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
+import SectionContainer from "../common/SectionContainer";
 
 const ContentCard = dynamic(() => import("./ContentCard"));
 
@@ -107,40 +108,42 @@ function ListViewContainer() {
   );
 
   return (
-    <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden px-4 md:px-[40px] py-20">
-      <DndContext
-        id="main-dnd"
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragMove={handleDragMove}
-        onDragCancel={() => console.log("onDragCancel")}
-        autoScroll={true}
-        modifiers={[restrictToWindowEdges]}
-        collisionDetection={pointerWithin}
-      >
-        <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full">
-          <div className="flex flex-col gap-3 flex-1 lg:max-w-[900px]">
-            <RowsContainer />
-            <StorageContainer
-              contents={contents.filter((content) => content.rowId === STORAGE_ROW_ID)}
-            />
+    <SectionContainer>
+      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden py-10">
+        <DndContext
+          id="main-dnd"
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onDragMove={handleDragMove}
+          onDragCancel={() => console.log("onDragCancel")}
+          autoScroll={true}
+          modifiers={[restrictToWindowEdges]}
+          collisionDetection={pointerWithin}
+        >
+          <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full">
+            <div className="flex flex-col gap-3 flex-1 lg:max-w-[900px]">
+              <RowsContainer />
+              <StorageContainer
+                contents={contents.filter((content) => content.rowId === STORAGE_ROW_ID)}
+              />
+            </div>
+
+            <RightContainer />
           </div>
 
-          <RightContainer />
-        </div>
-
-        <DragOverlay>
-          {activeRow && (
-            <RowItem
-              row={activeRow}
-              contents={contents.filter((content) => content.rowId === activeRow.id)}
-            />
-          )}
-          {activeContent && <ContentCard content={activeContent} />}
-        </DragOverlay>
-      </DndContext>
-    </div>
+          <DragOverlay>
+            {activeRow && (
+              <RowItem
+                row={activeRow}
+                contents={contents.filter((content) => content.rowId === activeRow.id)}
+              />
+            )}
+            {activeContent && <ContentCard content={activeContent} />}
+          </DragOverlay>
+        </DndContext>
+      </div>
+    </SectionContainer>
   );
 }
 

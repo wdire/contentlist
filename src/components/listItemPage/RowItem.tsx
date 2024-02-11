@@ -52,16 +52,15 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
           backgroundColor: `var(--rowColor-${row.color})`,
         }}
         className={
-          "w-[80px] md:w-[110px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center relative select-none touch-none"
+          "w-[80px] md:w-[120px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center relative select-none touch-none"
         }
       >
-        <div className="flex gap-2 text-zinc-900 font-normal text-sm md:text-base break-all text-center">
+        <div className="flex gap-2 text-zinc-900 font-normal text-sm md:text-base break-words text-center">
           {row.title}
         </div>
       </div>
 
-      {/* Row content container */}
-      <div className="flex flex-grow flex-wrap min-h-[60px] md:min-h-[80px]">
+      <div className="flex flex-grow flex-wrap min-h-[60px] md:min-h-[80px] pl-0.5">
         <SortableContext items={contentIds} strategy={rectSortingStrategy}>
           {contents.map((content) => (
             <ContentCard key={content.id} content={content} />

@@ -13,7 +13,7 @@ const SectionContainer = ({
   return (
     <div
       className={clsx(
-        "max-w-full mx-auto sm:px-5",
+        "max-w-full mx-auto px-5",
         {
           "w-[1200px]": !widthClass,
           widthClass,
