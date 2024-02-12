@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import {SignInButton, SignedIn, SignedOut, UserButton} from "@clerk/nextjs";
 import SectionContainer from "../common/SectionContainer";
 
 const Header = () => {
@@ -15,6 +16,12 @@ const Header = () => {
             className="max-h-full pointer-events-none select-none "
           />
         </Link>
+        <SignedIn>
+          <UserButton showName />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
       </SectionContainer>
     </header>
   );

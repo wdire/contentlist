@@ -11,7 +11,7 @@ const config = {
   theme: {
     extend: {
       spacing: {
-        "header-height": "4rem",
+        "header-height": "var(--header-height)",
       },
     },
   },

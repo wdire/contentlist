@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta
           name="viewport"
@@ -67,12 +67,12 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png" />
         <link rel="manifest" href="/assets/favicons/manifest.json" />
         <meta name="description" content="Content List Description" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#000000" />
       </head>
       <body className={poppinsFont.variable}>
         <Providers>
           <Header />
-          <main className="h-full pt-header-height">{children}</main>
+          <main>{children}</main>
         </Providers>
       </body>
     </html>

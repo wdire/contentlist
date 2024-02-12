@@ -2,13 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  height: 100%;
+}
+
 html,
+body {
+  @apply bg-background text-foreground-700;
+}
+
 body,
-#root {
-  @apply bg-background dark min-h-screen antialiased text-foreground-700;
+body > [data-overlay-container],
+body main {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+body main,
+body > [data-overlay-container] {
+  flex: 1 0 auto;
+}
+
+body main {
+  @apply pt-header-height;
 }
 
 :root {
+  --header-height: 4rem;
+
   --rowColor-red: #ff6f6f;
   --rowColor-orange: #ff9970;
   --rowColor-light-orange: #ffbd70;
