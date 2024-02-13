@@ -78,6 +78,7 @@ export const listSlice = createSlice({
         return c;
       });
       state.rows = state.rows.filter((r) => r.id !== action.payload.id);
+      state.hasUnsavedChanges = true;
     },
     onDragStart: (
       state,

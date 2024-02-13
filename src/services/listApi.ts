@@ -6,13 +6,15 @@ import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 export const listApi = createApi({
   reducerPath: "listApi",
   baseQuery: axiosBaseQuery({baseUrl: "/api"}),
-  tagTypes: ["ListApi"],
+  tagTypes: ["List"],
   endpoints: (builder) => ({
     getAll: builder.query<ListRequestTypes["/list/getAll"]["response"], void>({
       query: () => ({
         url: "/list/getAll",
         method: "GET",
       }),
+      providesTags: (result) =>
+        result ? [...(result.data?.map(({id}) => ({type: "List" as const, id})) || [])] : ["List"],
     }),
     get: builder.query<
       ApiRequestTypes["/list/get"]["response"],
@@ -22,8 +24,9 @@ export const listApi = createApi({
         url: `/list/get/${id}`,
         method: "GET",
       }),
+      providesTags: (result) => [{type: "List", id: result?.data?.id}],
     }),
-    update: builder.query<
+    update: builder.mutation<
       ApiRequestTypes["/list/update"]["response"],
       {
         params: ListRequestTypes["/list/update"]["params"];
@@ -35,8 +38,23 @@ export const listApi = createApi({
         method: "PUT",
         data: body,
       }),
+      invalidatesTags: (result) => [{type: "List", id: result?.data?.id}],
+
+      // Change state with updated value instead of refetching. Pessimistic update
+      onQueryStarted: async ({params: {id}}, {dispatch, queryFulfilled}) => {
+        try {
+          const {data: updatedList} = await queryFulfilled;
+          dispatch(
+            listApi.util.updateQueryData("get", {id}, (draft) => {
+              Object.assign(draft, updatedList);
+            }),
+          );
+        } catch {
+          //
+        }
+      },
     }),
   }),
 });
 
-export const {useGetAllQuery, useGetQuery, useLazyUpdateQuery, usePrefetch} = listApi;
+export const {useGetAllQuery, useGetQuery, useUpdateMutation, usePrefetch} = listApi;

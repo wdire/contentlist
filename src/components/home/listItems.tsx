@@ -7,8 +7,6 @@ import SectionContainer from "../common/SectionContainer";
 const ListItems = () => {
   const {data, isFetching} = useGetAllQuery();
 
-  console.log("data", data);
-
   return (
     <>
       <SectionContainer>

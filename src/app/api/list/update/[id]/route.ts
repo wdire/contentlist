@@ -2,6 +2,7 @@ import {CreateResponse} from "@/api/lib/response.api";
 import {ApiRequestTypes, ApiSchemas} from "@/api/lib/schemas/index.schema";
 import {RequestParams, withValidation} from "@/api/lib/withValidation.api";
 import prisma from "@/lib/prisma";
+import {revalidatePath} from "next/cache";
 
 export const PUT = (_request: Request, _params: RequestParams) =>
   withValidation<
@@ -27,6 +28,8 @@ export const PUT = (_request: Request, _params: RequestParams) =>
           },
         },
       });
+
+      revalidatePath("/");
 
       return CreateResponse<ApiRequestTypes["/list/update"]["response"]["data"]>({
         status: 200,

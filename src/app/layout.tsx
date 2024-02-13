@@ -68,7 +68,7 @@ export default function RootLayout({
         <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico" />
         <link rel="manifest" href="/assets/favicons/manifest.json" crossOrigin="use-credentials" />
         <meta name="description" content="Content List Description" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#27272a" />
       </head>
       <body className={poppinsFont.variable}>
         <Providers>

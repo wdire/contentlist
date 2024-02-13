@@ -1,5 +1,6 @@
 import {createListFromDnd} from "@/lib/utils";
-import {useLazyUpdateQuery} from "@/services/listApi";
+import {useUpdateMutation} from "@/services/listApi";
+
 import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {Button} from "@nextui-org/react";
@@ -11,7 +12,7 @@ const ListSaveButton = () => {
 
   const dispatch = useAppDispatch();
 
-  const [trigger, {isFetching}] = useLazyUpdateQuery();
+  const [trigger, {isLoading}] = useUpdateMutation();
 
   const handleSaveClick = async () => {
     try {
@@ -27,7 +28,7 @@ const ListSaveButton = () => {
       <Button
         color="success"
         isDisabled={!hasUnsavedChanges}
-        isLoading={isFetching}
+        isLoading={isLoading}
         onClick={handleSaveClick}
         className="mt-5"
       >
