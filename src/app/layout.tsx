@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <meta
           name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+          content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
         />
         <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicons/apple-icon-60x60.png" />
@@ -65,7 +65,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicons/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png" />
-        <link rel="manifest" href="/assets/favicons/manifest.json" />
+        <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico" />
+        <link rel="manifest" href="/assets/favicons/manifest.json" crossOrigin="use-credentials" />
         <meta name="description" content="Content List Description" />
         <meta name="theme-color" content="#000000" />
       </head>
