@@ -24,6 +24,7 @@
     "no-use-before-define": "off",
     "no-shadow": "off",
     "quotes": "off",
+    "camelcase": "off",
     "@typescript-eslint/no-shadow": "error",
     "import/no-extraneous-dependencies": ["error"],
     "@typescript-eslint/explicit-member-accessibility": "off",

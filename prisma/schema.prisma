@@ -18,3 +18,9 @@ model List {
   /// [ListData]
   contentsData Json
 }
+
+model User {
+  id       String @id @default(cuid())
+  username String
+  email    String
+}

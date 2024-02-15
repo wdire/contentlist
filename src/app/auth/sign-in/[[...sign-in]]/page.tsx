@@ -4,7 +4,15 @@ import {SignIn} from "@clerk/nextjs";
 export default function Page() {
   return (
     <AuthWrapper>
-      <SignIn />
+      <SignIn
+        appearance={{
+          elements: {
+            logoBox: {
+              display: "none",
+            },
+          },
+        }}
+      />
     </AuthWrapper>
   );
 }
