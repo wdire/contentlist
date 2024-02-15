@@ -1,9 +1,16 @@
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
 
+const testUserId = "user_2cPMI9k0lNuXkKlJAWI1HLgMAtQ";
+
 const listData: Prisma.ListCreateInput[] = [
   {
     name: "Animess",
+    user: {
+      connect: {
+        id: testUserId,
+      },
+    },
     contentsData: {
       rows: [
         {
@@ -59,6 +66,7 @@ const listData: Prisma.ListCreateInput[] = [
 
 async function main() {
   console.log(`Start seeding ...`);
+
   await Promise.all(
     listData.map(async (l) => {
       const list = await prisma.list.upsert({
