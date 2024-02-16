@@ -13,8 +13,9 @@ export const listApi = createApi({
         url: "/list/getAll",
         method: "GET",
       }),
-      providesTags: (result) =>
-        result ? [...(result.data?.map(({id}) => ({type: "List" as const, id})) || [])] : ["List"],
+      providesTags: (result) => [
+        ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
+      ],
     }),
     get: builder.query<
       ApiRequestTypes["/list/get"]["response"],
@@ -59,7 +60,20 @@ export const listApi = createApi({
         }
       },
     }),
+    delete: builder.mutation<
+      ListRequestTypes["/list/delete"]["response"],
+      ListRequestTypes["/list/delete"]["params"]
+    >({
+      query: ({id}) => ({
+        url: `/list/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_r, _u, params) => {
+        return [{type: "List", id: params.id}];
+      },
+    }),
   }),
 });
 
-export const {useGetAllQuery, useGetQuery, useUpdateMutation, usePrefetch} = listApi;
+export const {useGetAllQuery, useGetQuery, useUpdateMutation, useDeleteMutation, usePrefetch} =
+  listApi;

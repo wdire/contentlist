@@ -10,6 +10,13 @@ export type ListState = {
   info: {
     id: number | undefined;
     name: string | undefined;
+    isListOwner: boolean | undefined;
+    owner:
+      | {
+          id: string;
+          username: string;
+        }
+      | undefined;
   };
   contents: Content[];
   rows: Row[];
@@ -17,15 +24,16 @@ export type ListState = {
   activeContent: Content | null;
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
-  isListOwner: boolean;
 };
 
-export type InitListProps = Pick<ListState, "rows" | "contents" | "info" | "isListOwner">;
+export type InitListProps = Pick<ListState, "rows" | "contents" | "info">;
 
 const initialState: ListState = {
   info: {
     id: undefined,
     name: undefined,
+    isListOwner: undefined,
+    owner: undefined,
   },
   contents: [],
   rows: [],
@@ -33,7 +41,6 @@ const initialState: ListState = {
   activeRow: null,
   fetchLoading: true,
   hasUnsavedChanges: false,
-  isListOwner: false,
 };
 
 export const listSlice = createSlice({
@@ -44,7 +51,6 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.info = action.payload.info;
-      state.isListOwner = action.payload.isListOwner;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;

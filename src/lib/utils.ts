@@ -37,7 +37,7 @@ export const createListFromDb = async ({
   const {
     id,
     name,
-    userId,
+    user,
     contentsData: {rows, storage},
   } = listGetData;
 
@@ -47,8 +47,13 @@ export const createListFromDb = async ({
     info: {
       id,
       name,
+      isListOwner: currentUser ? currentUser.id === user?.id : false,
+      owner: {
+        id: user?.id || "",
+        username: user?.username || "",
+      },
+      // TODO: Change above after making list having user required in database
     },
-    isListOwner: currentUser ? currentUser.id === userId : false,
   };
 
   list.rows = rows.map((r) => {

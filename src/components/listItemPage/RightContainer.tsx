@@ -12,7 +12,8 @@ const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);
-  const isListOwner = useAppSelector((state) => state.list.isListOwner);
+  const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
+  const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
 
   return (
     <Skeleton isLoaded={!fetchLoading} className="w-full lg:w-[250px] rounded-medium">
@@ -23,7 +24,7 @@ const RightContainer = () => {
               <b className="break-words">{listName}</b>
             </div>
             <div>
-              List by <span className="text-primary">WDireX</span>
+              List by <span className="text-primary">{listOwnerUsername}</span>
             </div>
           </div>
         )}
