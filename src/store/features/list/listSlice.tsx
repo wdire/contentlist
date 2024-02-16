@@ -1,4 +1,4 @@
-import {STORAGE_ROW_ID} from "@/lib/constants";
+import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
 import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
@@ -113,8 +113,11 @@ export const listSlice = createSlice({
 
       if (activeId === overId) return;
 
-      const isActiveARow = activeType === "Row";
-      if (!isActiveARow) return;
+      if (overId === TRASH_BOX_ID) {
+        state.contents = state.contents.filter((c) => c.id !== activeId);
+      }
+
+      if (activeType !== "Row") return;
 
       console.log("DRAG END");
 

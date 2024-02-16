@@ -1,4 +1,5 @@
 export const STORAGE_ROW_ID = "__STORAGE_ROW__";
+export const TRASH_BOX_ID = "__TRASH_BOX__";
 
 // PrismaJson.RowsType["color"][]
 export const rowColors = [
