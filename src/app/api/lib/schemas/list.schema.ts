@@ -60,7 +60,13 @@ export const ListSchemas = {
 export type ListRequestTypes = {
   "/list/get": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/get"]["params"]>;
-    response: ResponseBodyType<Prisma.ListGetPayload<object>>;
+    response: ResponseBodyType<
+      Prisma.ListGetPayload<{
+        include: {
+          user: true;
+        };
+      }>
+    >;
   };
   "/list/getAll": {
     response: ResponseBodyType<

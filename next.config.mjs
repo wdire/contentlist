@@ -10,6 +10,7 @@ const nextConfig = {
       },
     ],
   },
+
   webpack: (config) => {
     config.infrastructureLogging = {
       level: "error",

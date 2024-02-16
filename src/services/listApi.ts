@@ -38,7 +38,12 @@ export const listApi = createApi({
         method: "PUT",
         data: body,
       }),
-      invalidatesTags: (result) => [{type: "List", id: result?.data?.id}],
+      invalidatesTags: (result) => {
+        if (result) {
+          return [{type: "List", id: result?.data?.id}];
+        }
+        return [];
+      },
 
       // Change state with updated value instead of refetching. Pessimistic update
       onQueryStarted: async ({params: {id}}, {dispatch, queryFulfilled}) => {

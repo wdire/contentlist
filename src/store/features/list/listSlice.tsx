@@ -17,7 +17,10 @@ export type ListState = {
   activeContent: Content | null;
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
+  isListOwner: boolean;
 };
+
+export type InitListProps = Pick<ListState, "rows" | "contents" | "info" | "isListOwner">;
 
 const initialState: ListState = {
   info: {
@@ -30,16 +33,18 @@ const initialState: ListState = {
   activeRow: null,
   fetchLoading: true,
   hasUnsavedChanges: false,
+  isListOwner: false,
 };
 
 export const listSlice = createSlice({
   name: "list",
   initialState,
   reducers: {
-    initList: (state, action: PayloadAction<Pick<ListState, "rows" | "contents" | "info">>) => {
+    initList: (state, action: PayloadAction<InitListProps>) => {
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.info = action.payload.info;
+      state.isListOwner = action.payload.isListOwner;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
@@ -48,9 +53,6 @@ export const listSlice = createSlice({
     addContent: (state, action: PayloadAction<Content>) => {
       state.contents.push(action.payload);
       state.hasUnsavedChanges = true;
-    },
-    onSaved: (state) => {
-      state.hasUnsavedChanges = false;
     },
     addRow: (state, action: PayloadAction<Row>) => {
       if (state.rows.length < 10) {
@@ -177,8 +179,11 @@ export const listSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(listApi.endpoints.get.matchFulfilled, (state) => {
-      state.fetchLoading = false;
+    builder.addMatcher(listApi.endpoints.get.matchFulfilled, (state, action) => {
+      if (action.payload.data) state.fetchLoading = false;
+    });
+    builder.addMatcher(listApi.endpoints.update.matchFulfilled, (state) => {
+      state.hasUnsavedChanges = false;
     });
   },
 });

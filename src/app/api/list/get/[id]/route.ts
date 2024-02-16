@@ -4,6 +4,8 @@ import {RequestParams, withValidation} from "@/api/lib/withValidation.api";
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export const GET = (_request: Request, _params: RequestParams) =>
   withValidation<never, ApiRequestTypes["/list/get"]["params"]>(
     {
@@ -15,6 +17,9 @@ export const GET = (_request: Request, _params: RequestParams) =>
         const response = await prisma.list.findFirst({
           where: {
             id: params.id,
+          },
+          include: {
+            user: true,
           },
         });
 

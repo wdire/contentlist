@@ -16,7 +16,9 @@ const ListActions = () => {
   };
 
   const handleChangeListName = (value: string) => {
-    dispatch(listActions.editListInfo({name: value}));
+    if (value) {
+      dispatch(listActions.editListInfo({name: value}));
+    }
   };
 
   return (

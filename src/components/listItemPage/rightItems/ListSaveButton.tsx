@@ -1,27 +1,34 @@
 import {createListFromDnd} from "@/lib/utils";
 import {useUpdateMutation} from "@/services/listApi";
 
-import {useAppDispatch, useAppSelector} from "@/store";
-import {listActions} from "@/store/features/list/listSlice";
+import {useAppSelector} from "@/store";
 import {Button} from "@nextui-org/react";
-import React from "react";
+import React, {useMemo} from "react";
 
 const ListSaveButton = () => {
   const list = useAppSelector((state) => state.list);
   const hasUnsavedChanges = useAppSelector((state) => state.list.hasUnsavedChanges);
 
-  const dispatch = useAppDispatch();
-
-  const [trigger, {isLoading}] = useUpdateMutation();
+  const [trigger, {isLoading, error}] = useUpdateMutation();
 
   const handleSaveClick = async () => {
     try {
       await trigger(createListFromDnd(list));
-      dispatch(listActions.onSaved());
     } catch (err) {
       console.error(err);
     }
   };
+
+  const buttonText = useMemo(() => {
+    if (hasUnsavedChanges) {
+      if (isLoading) {
+        return "Saving";
+      }
+
+      return "Save";
+    }
+    return "Saved";
+  }, [hasUnsavedChanges, isLoading]);
 
   return (
     <>
@@ -32,8 +39,9 @@ const ListSaveButton = () => {
         onClick={handleSaveClick}
         className="mt-5"
       >
-        {hasUnsavedChanges ? "Save" : "Saved"}
+        {buttonText}
       </Button>
+      {error ? <div className="text-red-500 mt-5">Error occured while saving</div> : null}
     </>
   );
 };

@@ -2,6 +2,7 @@ import {Webhook} from "svix";
 import {headers} from "next/headers";
 import {WebhookEvent} from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
+import {redirect} from "next/navigation";
 
 export async function POST(req: Request) {
   const {CLERK_WEBHOOK_SECRET} = process.env;
@@ -86,4 +87,8 @@ export async function POST(req: Request) {
   console.log(`User ${id} was ${eventType}`);
 
   return new Response(null, {status: 200});
+}
+
+export async function GET() {
+  return redirect("/");
 }

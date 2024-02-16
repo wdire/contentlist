@@ -1,7 +1,8 @@
-import {ListState} from "@/store/features/list/listSlice";
+import {InitListProps, ListState} from "@/store/features/list/listSlice";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {ZodTypeOf} from "@/api/lib/index.type.api";
-import {ListSchemas} from "@/api/lib/schemas/list.schema";
+import {ListRequestTypes, ListSchemas} from "@/api/lib/schemas/list.schema";
+import {UserResource} from "@clerk/types";
 import {Content, Row} from "./types/list.type";
 import {STORAGE_ROW_ID, rowColors} from "./constants";
 
@@ -22,24 +23,32 @@ export const createNewRow = (): Row => {
   };
 };
 
-export const createListFromDb = ({
-  rows,
-  name,
-  id,
-  storage,
+export const createListFromDb = async ({
+  listGetData,
+  currentUser,
 }: {
-  rows: PrismaJson.RowsType[];
-  storage: PrismaJson.ContentType[];
-  name: string;
-  id: number;
-}): Pick<ListState, "rows" | "contents" | "info"> => {
-  const list: Pick<ListState, "rows" | "contents" | "info"> = {
+  listGetData: ListRequestTypes["/list/get"]["response"]["data"];
+  currentUser: UserResource | null | undefined;
+}): Promise<InitListProps> => {
+  if (!listGetData) {
+    throw Error("No listGetData found");
+  }
+
+  const {
+    id,
+    name,
+    userId,
+    contentsData: {rows, storage},
+  } = listGetData;
+
+  const list: InitListProps = {
     rows: [],
     contents: [],
     info: {
       id,
       name,
     },
+    isListOwner: currentUser ? currentUser.id === userId : false,
   };
 
   list.rows = rows.map((r) => {

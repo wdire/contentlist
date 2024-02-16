@@ -1,5 +1,6 @@
 import type {Config} from "tailwindcss";
 import {nextui} from "@nextui-org/react";
+import {dark} from "@clerk/themes";
 
 const config = {
   darkMode: ["class"],

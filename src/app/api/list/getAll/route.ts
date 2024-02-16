@@ -1,7 +1,10 @@
 import {CreateResponse} from "@/api/lib/response.api";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {withValidation} from "@/api/lib/withValidation.api";
+
 import prisma from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 export const GET = (_request: Request) =>
   withValidation<never, never>({_request}, async () => {
