@@ -1,5 +1,5 @@
 import {Row} from "@/lib/types/list.type";
-import {useAppDispatch} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 import clsx from "clsx";
@@ -48,6 +48,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [rowTitleInputValue, setRowTitleInputValue] = useState(row.title);
   const [rowColorValue, setRowColorValue] = useState<PrismaJson.RowsType["color"]>(row.color);
+  const isLastRow = useAppSelector((state) => state.list.rows.length === 1);
 
   const dispatch = useAppDispatch();
 
@@ -66,8 +67,6 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
     dispatch(listActions.deleteRow(row));
     setIsPopoverOpen(false);
   };
-
-  // TODO: Don't allow delete if its the last row
 
   const resetStates = () => {
     console.log("resetStates");
@@ -129,12 +128,14 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
               Edit
             </Button>
 
-            <div
-              className="text-red-500 transition-all hover:text-red-400 active:text-red-600 active:scale-95 cursor-pointer"
-              onClick={handleRowDeleteClick}
+            <Button
+              onPress={handleRowDeleteClick}
+              isIconOnly
+              className="bg-red-500"
+              isDisabled={isLastRow}
             >
               <Trash />
-            </div>
+            </Button>
           </div>
         </div>
       </PopoverContent>
