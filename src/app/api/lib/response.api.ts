@@ -2,11 +2,13 @@ export enum ResponseCodes {
   Ok = 200,
   Accepted = 202,
   NoContent = 204,
+  SeeOther = 303,
   BadRequest = 400,
   Unauthorized = 401,
   Forbidden = 403,
   NotFound = 404,
   NotAcceptable = 406,
+  Conflict = 409,
   InternalServerError = 500,
 }
 
@@ -14,11 +16,13 @@ export const ResponseMessages: {[key in ResponseCodes]: string} = {
   200: "OK",
   202: "Accepted",
   204: "No Content",
+  303: "See Other",
   400: "Bad Request",
   401: "Unauthorized",
   403: "Forbidden",
   404: "Not Found",
   406: "Not Acceptable",
+  409: "Conflict",
   500: "Internal Server Error",
 } as const;
 
@@ -27,6 +31,7 @@ export type ResponseBodyType<D = unknown> = {
   data?: D;
   error?: unknown;
   message?: string;
+  headers?: HeadersInit;
 };
 
 export const CreateResponse = <D = unknown>({
@@ -34,6 +39,7 @@ export const CreateResponse = <D = unknown>({
   data,
   error,
   message,
+  headers,
 }: ResponseBodyType<D>) => {
   const response: ResponseBodyType<D> = {
     status,
@@ -56,11 +62,13 @@ export const CreateResponse = <D = unknown>({
     return new Response(null, {
       status,
       statusText: ResponseMessages[status] || "",
+      headers,
     });
   }
 
   return Response.json(response, {
     status,
     statusText: ResponseMessages[status] || "",
+    headers,
   });
 };

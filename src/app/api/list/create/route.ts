@@ -14,6 +14,23 @@ export const POST = (_request: Request) =>
         return CreateResponse({status: 401});
       }
 
+      const hasUneditedList = await prisma.list.findFirst({
+        where: {
+          user: {
+            id: user.id,
+          },
+          edited: false,
+        },
+      });
+
+      if (hasUneditedList) {
+        return CreateResponse<ApiRequestTypes["/list/create"]["response"]["data"]>({
+          status: 200,
+          message: "User already has an unedited list",
+          data: hasUneditedList,
+        });
+      }
+
       const response = await prisma.list.create({
         data: {
           name: body.name,

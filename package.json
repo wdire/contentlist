@@ -10,6 +10,8 @@
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
     "prisma": "prisma",
     "prisma:seed": "tsx ./prisma/seed.ts",
+    "prisma:gen": "prisma generate",
+    "prisma:db:push": "prisma db push",
     "tsc": "npx tsc --noEmit",
     "postinstall": "prisma generate"
   },

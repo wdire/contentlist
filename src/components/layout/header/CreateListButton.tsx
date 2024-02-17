@@ -2,17 +2,27 @@
 
 import {useCreateMutation} from "@/services/listApi";
 import {Button} from "@nextui-org/react";
+import {useRouter} from "next/navigation";
 
 const CreateListButton = () => {
   const [trigger, {isLoading}] = useCreateMutation();
+  const router = useRouter();
 
   const handleCreateClick = async () => {
     try {
-      await trigger({
+      const response = await trigger({
         name: "My Shiny List",
-      });
+      }).unwrap();
+
+      // Show toast if redirect to already existing unedited list
+
+      if (response.data?.id) {
+        router.push(`/list/${response.data?.id}`);
+      } else {
+        throw new Error("Couldn't get response data id");
+      }
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 
