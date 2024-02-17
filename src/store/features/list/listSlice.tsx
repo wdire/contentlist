@@ -188,6 +188,9 @@ export const listSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addMatcher(listApi.endpoints.get.matchPending, (state) => {
+      state.fetchLoading = true;
+    });
     builder.addMatcher(listApi.endpoints.get.matchFulfilled, (state, action) => {
       if (action.payload.data) state.fetchLoading = false;
     });

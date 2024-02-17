@@ -44,7 +44,7 @@
     }
   ],
   "background_color": "#000000",
-  "theme_color": "#27272a",
+  "theme_color": "#18181b",
   "display": "fullscreen",
   "start_url": "https://contentlist.vercel.app"
 }

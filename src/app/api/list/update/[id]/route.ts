@@ -30,6 +30,7 @@ export const PUT = (_request: Request, _params: RequestParams) =>
                 rows: body.rows,
                 storage: body.storage,
               },
+              edited: true,
             },
           });
 

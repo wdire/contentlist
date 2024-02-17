@@ -1,0 +1,52 @@
+.anim-vertical-words {
+  @apply pr-2 inline-block whitespace-nowrap relative;
+
+  ul {
+    animation: animUl 7s ease infinite;
+    background: var(--rowColor-red);
+
+    @apply overflow-hidden block relative rounded-lg h-9 sm:h-10 list-none m-0;
+
+    li {
+      animation: animLi 7s infinite;
+
+      @apply p-0.5 flex relative w-full h-full;
+
+      div {
+        @apply h-full flex items-center justify-center px-2 w-full;
+      }
+    }
+  }
+}
+
+@keyframes animLi {
+  $total-steps: 3;
+
+  @for $i from 0 through $total-steps {
+    $percentage: ($i / $total-steps) * 100%;
+
+    #{$percentage} {
+      transform: translateY($i * -100%);
+    }
+  }
+}
+
+@keyframes animUl {
+  $total-steps: 3;
+
+  @for $i from 0 through $total-steps {
+    $percentage: ($i / $total-steps) * 100%;
+
+    #{$percentage} {
+      @if $i == 0 {
+        background: var(--rowColor-blue); // create
+      } @else if $i == 1 {
+        background: var(--rowColor-orange); // edit
+      } @else if $i == 2 {
+        background: var(--rowColor-red); // save
+      } @else if $i == 3 {
+        background: var(--rowColor-blue); // create
+      }
+    }
+  }
+}

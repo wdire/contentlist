@@ -28,6 +28,10 @@ body main {
   @apply pt-header-height;
 }
 
+main {
+  @apply pb-10;
+}
+
 :root {
   --header-height: 4rem;
 
@@ -63,3 +67,5 @@ body::-webkit-scrollbar {
 ::-webkit-scrollbar-thumb {
   @apply bg-content4 rounded-xl;
 }
+
+@import "./anim-vertical-words.scss";
