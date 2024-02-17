@@ -15,10 +15,13 @@ generator json {
 model List {
   id             Int     @id @default(autoincrement())
   name           String
-  user           User?   @relation(fields: [userId], references: [id])
-  userId         String?
+  user           User    @relation(fields: [userId], references: [id])
+  userId         String
   image_url      String  @default("")
   listOnHomepage Boolean @default(true)
+
+  // TODO: Add "edited" boolean field. Don't allow users to create new list if they already have not edited one
+  // and show toast to redirect to existing one
 
   /// [ListData]
   contentsData Json

@@ -14,6 +14,7 @@ export const listApi = createApi({
         method: "GET",
       }),
       providesTags: (result) => [
+        {type: "List", id: "ALL"},
         ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
       ],
     }),
@@ -45,20 +46,6 @@ export const listApi = createApi({
         }
         return [];
       },
-
-      // Change state with updated value instead of refetching. Pessimistic update
-      onQueryStarted: async ({params: {id}}, {dispatch, queryFulfilled}) => {
-        try {
-          const {data: updatedList} = await queryFulfilled;
-          dispatch(
-            listApi.util.updateQueryData("get", {id}, (draft) => {
-              Object.assign(draft, updatedList);
-            }),
-          );
-        } catch {
-          //
-        }
-      },
     }),
     delete: builder.mutation<
       ListRequestTypes["/list/delete"]["response"],
@@ -72,8 +59,24 @@ export const listApi = createApi({
         return [{type: "List", id: params.id}];
       },
     }),
+    create: builder.mutation<
+      ListRequestTypes["/list/create"]["response"],
+      ListRequestTypes["/list/create"]["body"]
+    >({
+      query: (body) => ({
+        url: `/list/create`,
+        method: "POST",
+        data: body,
+      }),
+    }),
   }),
 });
 
-export const {useGetAllQuery, useGetQuery, useUpdateMutation, useDeleteMutation, usePrefetch} =
-  listApi;
+export const {
+  useGetAllQuery,
+  useGetQuery,
+  useUpdateMutation,
+  useDeleteMutation,
+  useCreateMutation,
+  usePrefetch,
+} = listApi;

@@ -16,24 +16,22 @@ const ListContentSchema = z.object({
     .optional(),
 });
 
-const ListObjectSchema: ZodType<{
+const ListObjectSchema = z.object({
+  name: z.string(),
+  rows: z.array(
+    z.object({
+      name: z.string(),
+      color: z.enum(rowColors),
+      row_id: z.string(),
+      contents: z.array(ListContentSchema),
+    }),
+  ),
+  storage: z.array(ListContentSchema),
+}) satisfies ZodType<{
   name: string;
   rows: PrismaJson.RowsType[];
   storage: PrismaJson.ContentType[];
-}> = z
-  .object({
-    name: z.string(),
-    rows: z.array(
-      z.object({
-        name: z.string(),
-        color: z.enum(rowColors),
-        row_id: z.string(),
-        contents: z.array(ListContentSchema),
-      }),
-    ),
-    storage: z.array(ListContentSchema),
-  })
-  .strict();
+}>;
 
 export const ListSchemas = {
   "/list/get": {
@@ -48,7 +46,9 @@ export const ListSchemas = {
     }),
   },
   "/list/create": {
-    body: ListObjectSchema,
+    body: ListObjectSchema.pick({
+      name: true,
+    }),
   },
   "/list/delete": {
     params: z.object({

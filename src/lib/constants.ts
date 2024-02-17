@@ -1,6 +1,8 @@
 export const STORAGE_ROW_ID = "__STORAGE_ROW__";
 export const TRASH_BOX_ID = "__TRASH_BOX__";
 
+export const LIST_MAX_ROW_LENGTH = 10;
+
 // PrismaJson.RowsType["color"][]
 export const rowColors = [
   "black",

@@ -4,9 +4,9 @@ import {useGetQuery} from "@/services/listApi";
 import {useCallback, useEffect} from "react";
 import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
-import {createListFromDb} from "@/lib/utils";
 import {useUser} from "@clerk/nextjs";
 import {useRouter} from "next/navigation";
+import {createListFromDb} from "@/lib/utils/createList.utils";
 import ListViewContainer from "./ListViewContainer";
 
 const ListItemPage = ({id}: {id: string}) => {

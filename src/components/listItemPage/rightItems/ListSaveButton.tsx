@@ -1,4 +1,4 @@
-import {createListFromDnd} from "@/lib/utils";
+import {createListFromDnd} from "@/lib/utils/createList.utils";
 import {useUpdateMutation} from "@/services/listApi";
 
 import {useAppSelector} from "@/store";

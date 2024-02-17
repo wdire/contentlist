@@ -4,8 +4,8 @@ import {Button} from "@nextui-org/react";
 import {X} from "lucide-react";
 import {searchActions} from "@/store/features/search/searchSlice";
 import {listActions} from "@/store/features/list/listSlice";
-import {generateId} from "@/lib/utils";
 import {STORAGE_ROW_ID} from "@/lib/constants";
+import {generateId} from "@/lib/utils/helper.utils";
 import SearchResult from "./SearchResult";
 
 const SelectedSearchResult = () => {

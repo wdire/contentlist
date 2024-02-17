@@ -2,17 +2,29 @@ import {withValidation} from "@/api/lib/withValidation.api";
 import prisma from "@/lib/prisma";
 import {ApiRequestTypes, ApiSchemas} from "@/api/lib/schemas/index.schema";
 import {CreateResponse} from "@/api/lib/response.api";
+import {currentUser} from "@clerk/nextjs";
 
 export const POST = (_request: Request) =>
-  withValidation<ApiRequestTypes["/list/update"]["body"], never>(
+  withValidation<ApiRequestTypes["/list/create"]["body"], never>(
     {_request, bodySchema: ApiSchemas["/list/create"].body},
     async ({body}) => {
+      const user = await currentUser();
+
+      if (!user) {
+        return CreateResponse({status: 401});
+      }
+
       const response = await prisma.list.create({
         data: {
           name: body.name,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
           contentsData: {
-            rows: body.rows,
-            storage: body.storage,
+            rows: [],
+            storage: [],
           },
         },
       });

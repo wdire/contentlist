@@ -67,6 +67,8 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
     setIsPopoverOpen(false);
   };
 
+  // TODO: Don't allow delete if its the last row
+
   const resetStates = () => {
     console.log("resetStates");
     setRowTitleInputValue(row.title);

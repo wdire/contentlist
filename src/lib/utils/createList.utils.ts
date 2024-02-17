@@ -1,27 +1,12 @@
+import {ListRequestTypes, ListSchemas} from "@/api/lib/schemas/list.schema";
 import {InitListProps, ListState} from "@/store/features/list/listSlice";
+import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {ZodTypeOf} from "@/api/lib/index.type.api";
-import {ListRequestTypes, ListSchemas} from "@/api/lib/schemas/list.schema";
-import {UserResource} from "@clerk/types";
-import {Content, Row} from "./types/list.type";
-import {STORAGE_ROW_ID, rowColors} from "./constants";
-
-export const generateId = () => {
-  /* Generate a random number between 0 and 10000 */
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
-};
-
-export const randColor = () => {
-  return rowColors[Math.floor(Math.random() * rowColors.length)];
-};
-
-export const createNewRow = (): Row => {
-  return {
-    color: "yellow",
-    title: "NEW",
-    id: generateId(),
-  };
-};
+import {Content, Row} from "../types/list.type";
+import {generateId} from "./helper.utils";
+import {STORAGE_ROW_ID} from "../constants";
+import {defaultNewListInfo} from "../config";
 
 export const createListFromDb = async ({
   listGetData,
@@ -47,12 +32,11 @@ export const createListFromDb = async ({
     info: {
       id,
       name,
-      isListOwner: currentUser ? currentUser.id === user?.id : false,
+      isListOwner: currentUser ? currentUser.id === user.id : false,
       owner: {
-        id: user?.id || "",
-        username: user?.username || "",
+        id: user.id,
+        username: user.username,
       },
-      // TODO: Change above after making list having user required in database
     },
   };
 
@@ -96,6 +80,14 @@ export const createListFromDb = async ({
       };
     }) || []),
   ];
+
+  if (list.rows.length === 0) {
+    list.rows = defaultNewListInfo.rows;
+
+    if (list.contents.length > 0) {
+      console.error("Got 0 rows but has contents");
+    }
+  }
 
   return list;
 };
@@ -154,5 +146,13 @@ export const createListFromDnd = (
     params: {
       id: list.info.id as number,
     },
+  };
+};
+
+export const createNewRow = (): Row => {
+  return {
+    color: "yellow",
+    title: "NEW",
+    id: generateId(),
   };
 };

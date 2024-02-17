@@ -1,10 +1,11 @@
-import {createNewRow} from "@/lib/utils";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input} from "@nextui-org/react";
 import debounce from "lodash.debounce";
 import React from "react";
 import dynamic from "next/dynamic";
+import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
+import {createNewRow} from "@/lib/utils/createList.utils";
 
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 
@@ -13,7 +14,7 @@ const ListActions = () => {
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
-  const maxLengthReached = rowsLength >= 10;
+  const maxLengthReached = rowsLength >= LIST_MAX_ROW_LENGTH;
 
   const handleAddRowClick = () => {
     dispatch(listActions.addRow(createNewRow()));
