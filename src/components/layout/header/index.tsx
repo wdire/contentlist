@@ -11,7 +11,7 @@ const Header = () => {
         <Link href={"/"} className="cursor-pointer flex flex-shrink-0 items-center">
           <Image
             src={"/assets/white-horizontal-logo.svg"}
-            width={172}
+            width={175}
             height={32}
             alt="Content List Logo"
             className="max-h-full h-6 md:h-auto w-max pointer-events-none select-none"

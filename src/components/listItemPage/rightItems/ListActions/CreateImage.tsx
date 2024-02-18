@@ -53,10 +53,10 @@ const CreateImage = () => {
 
       const logoImg = document.createElement("img");
       logoImg.src = "/assets/white-horizontal-logo.png";
-      logoImg.width = 172;
+      logoImg.width = 175;
       logoImg.height = 32;
 
-      logoImg.className = "block object-contain h-8";
+      logoImg.className = "block object-contain w-max h-8";
 
       bottomWrapper.appendChild(listNameDiv);
       bottomWrapper.appendChild(logoImg);
@@ -92,6 +92,8 @@ const CreateImage = () => {
           const url = URL.createObjectURL(blob);
 
           setImgUrl(url);
+
+          onOpen();
         });
       });
     } catch (err) {
@@ -117,7 +119,7 @@ const CreateImage = () => {
       {imgUrl ? (
         <>
           <div
-            className="relative cursor-pointer transition-transform hover:scale-95 text-white/70 text-sm"
+            className="relative cursor-pointer transition-transform hover:scale-95 text-white/70 text-sm "
             onClick={onOpen}
           >
             <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-10">
@@ -128,7 +130,7 @@ const CreateImage = () => {
               height={50}
               src={imgUrl}
               alt="List Preview Image"
-              className="inline-block w-13 max-w-14 h-11 object-contain border-1 border-white/40"
+              className="inline-block w-13 max-w-14 h-10 object-contain border-1 border-white/40 rounded-lg"
             />
           </div>
           <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="lg">
