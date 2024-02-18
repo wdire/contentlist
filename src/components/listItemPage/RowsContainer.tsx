@@ -20,7 +20,7 @@ const RowsContainer = () => {
       >
         <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
           {!fetchLoading ? (
-            rows.map((row: any) => (
+            rows.map((row) => (
               <RowItem
                 key={row.id}
                 row={row}

@@ -67,8 +67,72 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png" />
         <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico" />
         <link rel="manifest" href="/assets/favicons/manifest.json" crossOrigin="use-credentials" />
-        <meta name="description" content="Content List Description" />
+        <meta
+          name="description"
+          content="Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://contentlist.vercel.app" />
+        <meta property="og:title" content="ContentList" />
+        <meta
+          property="og:description"
+          content="Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents."
+        />
+        <meta property="og:image" content="https://contentlist.vercel.app/assets/app-image.png" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://contentlist.vercel.app" />
+        <meta property="twitter:title" content="ContentList" />
+        <meta
+          property="twitter:description"
+          content="Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents."
+        />
+        <meta
+          property="twitter:image"
+          content="https://contentlist.vercel.app/assets/app-image.png"
+        />
         <meta name="theme-color" content="#18181b" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              {
+                "@context": "http://schema.org/",
+                "@type": "Project",
+                name: "ContentList",
+                logo: "https://contentlist.vercel.app/assets/square-logo.png",
+                url: "https://contentlist.vercel.app",
+                address: {
+                  "@type": "PostalAddress",
+                  addressCountry: "Türkiye",
+                },
+              },
+              null,
+              "\t",
+            ),
+          }}
+        ></script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              {
+                "@context": "http://schema.org/",
+                "@type": "Project",
+                name: "ContentList",
+                logo: "https://contentlist.vercel.app/assets/square-logo.png",
+                url: "https://contentlist.vercel.app",
+                address: {
+                  "@type": "PostalAddress",
+                  addressCountry: "Türkiye",
+                },
+              },
+              null,
+              "\t",
+            ),
+          }}
+        ></script>
       </head>
       <body className={poppinsFont.className}>
         <Providers>
