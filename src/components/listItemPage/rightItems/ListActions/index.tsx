@@ -8,6 +8,7 @@ import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
 import {createNewRow} from "@/lib/utils/createList.utils";
 
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
+const CreateImage = dynamic(() => import("./CreateImage"));
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
@@ -36,10 +37,15 @@ const ListActions = () => {
       />
       <div className="text-base mb-3 mt-4">Actions</div>
       <div className="flex items-center justify-between">
-        <Button color="primary" isDisabled={maxLengthReached} onClick={handleAddRowClick}>
-          {maxLengthReached ? "Max Row Length Reached" : "Add Row"}
+        <Button color="primary" isDisabled={maxLengthReached} onPress={handleAddRowClick}>
+          {maxLengthReached ? "Max Row Length" : "Add Row"}
         </Button>
         {isListOwner ? <DeleteListButton /> : null}
+      </div>
+
+      <div className="text-base mb-3 mt-4">Share</div>
+      <div className="flex items-center justify-between">
+        <CreateImage />
       </div>
     </div>
   );

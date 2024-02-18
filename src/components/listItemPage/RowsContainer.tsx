@@ -4,6 +4,7 @@ import {useAppSelector} from "@/store";
 import {Skeleton} from "@nextui-org/react";
 import listSelectors from "@/store/features/list/listSelectors";
 import clsx from "clsx";
+import {LIST_ROWS_ID} from "@/lib/constants";
 import RowItem from "./RowItem";
 
 const RowsContainer = () => {
@@ -19,7 +20,10 @@ const RowsContainer = () => {
         "min-h-[300px]": fetchLoading,
       })}
     >
-      <div className="flex flex-col gap-y-0.5 overflow-hidden relative">
+      <div
+        className="flex flex-col gap-y-0.5 overflow-hidden relative bg-background"
+        id={LIST_ROWS_ID}
+      >
         <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
           {rows.map((row) => (
             <RowItem

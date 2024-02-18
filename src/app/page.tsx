@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <SectionContainer className="mt-10">
-        <h1 className="text-2xl sm:text-3xl font-bold flex items-center">
+        <h1 className="text-xl sm:text-3xl font-bold flex items-center">
           <span className="anim-vertical-words">
             <ul>
               <li>

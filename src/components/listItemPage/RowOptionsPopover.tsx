@@ -124,7 +124,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
           </div>
 
           <div className="flex justify-between items-center mt-4">
-            <Button color="warning" onClick={handleEditButtonClick}>
+            <Button color="warning" onPress={handleEditButtonClick}>
               Edit
             </Button>
 

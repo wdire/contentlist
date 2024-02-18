@@ -36,7 +36,7 @@ const ListSaveButton = () => {
         color="success"
         isDisabled={!hasUnsavedChanges}
         isLoading={isLoading}
-        onClick={handleSaveClick}
+        onPress={handleSaveClick}
         className="mt-5"
       >
         {buttonText}
