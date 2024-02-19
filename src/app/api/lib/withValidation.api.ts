@@ -55,7 +55,7 @@ export const withValidation = async <B = null, P = null>(
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
-          return CreateResponse({status: 404, error: "Record to delete does not exist."});
+          return CreateResponse({status: 404, error: "Missing record to perform the action."});
         }
         return CreateResponse({status: 406, error});
       }
