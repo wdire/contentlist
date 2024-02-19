@@ -28,7 +28,7 @@ export const getInfoByMedia = ({data}: {data: TmdbMultiSearchResult}): SearchSel
   }
 
   if (returnData.image_url) {
-    returnData.image_url = `https://image.tmdb.org/t/p/w500${returnData.image_url}`;
+    returnData.image_url = `https://image.tmdb.org/t/p/w200${returnData.image_url}`;
   }
 
   return returnData;
