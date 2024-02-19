@@ -72,16 +72,16 @@ export default function RootLayout({
           content="Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://contentlist.vercel.app" />
+        <meta property="og:url" content="https://www.contentlist.space" />
         <meta property="og:title" content="ContentList" />
         <meta
           property="og:description"
           content="Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents."
         />
-        <meta property="og:image" content="https://contentlist.vercel.app/assets/app-image.png" />
+        <meta property="og:image" content="https://www.contentlist.space/assets/app-image.png" />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://contentlist.vercel.app" />
+        <meta property="twitter:url" content="https://www.contentlist.space" />
         <meta property="twitter:title" content="ContentList" />
         <meta
           property="twitter:description"
@@ -89,7 +89,7 @@ export default function RootLayout({
         />
         <meta
           property="twitter:image"
-          content="https://contentlist.vercel.app/assets/app-image.png"
+          content="https://www.contentlist.space/assets/app-image.png"
         />
         <meta name="theme-color" content="#18181b" />
 
@@ -101,8 +101,8 @@ export default function RootLayout({
                 "@context": "http://schema.org/",
                 "@type": "Project",
                 name: "ContentList",
-                logo: "https://contentlist.vercel.app/assets/square-logo.png",
-                url: "https://contentlist.vercel.app",
+                logo: "https://www.contentlist.space/assets/square-logo.png",
+                url: "https://www.contentlist.space",
                 address: {
                   "@type": "PostalAddress",
                   addressCountry: "Türkiye",
@@ -121,8 +121,8 @@ export default function RootLayout({
                 "@context": "http://schema.org/",
                 "@type": "Project",
                 name: "ContentList",
-                logo: "https://contentlist.vercel.app/assets/square-logo.png",
-                url: "https://contentlist.vercel.app",
+                logo: "https://www.contentlist.space/assets/square-logo.png",
+                url: "https://www.contentlist.space",
                 address: {
                   "@type": "PostalAddress",
                   addressCountry: "Türkiye",

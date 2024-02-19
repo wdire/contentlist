@@ -1,6 +1,5 @@
 import type {Config} from "tailwindcss";
 import {nextui} from "@nextui-org/react";
-import {dark} from "@clerk/themes";
 
 const config = {
   darkMode: ["class"],
@@ -14,6 +13,23 @@ const config = {
     extend: {
       spacing: {
         "header-height": "var(--header-height)",
+      },
+      colors: {
+        "rowColor-red": "var(--rowColor-red)",
+        "rowColor-orange": "var(--rowColor-orange)",
+        "rowColor-light-orange": "var(--rowColor-light-orange)",
+        "rowColor-yellow": "var(--rowColor-yellow)",
+        "rowColor-lime": "var(--rowColor-lime)",
+        "rowColor-green": "var(--rowColor-green)",
+        "rowColor-turquoise": "var(--rowColor-turquoise)",
+        "rowColor-light-blue": "var(--rowColor-light-blue)",
+        "rowColor-blue": "var(--rowColor-blue)",
+        "rowColor-magenta": "var(--rowColor-magenta)",
+        "rowColor-purple": "var(--rowColor-purple)",
+        "rowColor-black": "var(--rowColor-black)",
+        "rowColor-gray": "var(--rowColor-gray)",
+        "rowColor-silver": "var(--rowColor-silver)",
+        "rowColor-white": "var(--rowColor-white)",
       },
     },
   },

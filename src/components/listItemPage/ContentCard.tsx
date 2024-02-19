@@ -42,6 +42,7 @@ const ContentCard = memo(function ContentCard({content}: Props) {
         height={120}
         alt={content.data.name}
         className="object-contain w-full h-full pointer-events-none block select-none"
+        priority
       />
     </div>
   );

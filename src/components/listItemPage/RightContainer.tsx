@@ -25,7 +25,7 @@ const RightContainer = () => {
               <b className="break-words">{listName}</b>
             </div>
             <div>
-              List by <span className="text-primary">{listOwnerUsername}</span>
+              List by <span className="text-rowColor-blue">{listOwnerUsername}</span>
             </div>
           </div>
         ) : (

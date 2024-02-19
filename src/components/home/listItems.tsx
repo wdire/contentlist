@@ -31,7 +31,7 @@ const ListItemCard = ({
         as={NImage}
         width={300}
         height={300}
-        alt={list.name}
+        alt={`${list.name} image`}
         className="object-cover object-bottom w-full rounded-none pointer-events-none aspect-square"
         src={"/assets/no-image.png"}
         priority
