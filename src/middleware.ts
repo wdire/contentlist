@@ -1,12 +1,12 @@
 import {CreateResponse} from "@/api/lib/response.api";
-import {authMiddleware, redirectToSignIn} from "@clerk/nextjs";
+import {authMiddleware} from "@clerk/nextjs/server";
 import {NextResponse} from "next/server";
 
 export default authMiddleware({
   publicRoutes: ["/(.*)"],
   apiRoutes: ["/api/list/update/(.*)", "/api/list/delete/(.*)", "/api/list/create"],
   ignoredRoutes: ["/assets/(.*)"],
-  afterAuth(auth, req, evt) {
+  afterAuth(auth, req) {
     if (!auth.userId && auth.isApiRoute) {
       if (req.method === "GET") {
         return NextResponse.rewrite(new URL("/404", req.url));
