@@ -7,20 +7,20 @@ import {Prisma} from "@prisma/client";
 export const dynamic = "force-dynamic";
 
 export const GET = (_request: Request, _params: RequestParams) =>
-  withValidation<never, ApiRequestTypes["/user/get"]["params"]>(
+  withValidation<never, ApiRequestTypes["/list/getAllByUserId"]["params"]>(
     {
       _params,
-      paramsSchema: ApiSchemas["/user/get"].params,
+      paramsSchema: ApiSchemas["/list/getAllByUserId"].params,
     },
     async ({params}) => {
       try {
-        const response = await prisma.user.findFirst({
+        const response = await prisma.list.findMany({
           where: {
-            username: params.username,
+            userId: params.userId,
           },
           select: {
             id: true,
-            username: true,
+            name: true,
             imageUrl: true,
           },
         });
@@ -29,7 +29,7 @@ export const GET = (_request: Request, _params: RequestParams) =>
           return CreateResponse({status: 200, data: null});
         }
 
-        return CreateResponse<ApiRequestTypes["/user/get"]["response"]["data"]>({
+        return CreateResponse<ApiRequestTypes["/list/getAllByUserId"]["response"]["data"]>({
           status: 200,
           data: response,
         });

@@ -10,6 +10,8 @@ import {createNewRow} from "@/lib/utils/createList.utils";
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 const CreateImage = dynamic(() => import("./CreateImage"));
 
+// TODO: Add button to auto generate list image
+
 const ListActions = () => {
   const dispatch = useAppDispatch();
   const rowsLength = useAppSelector((state) => state.list.rows.length);

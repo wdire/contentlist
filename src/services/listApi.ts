@@ -70,6 +70,19 @@ export const listApi = createApi({
       }),
       invalidatesTags: [{type: "List", id: "ALL"}],
     }),
+    getAllByUserId: builder.query<
+      ApiRequestTypes["/list/getAllByUserId"]["response"],
+      ListRequestTypes["/list/getAllByUserId"]["params"]
+    >({
+      query: ({userId}) => ({
+        url: `/list/getAllByUserId/${userId}`,
+        method: "GET",
+      }),
+      providesTags: (result, _u, params) => [
+        {type: "List", id: `USERS_LIST_${params.userId}`},
+        ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
+      ],
+    }),
   }),
 });
 
@@ -79,5 +92,6 @@ export const {
   useUpdateMutation,
   useDeleteMutation,
   useCreateMutation,
+  useGetAllByUserIdQuery,
   usePrefetch,
 } = listApi;

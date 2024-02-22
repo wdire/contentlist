@@ -55,6 +55,11 @@ export const ListSchemas = {
       id: ZodDbId,
     }),
   },
+  "/list/getAllByUserId": {
+    params: z.object({
+      userId: z.string().min(10),
+    }),
+  },
 };
 
 export type ListRequestTypes = {
@@ -90,5 +95,17 @@ export type ListRequestTypes = {
   "/list/delete": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/delete"]["params"]>;
     response: null;
+  };
+  "/list/getAllByUserId": {
+    params: ZodTypeOf<(typeof ListSchemas)["/list/getAllByUserId"]["params"]>;
+    response: ResponseBodyType<
+      Prisma.ListGetPayload<{
+        select: {
+          id: true;
+          name: true;
+          imageUrl: true;
+        };
+      }>[]
+    >;
   };
 };

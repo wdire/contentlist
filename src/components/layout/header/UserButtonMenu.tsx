@@ -3,6 +3,7 @@
 import {useClerk, useUser} from "@clerk/nextjs";
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
 import {ListStart, LogOut, User as UserIcon} from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const UserButtonAndMenu = () => {
@@ -67,7 +68,12 @@ const UserButtonAndMenu = () => {
           >
             Account Settings
           </DropdownItem>
-          <DropdownItem key="mylist" startContent={<ListStart {...itemIconProps} />}>
+          <DropdownItem
+            key="mylist"
+            startContent={<ListStart {...itemIconProps} />}
+            as={Link}
+            href={`/user/${user.username}`}
+          >
             My Lists
           </DropdownItem>
           <DropdownItem

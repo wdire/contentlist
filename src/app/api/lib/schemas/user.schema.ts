@@ -14,6 +14,14 @@ export const UserSchemas = {
 export type UserRequestTypes = {
   "/user/get": {
     params: ZodTypeOf<(typeof UserSchemas)["/user/get"]["params"]>;
-    response: ResponseBodyType<Prisma.UserGetPayload<object>>;
+    response: ResponseBodyType<
+      Prisma.UserGetPayload<{
+        select: {
+          id: true;
+          username: true;
+          imageUrl: true;
+        };
+      }>
+    >;
   };
 };

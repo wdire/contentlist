@@ -28,7 +28,13 @@ const HeaderRight = () => {
       <div className="pr-3 flex gap-3 items-center">
         <CreateListButton />
 
-        <Button color="primary" variant="flat" className="hidden sm:flex">
+        <Button
+          color="primary"
+          variant="flat"
+          className="hidden sm:flex"
+          as={Link}
+          href={`/user/${user.username}`}
+        >
           My Lists
         </Button>
       </div>

@@ -13,7 +13,7 @@ const Header = () => {
             width={175}
             height={32}
             alt="Content List Logo"
-            className="max-h-full h-6 md:h-auto w-max pointer-events-none select-none"
+            className="max-h-full h-6 md:h-auto w-full pointer-events-none select-none"
             priority
           />
         </Link>
