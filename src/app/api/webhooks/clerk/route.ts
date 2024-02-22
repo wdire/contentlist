@@ -66,11 +66,13 @@ export async function POST(req: Request) {
         update: {
           username: evt.data.username,
           email: emailObject.email_address,
+          imageUrl: evt.data.image_url,
         },
         create: {
           id,
           username: evt.data.username,
           email: emailObject.email_address,
+          imageUrl: evt.data.image_url,
         },
       });
     } catch (err) {
