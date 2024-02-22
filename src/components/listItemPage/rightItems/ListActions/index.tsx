@@ -37,7 +37,12 @@ const ListActions = () => {
       />
       <div className="text-base mb-3 mt-4">Actions</div>
       <div className="flex items-center justify-between">
-        <Button color="primary" isDisabled={maxLengthReached} onPress={handleAddRowClick}>
+        <Button
+          color="primary"
+          isDisabled={maxLengthReached}
+          onPress={handleAddRowClick}
+          variant="flat"
+        >
           {maxLengthReached ? "Max Row Length" : "Add Row"}
         </Button>
         {isListOwner ? <DeleteListButton /> : null}

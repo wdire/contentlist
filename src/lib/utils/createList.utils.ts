@@ -151,7 +151,7 @@ export const createListFromDnd = (
 
 export const createNewRow = (): Row => {
   return {
-    color: "yellow",
+    color: "green",
     title: "NEW",
     id: generateId(),
   };

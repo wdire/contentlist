@@ -34,7 +34,7 @@ const DeleteListButton = () => {
 
   return (
     <>
-      <Button onPress={onOpen} isIconOnly className="bg-red-500">
+      <Button onPress={onOpen} isIconOnly className="bg-red-500/20 text-red-500" variant="flat">
         <Trash />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

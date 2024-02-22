@@ -38,6 +38,7 @@ const ListSaveButton = () => {
         isLoading={isLoading}
         onPress={handleSaveClick}
         className="mt-5"
+        variant="flat"
       >
         {buttonText}
       </Button>

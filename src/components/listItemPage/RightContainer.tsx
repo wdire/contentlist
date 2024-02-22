@@ -24,8 +24,9 @@ const RightContainer = () => {
             <div className="text-2xl">
               <b className="break-words">{listName}</b>
             </div>
-            <div>
-              List by <span className="text-rowColor-blue">{listOwnerUsername}</span>
+            <div className="mt-2 flex gap-x-2 gap-y-1 leading-5 flex-wrap">
+              <span className="text-default-500 flex-shrink-0">List by</span>{" "}
+              <span className="text-rowColor-blue break-words max-w-full">{listOwnerUsername}</span>
             </div>
           </div>
         ) : (

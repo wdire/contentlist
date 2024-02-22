@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import {SignInButton, SignedIn, SignedOut, UserButton} from "@clerk/nextjs";
 import SectionContainer from "@/components/common/SectionContainer";
-import CreateListButton from "./CreateListButton";
+import HeaderRight from "./HeaderRight";
 
 const Header = () => {
   return (
@@ -18,15 +17,10 @@ const Header = () => {
             priority
           />
         </Link>
-        <SignedIn>
-          <div className="flex gap-2 md:gap-4 items-center">
-            <CreateListButton />
-            <UserButton />
-          </div>
-        </SignedIn>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+
+        <div className="flex gap-2 items-center">
+          <HeaderRight />
+        </div>
       </SectionContainer>
     </header>
   );

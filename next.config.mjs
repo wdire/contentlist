@@ -8,6 +8,9 @@ const nextConfig = {
       {
         hostname: "tiermaker.com",
       },
+      {
+        hostname: "img.clerk.com",
+      },
     ],
   },
 

@@ -68,6 +68,7 @@ export const listApi = createApi({
         method: "POST",
         data: body,
       }),
+      invalidatesTags: [{type: "List", id: "ALL"}],
     }),
   }),
 });
