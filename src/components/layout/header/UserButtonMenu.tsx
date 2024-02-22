@@ -1,16 +1,8 @@
 "use clerk";
 
 import {useClerk, useUser} from "@clerk/nextjs";
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  User,
-} from "@nextui-org/react";
-import {CircleUser, List, ListStart, LogOut, User as UserIcon} from "lucide-react";
-import Image from "next/image";
+import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
+import {ListStart, LogOut, User as UserIcon} from "lucide-react";
 import React from "react";
 
 const UserButtonAndMenu = () => {
@@ -52,7 +44,7 @@ const UserButtonAndMenu = () => {
             base: "h-10",
           }}
         >
-          <DropdownItem key="info" className="h-16" isReadOnly>
+          <DropdownItem key="info" className="h-16" isReadOnly textValue="Profile Info">
             <div className="flex gap-3 h-12 items-center pl-1">
               <Avatar
                 src={user.imageUrl}

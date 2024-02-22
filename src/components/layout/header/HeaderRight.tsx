@@ -3,7 +3,6 @@
 import {useUser} from "@clerk/nextjs";
 import {Button} from "@nextui-org/react";
 import Link from "next/link";
-import useIsMobile from "@/lib/hooks/useIsMobile";
 import UserButtonAndMenu from "./UserButtonMenu";
 import CreateListButton from "./CreateListButton";
 
