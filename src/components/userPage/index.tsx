@@ -17,7 +17,7 @@ const UserPage = ({username}: {username: string}) => {
     username,
   });
 
-  const {data: userLists} = useGetAllByUserIdQuery(
+  const {data: userLists, isLoading: userListsLoading} = useGetAllByUserIdQuery(
     {
       userId: userData?.data?.id || "",
     },
@@ -31,7 +31,7 @@ const UserPage = ({username}: {username: string}) => {
     return null;
   }
 
-  if (userLoading) {
+  if (userLoading || userListsLoading) {
     return (
       <SectionContainer className="pt-page-top-space">
         <div className="flex flex-col gap-6">
