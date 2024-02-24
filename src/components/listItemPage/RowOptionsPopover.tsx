@@ -130,7 +130,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
 
             <Button
               isIconOnly
-              className="bg-red-500/20 text-red-500"
+              color="danger"
               variant="flat"
               isDisabled={isLastRow}
               onPress={handleRowDeleteClick}

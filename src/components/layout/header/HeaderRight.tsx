@@ -16,7 +16,7 @@ const HeaderRight = () => {
   if (isLoaded && !user?.id) {
     return (
       <>
-        <Button variant="light" as={Link} href="/auth/sign-in">
+        <Button variant="flat" as={Link} href="/auth/sign-in">
           Sign In
         </Button>
       </>
