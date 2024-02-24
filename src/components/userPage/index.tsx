@@ -40,7 +40,7 @@ const UserPage = ({username}: {username: string}) => {
       <SectionContainer className="pt-page-top-space">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row gap-3">
-            <Skeleton className="h-[84px] font-medium text-2xl sm:text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
+            <Skeleton className="h-[84px] font-medium text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
               Lists of
             </Skeleton>
             <Skeleton className="flex-shrink-0 h-[84px] w-48 rounded-medium" />
@@ -69,7 +69,7 @@ const UserPage = ({username}: {username: string}) => {
     <SectionContainer className="pt-page-top-space">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col sm:flex-row gap-3">
-          <div className="h-[84px] font-medium text-2xl sm:text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
+          <div className="h-[84px] font-medium text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
             Lists of
           </div>
           <div className="max-w-full w-max sm:max-w-72 bg-content1 gap-4 py-3 px-4 rounded-medium flex items-center">
