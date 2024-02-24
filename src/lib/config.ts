@@ -1,4 +1,5 @@
 import {Row} from "./types/list.type";
+import {SearchSource} from "./types/search.type";
 import {generateId} from "./utils/helper.utils";
 
 export const defaultNewListInfo: {rows: Row[]} = {
@@ -30,3 +31,9 @@ export const defaultNewListInfo: {rows: Row[]} = {
     },
   ],
 };
+
+export const searchSources: {value: SearchSource; label: string}[] = [
+  {value: "tmdb", label: "Movie/TV - TMDB"},
+  {value: "anilist", label: "Anime/Manga - AniList"},
+  {value: "igdb", label: "Game - IGDB"},
+];

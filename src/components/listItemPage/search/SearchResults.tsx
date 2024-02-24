@@ -3,8 +3,9 @@ import React, {memo} from "react";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {searchActions} from "@/store/features/search/searchSlice";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
+import {SearchSelectionType} from "@/lib/types/search.type";
 import SearchResult from "./SearchResult";
-import {SearchSelectionType, getInfoByMedia} from "./helpers";
+import {getInfoByMedia} from "./helpers";
 
 type Props = {
   data: ApiRequestTypes["/tmdb/search/multi"]["response"]["data"];

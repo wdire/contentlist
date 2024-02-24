@@ -1,12 +1,5 @@
 import {TmdbMultiSearchResult} from "@/api/lib/schemas/tmdb.schema";
-import {MediaType} from "@/lib/types/list.type";
-
-export type SearchSelectionType = {
-  id: number;
-  name: string;
-  image_url: string;
-  media_type: MediaType;
-};
+import {SearchSelectionType} from "@/lib/types/search.type";
 
 export const getInfoByMedia = ({data}: {data: TmdbMultiSearchResult}): SearchSelectionType => {
   const returnData = {

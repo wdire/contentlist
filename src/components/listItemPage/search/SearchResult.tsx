@@ -1,5 +1,5 @@
+import {SearchSelectionType} from "@/lib/types/search.type";
 import {Avatar} from "@nextui-org/react";
-import {SearchSelectionType} from "./helpers";
 
 const SearchResult = ({info, onClick}: {info: SearchSelectionType; onClick?: () => void}) => {
   return (

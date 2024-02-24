@@ -46,12 +46,11 @@ const SearchInput = ({
         input: "ml-1",
         inputWrapper: "h-[48px]",
       }}
-      aria-label="Search Movie, Tv, Anime, People"
-      placeholder="Movie, Tv, Anime, People"
+      aria-label="Search Content"
+      placeholder="Search Content"
       startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
       isClearable
       onClear={() => setSearchQuery("")}
-      radius="none"
       value={searchQuery}
       onValueChange={setSearchQuery}
     />
