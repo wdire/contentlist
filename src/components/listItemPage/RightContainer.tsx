@@ -5,6 +5,7 @@ import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
+import Link from "next/link";
 import SearchContainer from "./search/SearchContainer";
 import ListActions from "./rightItems/ListActions";
 
@@ -26,7 +27,12 @@ const RightContainer = () => {
             </div>
             <div className="mt-2 flex gap-x-2 gap-y-1 leading-5 flex-wrap">
               <span className="text-default-500 flex-shrink-0">List by</span>{" "}
-              <span className="text-rowColor-blue break-words max-w-full">{listOwnerUsername}</span>
+              <Link
+                href={`/user/${listOwnerUsername}`}
+                className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"
+              >
+                {listOwnerUsername}
+              </Link>
             </div>
           </div>
         ) : (
