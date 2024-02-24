@@ -1,0 +1,15 @@
+query GetMediaList($type: MediaType, $search: String, $sort: [MediaSort]) {
+  Page(perPage: 10) {
+    media(type: $type, search: $search, sort: $sort, isAdult: false) {
+      id
+      title {
+        english
+        native
+      }
+      coverImage {
+        large
+      }
+      type
+    }
+  }
+}

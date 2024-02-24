@@ -14,7 +14,7 @@ const ListContentSchema = z.object({
       tmdb_media_type: z.string(),
     })
     .optional(),
-});
+}) satisfies ZodType<PrismaJson.ContentType>;
 
 const ListObjectSchema = z.object({
   name: z.string(),

@@ -11,6 +11,9 @@ const nextConfig = {
       {
         hostname: "img.clerk.com",
       },
+      {
+        hostname: "s4.anilist.co",
+      },
     ],
   },
 

@@ -19,8 +19,8 @@ const SelectedSearchResult = () => {
       listActions.addContent({
         data: {
           tmdb: {
-            id: selectedResult.id,
-            media_type: selectedResult.media_type,
+            id: selectedResult.tmdb?.id || 0,
+            media_type: selectedResult.tmdb?.media_type || "movie",
           },
           source: "TMDB",
           image_url: selectedResult.image_url,

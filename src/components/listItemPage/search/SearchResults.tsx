@@ -1,26 +1,21 @@
-import {AutocompleteItem, Listbox, Spinner} from "@nextui-org/react";
+import {Listbox, ListboxItem, Spinner} from "@nextui-org/react";
 import React, {memo} from "react";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {searchActions} from "@/store/features/search/searchSlice";
-import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
-import {SearchSelectionType} from "@/lib/types/search.type";
+import {ContentInfoType} from "@/lib/types/list.type";
 import SearchResult from "./SearchResult";
-import {getInfoByMedia} from "./helpers";
 
-type Props = {
-  data: ApiRequestTypes["/tmdb/search/multi"]["response"]["data"];
-  isLoading: boolean;
-};
-
-const SearchResults = memo(function SearchResults({data, isLoading}: Props) {
+const SearchResults = memo(function SearchResults() {
   const searchQuery = useAppSelector((state) => state.search.searchQuery);
+  const stateSearchResults = useAppSelector((state) => state.search.searchResults);
+  const searchLoading = useAppSelector((state) => state.search.loading);
   const dispatch = useAppDispatch();
 
-  if (isLoading) {
+  if (searchLoading) {
     return <Spinner className="text-center w-full mt-5" color="default" />;
   }
 
-  const onSearchResultClick = (info: SearchSelectionType) => {
+  const onSearchResultClick = (info: ContentInfoType) => {
     dispatch(searchActions.setSelectedResult(info));
     dispatch(searchActions.setSearchQuery(""));
   };
@@ -29,7 +24,7 @@ const SearchResults = memo(function SearchResults({data, isLoading}: Props) {
     <Listbox
       hideSelectedIcon={true}
       emptyContent={"No content found"}
-      hideEmptyContent={searchQuery ? !data?.results : true}
+      hideEmptyContent={searchQuery ? !stateSearchResults : true}
       itemClasses={{
         base: [
           "rounded-md",
@@ -42,22 +37,18 @@ const SearchResults = memo(function SearchResults({data, isLoading}: Props) {
         ],
       }}
       className="max-h-[320px] overflow-y-auto pt-2"
-      items={searchQuery ? data?.results || [] : []}
+      items={searchQuery ? stateSearchResults || [] : []}
       aria-label="Search Results"
     >
       {(item) => {
-        const info = getInfoByMedia({
-          data: item,
-        });
-
         return (
-          <AutocompleteItem
-            key={`${item.id}:${item.media_type}`}
-            textValue={info.name}
-            onClick={() => onSearchResultClick(info)}
+          <ListboxItem
+            key={`${Math.random()}`}
+            textValue={item?.name}
+            onClick={() => onSearchResultClick(item)}
           >
-            <SearchResult info={info} />
-          </AutocompleteItem>
+            <SearchResult info={item} />
+          </ListboxItem>
         );
       }}
     </Listbox>

@@ -1,5 +1,5 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "@/lib/axiosBaseQuery";
+import axiosBaseQuery from "@/lib/rtkBaseQueries/axiosBaseQuery";
 import {ListRequestTypes} from "@/api/lib/schemas/list.schema";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 

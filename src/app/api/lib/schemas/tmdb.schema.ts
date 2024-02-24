@@ -30,6 +30,8 @@ export type TmdbRequestTypes = {
 
 export type TmdbMultiSearchResult = PersonResult | TVResult | MovieResult;
 
+export type TmdbMediaType = "movie" | "tv" | "person";
+
 type PersonResult = Required<
   ArrayElement<
     NonNullable<
