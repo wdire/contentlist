@@ -3,7 +3,7 @@ import {InitListProps, ListState} from "@/store/features/list/listSlice";
 import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {ZodTypeOf} from "@/api/lib/index.type.api";
-import {Content, Row} from "../types/list.type";
+import {Content, ContentInfoType, Row} from "../types/list.type";
 import {generateId} from "./helper.utils";
 import {STORAGE_ROW_ID} from "../constants";
 import {defaultNewListInfo} from "../config";
@@ -106,17 +106,17 @@ export const createListFromDnd = (
           list.contents
             .filter((c) => c.rowId === r.id)
             .map((c) => {
-              const newC = {
+              const newC: ContentInfoType = {
                 name: c.data.name,
                 image_url: c.data.image_url,
                 source: c.data.source,
-                tmdb: c.data?.tmdb
-                  ? {
-                      id: c.data.tmdb?.id,
-                      media_type: c.data.tmdb.media_type,
-                    }
-                  : undefined,
               };
+
+              if (c.data.source === "tmdb") {
+                newC.tmdb = c.data.tmdb;
+              } else if (c.data.source === "anilist") {
+                newC.anilist = c.data.anilist;
+              }
 
               return newC;
             }) || [],
@@ -125,17 +125,17 @@ export const createListFromDnd = (
     storage: list.contents
       .filter((c) => c.rowId === STORAGE_ROW_ID)
       .map((c) => {
-        const newC = {
+        const newC: ContentInfoType = {
           name: c.data.name,
           image_url: c.data.image_url,
           source: c.data.source,
-          tmdb: c.data?.tmdb
-            ? {
-                id: c.data.tmdb?.id,
-                media_type: c.data.tmdb.media_type,
-              }
-            : undefined,
         };
+
+        if (c.data.source === "tmdb") {
+          newC.tmdb = c.data.tmdb;
+        } else if (c.data.source === "anilist") {
+          newC.anilist = c.data.anilist;
+        }
 
         return newC;
       }),

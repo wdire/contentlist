@@ -1,5 +1,4 @@
 import {ContentInfoType} from "@/lib/types/list.type";
-import {SearchSource} from "@/lib/types/search.type";
 import {ContentMediaName} from "@/lib/utils/helper.utils";
 import {Avatar} from "@nextui-org/react";
 

@@ -16,13 +16,15 @@ const ListContentSchema = z.object({
       id: z.number(),
       media_type: z.enum(TmdbMediaType),
     })
-    .optional(),
+    .optional()
+    .nullable(),
   anilist: z
     .object({
       id: z.number(),
       type: z.nativeEnum(MediaType),
     })
-    .optional(),
+    .optional()
+    .nullable(),
 }) satisfies ZodType<PrismaJson.ContentType>;
 
 const ListObjectSchema = z.object({
