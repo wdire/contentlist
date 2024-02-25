@@ -5,9 +5,10 @@ import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
+import Link from "next/link";
 import SearchContainer from "./search/SearchContainer";
-import ListActions from "./rightItems/ListActions";
 
+const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
 const RightContainer = () => {
@@ -17,15 +18,21 @@ const RightContainer = () => {
   const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
 
   return (
-    <div className="w-full lg:w-[250px] rounded-medium">
+    <div className="w-full lg:w-[260px] rounded-medium">
       <div className="w-full h-max relative">
         {!fetchLoading ? (
           <div className="mb-5 px-4 py-4 bg-content1 rounded-medium">
             <div className="text-2xl">
               <b className="break-words">{listName}</b>
             </div>
-            <div>
-              List by <span className="text-rowColor-blue">{listOwnerUsername}</span>
+            <div className="mt-2 flex gap-x-2 gap-y-1 leading-5 flex-wrap">
+              <span className="text-default-500 flex-shrink-0">List by</span>{" "}
+              <Link
+                href={`/user/${listOwnerUsername}`}
+                className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"
+              >
+                {listOwnerUsername}
+              </Link>
             </div>
           </div>
         ) : (

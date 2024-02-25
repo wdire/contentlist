@@ -40,7 +40,7 @@ const ContentCard = memo(function ContentCard({content}: Props) {
         src={content.data.image_url}
         width={80}
         height={120}
-        sizes="80px"
+        sizes="200px"
         alt={content.data.name}
         className="object-contain w-full h-full pointer-events-none block select-none"
         priority

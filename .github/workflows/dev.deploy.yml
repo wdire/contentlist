@@ -7,7 +7,7 @@ on:
     branches:
       - dev
 jobs:
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -19,7 +19,7 @@ jobs:
       - name: Install Prisma
         run: npm install --save prisma
 
-      - name: Run production migration
+      - name: Run development migration
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}

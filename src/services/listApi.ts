@@ -1,5 +1,5 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "@/lib/axiosBaseQuery";
+import axiosBaseQuery from "@/lib/rtkBaseQueries/axiosBaseQuery";
 import {ListRequestTypes} from "@/api/lib/schemas/list.schema";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 
@@ -68,6 +68,20 @@ export const listApi = createApi({
         method: "POST",
         data: body,
       }),
+      invalidatesTags: [{type: "List", id: "ALL"}],
+    }),
+    getAllByUserId: builder.query<
+      ApiRequestTypes["/list/getAllByUserId"]["response"],
+      ListRequestTypes["/list/getAllByUserId"]["params"]
+    >({
+      query: ({userId}) => ({
+        url: `/list/getAllByUserId/${userId}`,
+        method: "GET",
+      }),
+      providesTags: (result, _u, params) => [
+        {type: "List", id: `USERS_LIST_${params.userId}`},
+        ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
+      ],
     }),
   }),
 });
@@ -78,5 +92,6 @@ export const {
   useUpdateMutation,
   useDeleteMutation,
   useCreateMutation,
+  useGetAllByUserIdQuery,
   usePrefetch,
 } = listApi;

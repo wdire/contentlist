@@ -10,6 +10,8 @@ import {createNewRow} from "@/lib/utils/createList.utils";
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 const CreateImage = dynamic(() => import("./CreateImage"));
 
+// TODO: Add button to auto generate list image
+
 const ListActions = () => {
   const dispatch = useAppDispatch();
   const rowsLength = useAppSelector((state) => state.list.rows.length);
@@ -37,7 +39,12 @@ const ListActions = () => {
       />
       <div className="text-base mb-3 mt-4">Actions</div>
       <div className="flex items-center justify-between">
-        <Button color="primary" isDisabled={maxLengthReached} onPress={handleAddRowClick}>
+        <Button
+          color="primary"
+          isDisabled={maxLengthReached}
+          onPress={handleAddRowClick}
+          variant="flat"
+        >
           {maxLengthReached ? "Max Row Length" : "Add Row"}
         </Button>
         {isListOwner ? <DeleteListButton /> : null}

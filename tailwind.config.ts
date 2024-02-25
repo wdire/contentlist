@@ -13,6 +13,7 @@ const config = {
     extend: {
       spacing: {
         "header-height": "var(--header-height)",
+        "page-top-space": "var(--page-top-space)",
       },
       colors: {
         "rowColor-red": "var(--rowColor-red)",

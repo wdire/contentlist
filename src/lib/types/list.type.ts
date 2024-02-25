@@ -9,15 +9,11 @@ export type Row = {
 export type Content = {
   id: Id;
   rowId: Id;
-  data: {
-    source: "TMDB";
-    tmdb?: {
-      id: number;
-      media_type: MediaType;
-    };
-    name: string;
-    image_url: string;
-  };
+  data: ContentInfoType;
 };
 
-export type MediaType = "movie" | "tv" | "person";
+export const ContentSourceType = ["tmdb", "anilist"] as const;
+
+export type ContentSourceType = (typeof ContentSourceType)[number];
+
+export type ContentInfoType = PrismaJson.ContentType;

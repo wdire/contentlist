@@ -109,7 +109,7 @@ function ListViewContainer() {
 
   return (
     <SectionContainer>
-      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden py-10">
+      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden pt-page-top-space">
         <DndContext
           id="main-dnd"
           sensors={sensors}

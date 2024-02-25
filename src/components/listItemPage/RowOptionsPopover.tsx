@@ -124,15 +124,16 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
           </div>
 
           <div className="flex justify-between items-center mt-4">
-            <Button color="warning" onPress={handleEditButtonClick}>
+            <Button color="warning" variant="flat" onPress={handleEditButtonClick}>
               Edit
             </Button>
 
             <Button
-              onPress={handleRowDeleteClick}
               isIconOnly
-              className="bg-red-500"
+              color="danger"
+              variant="flat"
               isDisabled={isLastRow}
+              onPress={handleRowDeleteClick}
             >
               <Trash />
             </Button>

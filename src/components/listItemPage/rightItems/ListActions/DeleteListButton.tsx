@@ -34,7 +34,7 @@ const DeleteListButton = () => {
 
   return (
     <>
-      <Button onPress={onOpen} isIconOnly className="bg-red-500">
+      <Button onPress={onOpen} isIconOnly color="danger" variant="flat">
         <Trash />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -51,10 +51,15 @@ const DeleteListButton = () => {
               ) : null}
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onPress={onClose}>
+              <Button color="primary" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button isLoading={isLoading} className="bg-red-500" onPress={onDeleteButtonClick}>
+              <Button
+                isLoading={isLoading}
+                color="danger"
+                variant="flat"
+                onPress={onDeleteButtonClick}
+              >
                 Delete
               </Button>
             </ModalFooter>

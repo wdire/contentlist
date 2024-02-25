@@ -28,12 +28,9 @@ body main {
   @apply pt-header-height;
 }
 
-main {
-  @apply pb-10;
-}
-
 :root {
   --header-height: 4rem;
+  --page-top-space: 2.5rem;
 
   --rowColor-red: #ff6f6f;
   --rowColor-orange: #ff9970;
@@ -66,6 +63,12 @@ body::-webkit-scrollbar {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-content4 rounded-xl;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-top-space: 1.5rem;
+  }
 }
 
 @import "./anim-vertical-words.scss";

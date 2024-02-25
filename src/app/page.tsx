@@ -4,7 +4,7 @@ import ListItems from "@/components/home/listItems";
 export default function Home() {
   return (
     <>
-      <SectionContainer className="mt-10">
+      <SectionContainer className="pt-page-top-space">
         <h1 className="text-xl sm:text-3xl font-bold flex items-center">
           <span className="anim-vertical-words">
             <ul>

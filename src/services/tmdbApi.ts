@@ -1,5 +1,5 @@
-import {createApi} from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "@/lib/axiosBaseQuery";
+import {createApi} from "@reduxjs/toolkit/query";
+import axiosBaseQuery from "@/lib/rtkBaseQueries/axiosBaseQuery";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 
 export const tmdbApi = createApi({
@@ -40,5 +40,3 @@ export const tmdbApi = createApi({
     }),
   }),
 });
-
-export const {useSearchMultiQuery, useLazySearchMultiQuery, usePrefetch} = tmdbApi;

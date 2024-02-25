@@ -113,7 +113,7 @@ const CreateImage = () => {
 
   return (
     <>
-      <Button isLoading={isLoading} color="warning" onPress={handleCreateImageClick}>
+      <Button isLoading={isLoading} color="warning" onPress={handleCreateImageClick} variant="flat">
         Create Image
       </Button>
       {imgUrl ? (

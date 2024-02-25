@@ -3,7 +3,7 @@ import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
 import {AxiosError} from "axios";
 
 import {CreateResponse} from "./response.api";
-import {getUrlParams} from "./util.api";
+import {getUrlParams} from "./utils/main.util.api";
 
 export type RequestParams = {params: {[key: string]: string}};
 

@@ -6,6 +6,7 @@ import {searchActions} from "@/store/features/search/searchSlice";
 import {listActions} from "@/store/features/list/listSlice";
 import {STORAGE_ROW_ID} from "@/lib/constants";
 import {generateId} from "@/lib/utils/helper.utils";
+import {Content} from "@/lib/types/list.type";
 import SearchResult from "./SearchResult";
 
 const SelectedSearchResult = () => {
@@ -15,21 +16,23 @@ const SelectedSearchResult = () => {
   if (!selectedResult) return null;
 
   const handleAddToListClick = () => {
-    dispatch(
-      listActions.addContent({
-        data: {
-          tmdb: {
-            id: selectedResult.id,
-            media_type: selectedResult.media_type,
-          },
-          source: "TMDB",
-          image_url: selectedResult.image_url,
-          name: selectedResult.name,
-        },
-        id: generateId(),
-        rowId: STORAGE_ROW_ID,
-      }),
-    );
+    const newContent: Content = {
+      data: {
+        image_url: selectedResult.image_url,
+        name: selectedResult.name,
+        source: selectedResult.source,
+      },
+      id: generateId(),
+      rowId: STORAGE_ROW_ID,
+    };
+
+    if (selectedResult.source === "tmdb") {
+      newContent.data.tmdb = selectedResult.tmdb;
+    } else if (selectedResult.source === "anilist") {
+      newContent.data.anilist = selectedResult.anilist;
+    }
+
+    dispatch(listActions.addContent(newContent));
     dispatch(searchActions.setSelectedResult(null));
     dispatch(searchActions.setSearchQuery(""));
   };

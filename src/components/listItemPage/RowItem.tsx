@@ -52,7 +52,7 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
           backgroundColor: `var(--rowColor-${row.color})`,
         }}
         className={
-          "w-[80px] md:w-[120px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center relative select-none touch-none"
+          "bg-opacity-50 w-[80px] md:w-[120px] flex-shrink-0 text-md cursor-grab p-3 font-bold flex items-center justify-center relative select-none touch-none"
         }
       >
         <div className="flex gap-2 text-zinc-900 font-normal text-sm md:text-base break-words text-center">
