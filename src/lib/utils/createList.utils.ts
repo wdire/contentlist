@@ -55,11 +55,7 @@ export const createListFromDb = async ({
           return {
             id: generateId(),
             rowId: r.row_id,
-            data: {
-              name: c.name,
-              source: "tmdb",
-              image_url: c.image_url || "",
-            },
+            data: c,
           };
         }) || []
       );
@@ -72,11 +68,7 @@ export const createListFromDb = async ({
       return {
         id: generateId(),
         rowId: STORAGE_ROW_ID,
-        data: {
-          name: c.name,
-          source: "tmdb",
-          image_url: c.image_url || "",
-        },
+        data: c,
       };
     }) || []),
   ];
