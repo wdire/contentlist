@@ -1,3 +1,7 @@
+import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
+import {MediaType as AnilistMediaType} from "@/services/anilistApi/anilist.generated";
+import {ContentSourceType} from "./list.type";
+
 declare global {
   namespace PrismaJson {
     type ListData = {
@@ -30,13 +34,19 @@ declare global {
     type ContentType = {
       name: string;
       image_url: string;
-      source: "TMDB";
+      source: ContentSourceType;
       tmdb?: TmdbDetailsType | null;
+      anilist?: AnilistDetailsType | null;
     };
 
     type TmdbDetailsType = {
-      tmdb_id: number;
-      tmdb_media_type: string;
+      id: number;
+      media_type: TmdbMediaType;
+    };
+
+    type AnilistDetailsType = {
+      id: number;
+      type: AnilistMediaType;
     };
   }
 }

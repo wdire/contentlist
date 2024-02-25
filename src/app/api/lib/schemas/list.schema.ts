@@ -1,17 +1,26 @@
 import {Prisma} from "@prisma/client";
 import {ZodType, z} from "zod";
 import {rowColors} from "@/lib/constants";
+import {ContentSourceType} from "@/lib/types/list.type";
+import {MediaType} from "@/services/anilistApi/anilist.generated";
 import {ResponseBodyType} from "../response.api";
 import {ZodDbId, ZodTypeOf} from "../index.type.api";
+import {TmdbMediaType} from "./tmdb.schema";
 
 const ListContentSchema = z.object({
   name: z.string(),
   image_url: z.string(),
-  source: z.enum(["TMDB"]),
+  source: z.enum(ContentSourceType),
   tmdb: z
     .object({
-      tmdb_id: z.number(),
-      tmdb_media_type: z.string(),
+      id: z.number(),
+      media_type: z.enum(TmdbMediaType),
+    })
+    .optional(),
+  anilist: z
+    .object({
+      id: z.number(),
+      type: z.nativeEnum(MediaType),
     })
     .optional(),
 }) satisfies ZodType<PrismaJson.ContentType>;

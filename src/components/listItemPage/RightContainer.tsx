@@ -7,8 +7,8 @@ import dynamic from "next/dynamic";
 import clsx from "clsx";
 import Link from "next/link";
 import SearchContainer from "./search/SearchContainer";
-import ListActions from "./rightItems/ListActions";
 
+const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
 const RightContainer = () => {
@@ -18,7 +18,7 @@ const RightContainer = () => {
   const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
 
   return (
-    <div className="w-full lg:w-[250px] rounded-medium">
+    <div className="w-full lg:w-[260px] rounded-medium">
       <div className="w-full h-max relative">
         {!fetchLoading ? (
           <div className="mb-5 px-4 py-4 bg-content1 rounded-medium">

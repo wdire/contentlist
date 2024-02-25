@@ -30,7 +30,8 @@ export type TmdbRequestTypes = {
 
 export type TmdbMultiSearchResult = PersonResult | TVResult | MovieResult;
 
-export type TmdbMediaType = "movie" | "tv" | "person";
+export const TmdbMediaType = ["movie", "tv", "person"] as const;
+export type TmdbMediaType = (typeof TmdbMediaType)[number];
 
 type PersonResult = Required<
   ArrayElement<

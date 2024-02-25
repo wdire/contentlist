@@ -1,6 +1,5 @@
 import {MediaType as AnilistMediaType} from "@/services/anilistApi/anilist.generated";
 import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
-import {SearchSource} from "./search.type";
 
 export type Id = string | number;
 
@@ -14,7 +13,7 @@ export type Content = {
   id: Id;
   rowId: Id;
   data: {
-    source: "TMDB";
+    source: ContentSourceType;
     tmdb?: {
       id: number;
       media_type: TmdbMediaType;
@@ -24,19 +23,8 @@ export type Content = {
   };
 };
 
-export type ContentMediaType = "movie" | "tv" | "person" | "anime" | "manga";
+export const ContentSourceType = ["tmdb", "anilist"] as const;
 
-export type ContentInfoType = {
-  name: string;
-  image_url: string;
-  source: SearchSource;
-  media: ContentMediaType;
-  tmdb?: {
-    id: number;
-    media_type: TmdbMediaType;
-  };
-  anilist?: {
-    id: number;
-    type: AnilistMediaType;
-  };
-};
+export type ContentSourceType = (typeof ContentSourceType)[number];
+
+export type ContentInfoType = PrismaJson.ContentType;

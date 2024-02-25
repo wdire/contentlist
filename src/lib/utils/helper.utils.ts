@@ -1,7 +1,7 @@
 import {TmdbMultiSearchResult} from "@/api/lib/schemas/tmdb.schema";
 import {GetMediaListQuery, MediaType} from "@/services/anilistApi/anilist.generated";
 import {rowColors} from "../constants";
-import {ContentInfoType, ContentMediaType} from "../types/list.type";
+import {ContentInfoType} from "../types/list.type";
 
 export const generateId = () => {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -25,7 +25,6 @@ export const getContentInfoFromTmdb = ({
         id: item.id,
         media_type: item.media_type,
       },
-      media: item.media_type,
     };
 
     if (item.media_type === "movie") {
@@ -54,12 +53,11 @@ export const getContentInfoFromAnilist = ({data}: {data: GetMediaListQuery}): Co
         const returnData: ContentInfoType = {
           name: item.title.english || item.title.native || "",
           image_url: item.coverImage.large,
-          source: item.type === MediaType.Anime ? "anilist_anime" : "anilist_manga",
+          source: "anilist",
           anilist: {
             id: item?.id,
             type: item.type,
           },
-          media: item.type === MediaType.Anime ? "anime" : "manga",
         };
 
         return returnData;
@@ -70,10 +68,12 @@ export const getContentInfoFromAnilist = ({data}: {data: GetMediaListQuery}): Co
   ).filter((item): item is ContentInfoType => item !== null);
 };
 
-export const contentMediaName: {[key in ContentMediaType]: string} = {
+export const ContentMediaName = {
   anime: "Anime",
   manga: "Manga",
   movie: "Movie",
   person: "Person",
   tv: "Tv",
-};
+} as const;
+
+export type ContentMediaName = keyof typeof ContentMediaName;

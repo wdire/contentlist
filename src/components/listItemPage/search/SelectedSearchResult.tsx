@@ -22,7 +22,7 @@ const SelectedSearchResult = () => {
             id: selectedResult.tmdb?.id || 0,
             media_type: selectedResult.tmdb?.media_type || "movie",
           },
-          source: "TMDB",
+          source: "tmdb",
           image_url: selectedResult.image_url,
           name: selectedResult.name,
         },

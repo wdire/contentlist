@@ -17,12 +17,12 @@ const listData: Prisma.ListCreateInput[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((
         contents: [
           {
             name: "One Piece",
-            source: "TMDB",
+            source: "tmdb",
             image_url: "https://image.tmdb.org/t/p/w200/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg",
           },
           {
             name: "Hunter X Hunter",
-            source: "TMDB",
+            source: "tmdb",
             image_url: "https://image.tmdb.org/t/p/w200/ucpgmUR1h5Te1BYegKItoPjOeF7.jpg",
           },
         ],
@@ -34,17 +34,17 @@ const listData: Prisma.ListCreateInput[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((
         contents: [
           {
             name: "One Punch Man",
-            source: "TMDB",
+            source: "tmdb",
             image_url: "https://image.tmdb.org/t/p/w200/bS6GeCRInMRl6oQN6czCqPFdcHN.jpg",
           },
           {
             name: "Death Note",
-            source: "TMDB",
+            source: "tmdb",
             image_url: "https://image.tmdb.org/t/p/w200/tCZFfYTIwrR7n94J6G14Y4hAFU6.jpg",
           },
           {
             name: "Attack on Titan",
-            source: "TMDB",
+            source: "tmdb",
             image_url: "https://image.tmdb.org/t/p/w200/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg",
           },
         ],

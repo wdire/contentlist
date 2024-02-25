@@ -57,7 +57,7 @@ export const createListFromDb = async ({
             rowId: r.row_id,
             data: {
               name: c.name,
-              source: "TMDB",
+              source: "tmdb",
               image_url: c.image_url || "",
             },
           };
@@ -74,7 +74,7 @@ export const createListFromDb = async ({
         rowId: STORAGE_ROW_ID,
         data: {
           name: c.name,
-          source: "TMDB",
+          source: "tmdb",
           image_url: c.image_url || "",
         },
       };
@@ -112,8 +112,8 @@ export const createListFromDnd = (
                 source: c.data.source,
                 tmdb: c.data?.tmdb
                   ? {
-                      tmdb_id: c.data.tmdb?.id,
-                      tmdb_media_type: c.data.tmdb.media_type,
+                      id: c.data.tmdb?.id,
+                      media_type: c.data.tmdb.media_type,
                     }
                   : undefined,
               };
@@ -131,8 +131,8 @@ export const createListFromDnd = (
           source: c.data.source,
           tmdb: c.data?.tmdb
             ? {
-                tmdb_id: c.data.tmdb?.id,
-                tmdb_media_type: c.data.tmdb.media_type,
+                id: c.data.tmdb?.id,
+                media_type: c.data.tmdb.media_type,
               }
             : undefined,
         };

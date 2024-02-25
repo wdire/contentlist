@@ -33,7 +33,7 @@ export const defaultNewListInfo: {rows: Row[]} = {
 };
 
 export const searchSources: {value: SearchSource; label: string}[] = [
-  {value: "tmdb", label: "Movie/TV - TMDB"},
+  {value: "tmdb", label: "Movie/TV/Person - TMDB"},
   {value: "anilist_anime", label: "Anime - AniList"},
   {value: "anilist_manga", label: "Manga - AniList"},
   {value: "igdb", label: "Game - IGDB"},

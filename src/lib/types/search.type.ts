@@ -1,11 +1,12 @@
-import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
-import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
+import {TmdbMediaType, TmdbRequestTypes} from "@/api/lib/schemas/tmdb.schema";
 import {
   GetMediaListQuery,
   GetMediaListQueryVariables,
 } from "@/services/anilistApi/anilist.generated";
 
-export type SearchSource = "tmdb" | "anilist_anime" | "anilist_manga" | "igdb";
+export const SearchSource = ["tmdb", "anilist_anime", "anilist_manga", "igdb"] as const;
+
+export type SearchSource = (typeof SearchSource)[number];
 
 export type SearchSelectionType = {
   id: number;
@@ -15,7 +16,9 @@ export type SearchSelectionType = {
 };
 
 export type SearchParams =
-  | ApiRequestTypes["/tmdb/search/multi"]["params"]
+  | TmdbRequestTypes["/tmdb/search/multi"]["params"]
   | GetMediaListQueryVariables;
 
-export type SearchResponses = ApiRequestTypes["/tmdb/search/multi"]["response"] | GetMediaListQuery;
+export type SearchResponses =
+  | TmdbRequestTypes["/tmdb/search/multi"]["response"]
+  | GetMediaListQuery;
