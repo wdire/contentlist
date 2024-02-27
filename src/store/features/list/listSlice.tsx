@@ -24,6 +24,7 @@ export type ListState = {
   activeContent: Content | null;
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
+  showName: boolean;
 };
 
 export type InitListProps = Pick<ListState, "rows" | "contents" | "info">;
@@ -41,6 +42,7 @@ const initialState: ListState = {
   activeRow: null,
   fetchLoading: true,
   hasUnsavedChanges: false,
+  showName: false,
 };
 
 export const listSlice = createSlice({
@@ -87,6 +89,9 @@ export const listSlice = createSlice({
       });
       state.rows = state.rows.filter((r) => r.id !== action.payload.id);
       state.hasUnsavedChanges = true;
+    },
+    setShowName: (state, action: PayloadAction<boolean>) => {
+      state.showName = action.payload;
     },
     onDragStart: (
       state,
