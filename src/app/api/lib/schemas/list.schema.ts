@@ -2,7 +2,7 @@ import {Prisma} from "@prisma/client";
 import {ZodType, z} from "zod";
 import {rowColors} from "@/lib/constants";
 import {ContentSourceType} from "@/lib/types/list.type";
-import {MediaType} from "@/services/anilistApi/anilist.generated";
+import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {ResponseBodyType} from "../response.api";
 import {ZodDbId, ZodTypeOf} from "../index.type.api";
 import {TmdbMediaType} from "./tmdb.schema";
@@ -21,7 +21,7 @@ const ListContentSchema = z.object({
   anilist: z
     .object({
       id: z.number(),
-      type: z.nativeEnum(MediaType),
+      type: z.enum(AnilistMediaType),
     })
     .optional()
     .nullable(),

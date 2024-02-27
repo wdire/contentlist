@@ -1,5 +1,10 @@
-import {TmdbMultiSearchResult} from "@/api/lib/schemas/tmdb.schema";
-import {GetMediaListQuery, MediaType} from "@/services/anilistApi/anilist.generated";
+import {TmdbMediaType, TmdbMultiSearchResult} from "@/api/lib/schemas/tmdb.schema";
+import {
+  GetCharacterListQuery,
+  GetMediaListQuery,
+  MediaType as AnilistGeneratedMediaType,
+} from "@/services/anilistApi/anilist.generated";
+import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {rowColors} from "../constants";
 import {ContentInfoType} from "../types/list.type";
 
@@ -39,14 +44,18 @@ export const getContentInfoFromTmdb = ({
     }
 
     if (returnData.image_url) {
-      returnData.image_url = `https://image.tmdb.org/t/p/w200${returnData.image_url}`;
+      returnData.image_url = `https://image.tmdb.org/t/p/w400${returnData.image_url}`;
     }
 
     return returnData;
   });
 };
 
-export const getContentInfoFromAnilist = ({data}: {data: GetMediaListQuery}): ContentInfoType[] => {
+export const getContentInfoFromAnilistMedia = ({
+  data,
+}: {
+  data: GetMediaListQuery;
+}): ContentInfoType[] => {
   return (
     data.Page?.media?.map((item) => {
       if ((item?.title?.english || item?.title?.native) && item?.type && item?.coverImage?.large) {
@@ -55,8 +64,8 @@ export const getContentInfoFromAnilist = ({data}: {data: GetMediaListQuery}): Co
           image_url: item.coverImage.large,
           source: "anilist",
           anilist: {
-            id: item?.id,
-            type: item.type,
+            id: item.id,
+            type: item.type === AnilistGeneratedMediaType.Anime ? "anime" : "manga",
           },
         };
 
@@ -68,12 +77,39 @@ export const getContentInfoFromAnilist = ({data}: {data: GetMediaListQuery}): Co
   ).filter((item): item is ContentInfoType => item !== null);
 };
 
-export const ContentMediaName = {
+export const getContentInfoFromAnilistCharacter = ({
+  data,
+}: {
+  data: GetCharacterListQuery;
+}): ContentInfoType[] => {
+  return (
+    data.Page?.characters?.map((item) => {
+      if (item?.image?.large && item?.name?.full) {
+        const returnData: ContentInfoType = {
+          name: item.name.full,
+          image_url: item.image.large,
+          source: "anilist",
+          anilist: {
+            id: item.id,
+            type: "character",
+          },
+        };
+
+        return returnData;
+      }
+
+      return null;
+    }) || []
+  ).filter((item): item is ContentInfoType => item !== null);
+};
+
+export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType]: string} = {
   anime: "Anime",
   manga: "Manga",
+  character: "Character",
   movie: "Movie",
   person: "Person",
   tv: "Tv",
-} as const;
+};
 
 export type ContentMediaName = keyof typeof ContentMediaName;

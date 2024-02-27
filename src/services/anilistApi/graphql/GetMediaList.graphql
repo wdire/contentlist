@@ -1,5 +1,5 @@
 query GetMediaList($type: MediaType, $search: String, $sort: [MediaSort]) {
-  Page(perPage: 10) {
+  Page(perPage: 8) {
     media(type: $type, search: $search, sort: $sort, isAdult: false) {
       id
       title {

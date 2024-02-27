@@ -4544,6 +4544,23 @@ export type YearStats = {
   year?: Maybe<Scalars["Int"]["output"]>;
 };
 
+export type GetCharacterListQueryVariables = Exact<{
+  search?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GetCharacterListQuery = {
+  __typename?: "Query";
+  Page?: {
+    __typename?: "Page";
+    characters?: Array<{
+      __typename?: "Character";
+      id: number;
+      name?: {__typename?: "CharacterName"; full?: string | null} | null;
+      image?: {__typename?: "CharacterImage"; large?: string | null} | null;
+    } | null> | null;
+  } | null;
+};
+
 export type GetMediaListQueryVariables = Exact<{
   type?: InputMaybe<MediaType>;
   search?: InputMaybe<Scalars["String"]["input"]>;
@@ -4564,9 +4581,24 @@ export type GetMediaListQuery = {
   } | null;
 };
 
+export const GetCharacterListDocument = `
+    query GetCharacterList($search: String) {
+  Page(perPage: 8) {
+    characters(search: $search) {
+      id
+      name {
+        full
+      }
+      image {
+        large
+      }
+    }
+  }
+}
+    `;
 export const GetMediaListDocument = `
     query GetMediaList($type: MediaType, $search: String, $sort: [MediaSort]) {
-  Page(perPage: 10) {
+  Page(perPage: 8) {
     media(type: $type, search: $search, sort: $sort, isAdult: false) {
       id
       title {
@@ -4584,6 +4616,9 @@ export const GetMediaListDocument = `
 
 const injectedRtkApi = anilistCreateApi.injectEndpoints({
   endpoints: (build) => ({
+    GetCharacterList: build.query<GetCharacterListQuery, GetCharacterListQueryVariables | void>({
+      query: (variables) => ({document: GetCharacterListDocument, variables}),
+    }),
     GetMediaList: build.query<GetMediaListQuery, GetMediaListQueryVariables | void>({
       query: (variables) => ({document: GetMediaListDocument, variables}),
     }),

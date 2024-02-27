@@ -36,5 +36,6 @@ export const searchSources: {value: SearchSource; label: string}[] = [
   {value: "tmdb", label: "Movie/TV/Person - TMDB"},
   {value: "anilist_anime", label: "Anime - AniList"},
   {value: "anilist_manga", label: "Manga - AniList"},
+  {value: "anilist_character", label: "Character - AniList"},
   {value: "igdb", label: "Game - IGDB"},
 ];

@@ -6,7 +6,11 @@ import {SearchIcon} from "lucide-react";
 import {useEffect, useMemo} from "react";
 import {tmdbApi} from "@/services/tmdbApi";
 import {anilistApi} from "@/services/anilistApi";
-import {getContentInfoFromAnilist, getContentInfoFromTmdb} from "@/lib/utils/helper.utils";
+import {
+  getContentInfoFromAnilistCharacter,
+  getContentInfoFromAnilistMedia,
+  getContentInfoFromTmdb,
+} from "@/lib/utils/helper.utils";
 import {MediaSort, MediaType} from "@/services/anilistApi/anilist.generated";
 
 const SearchInput = () => {
@@ -43,7 +47,17 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(searchActions.setSearchResults(getContentInfoFromAnilist({data: result})));
+          dispatch(searchActions.setSearchResults(getContentInfoFromAnilistMedia({data: result})));
+        } else if (searchSource === "anilist_character") {
+          const result = await dispatch(
+            anilistApi.endpoints.GetCharacterList.initiate({
+              search: query,
+            }),
+          ).unwrap();
+
+          dispatch(
+            searchActions.setSearchResults(getContentInfoFromAnilistCharacter({data: result})),
+          );
         }
 
         dispatch(searchActions.setLoading(false));

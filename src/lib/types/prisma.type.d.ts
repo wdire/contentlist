@@ -1,5 +1,5 @@
 import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
-import {MediaType as AnilistMediaType} from "@/services/anilistApi/anilist.generated";
+import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {ContentSourceType} from "./list.type";
 
 declare global {

@@ -31,8 +31,6 @@ const UserPage = ({username}: {username: string}) => {
 
   if (!userFetching && !userData?.data?.id) {
     router.replace("/404");
-
-    return null;
   }
 
   if (userLoading || userListsLoading) {
@@ -47,7 +45,7 @@ const UserPage = ({username}: {username: string}) => {
           </div>
 
           <div className="flex gap-2">
-            <div className="flex gap-5 flex-wrap">
+            <div className="flex gap-5 flex-wrap w-full">
               {[1, 2, 3, 4].map((s) => (
                 <ListItemCard list={{id: 0, name: ""}} key={s} isLoading />
               ))}

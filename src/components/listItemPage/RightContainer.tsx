@@ -25,8 +25,8 @@ const RightContainer = () => {
             <div className="text-2xl">
               <b className="break-words">{listName}</b>
             </div>
-            <div className="mt-2 flex gap-x-2 gap-y-1 leading-5 flex-wrap">
-              <span className="text-default-500 flex-shrink-0">List by</span>{" "}
+            <div className="mt-2 flex gap-x-1.5 gap-y-1 leading-5 flex-wrap">
+              <span className="text-default-500 flex-shrink-0">List by</span>
               <Link
                 href={`/user/${listOwnerUsername}`}
                 className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"
