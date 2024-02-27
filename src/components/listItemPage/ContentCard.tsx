@@ -35,6 +35,11 @@ const ContentCard = memo(function ContentCard({content}: Props) {
     },
   );
 
+  const contentNameClassName = clsx(
+    "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
+    "text-[10px] md:text-sm line-clamp-4 md:line-clamp-5 max-h-full pt-1.5 !leading-3 md:!leading-[18px]",
+  );
+
   const showName = useAppSelector((state) => state.list.showName);
 
   return (
@@ -48,11 +53,7 @@ const ContentCard = memo(function ContentCard({content}: Props) {
         className="object-cover w-full h-full pointer-events-none block select-none"
         priority
       />
-      {showName && (
-        <div className="absolute left-0 bottom-0 text-[10px] sm:text-sm break-words w-full max-w-full bg-gradient-to-t from-black/50 pt-1">
-          {content.data.name}
-        </div>
-      )}
+      {showName && <div className={contentNameClassName}>{content.data.name}</div>}
     </div>
   );
 });
