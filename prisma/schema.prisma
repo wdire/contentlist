@@ -35,7 +35,7 @@ model List {
   edited      Boolean       @default(false)
   ListInTopic ListInTopic[]
   created_at  DateTime      @default(now())
-  updated_At  DateTime      @default(now())
+  updated_at  DateTime      @default(now())
 
   /// [ListData]
   contentsData Json
@@ -52,7 +52,7 @@ model Topic {
 model ListInTopic {
   list    List  @relation(fields: [listId], references: [id])
   listId  Int
-  index   Int
+  index   Int?
   topic   Topic @relation(fields: [topicId], references: [id])
   topicId Int
 
