@@ -1,5 +1,4 @@
-import {ArrayElement} from "@/api/lib/index.type.api";
-import {ListRequestTypes} from "@/api/lib/schemas/list.schema";
+import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {Image, Skeleton} from "@nextui-org/react";
 import clsx from "clsx";
 import NImage from "next/image";
@@ -8,17 +7,21 @@ import Link from "next/link";
 export const ListItemCard = ({
   list,
   isLoading,
+  xScrollParent,
 }: {
-  list: ArrayElement<NonNullable<ListRequestTypes["/list/getAll"]["response"]["data"]>>;
+  list: ApiRequestTypes["/list/getHomeLists"]["types"]["list"];
   isLoading?: boolean;
+  xScrollParent?: boolean;
 }) => {
   return (
     <Link
       href={`/list/${list.id}`}
       className={clsx(
-        "inline-block rounded-xl overflow-hidden relative w-[calc(50%-10px)] sm:w-[167px] sm:h-[200px] transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
+        "flex-shrink-0 inline-block rounded-xl overflow-hidden relative transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
         {
           "pointer-events-none": isLoading,
+          "w-[calc(50%-10px)] sm:w-[167px] sm:h-[200px]": !xScrollParent,
+          "w-[140px] sm:w-[167px] sm:h-[200px]": xScrollParent,
         },
       )}
     >
@@ -31,7 +34,7 @@ export const ListItemCard = ({
         classNames={{
           wrapper: "rounded-none",
         }}
-        src={"/assets/no-image.png"}
+        src={list.imageUrl || "/assets/no-image.png"}
         priority
         isLoading={isLoading || false}
       />

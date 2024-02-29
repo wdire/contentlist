@@ -15,6 +15,13 @@ declare global {
       NEXT_PUBLIC_CLERK_SIGN_UP_URL: string;
       NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: string;
       NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: string;
+
+      /**
+       * Array of topic ids to show on home page
+       * Will be used with JSON.parse
+       * Example: [1,2,3]
+       */
+      HOME_TOPIC_IDS: string;
     }
   }
 }

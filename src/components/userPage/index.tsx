@@ -47,7 +47,7 @@ const UserPage = ({username}: {username: string}) => {
           <div className="flex gap-2">
             <div className="flex gap-5 flex-wrap w-full">
               {[1, 2, 3, 4].map((s) => (
-                <ListItemCard list={{id: 0, name: ""}} key={s} isLoading />
+                <ListItemCard list={{id: 0, name: "", imageUrl: null}} key={s} isLoading />
               ))}
             </div>
           </div>

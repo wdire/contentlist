@@ -8,15 +8,12 @@ export const listApi = createApi({
   baseQuery: axiosBaseQuery({baseUrl: "/api"}),
   tagTypes: ["List"],
   endpoints: (builder) => ({
-    getAll: builder.query<ListRequestTypes["/list/getAll"]["response"], void>({
+    getHomeLists: builder.query<ListRequestTypes["/list/getHomeLists"]["response"], void>({
       query: () => ({
-        url: "/list/getAll",
+        url: "/list/getHomeLists",
         method: "GET",
       }),
-      providesTags: (result) => [
-        {type: "List", id: "ALL"},
-        ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
-      ],
+      providesTags: () => [{type: "List", id: "ALL"}],
     }),
     get: builder.query<
       ApiRequestTypes["/list/get"]["response"],
@@ -87,7 +84,7 @@ export const listApi = createApi({
 });
 
 export const {
-  useGetAllQuery,
+  useGetHomeListsQuery,
   useGetQuery,
   useUpdateMutation,
   useDeleteMutation,

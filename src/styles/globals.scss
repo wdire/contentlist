@@ -65,6 +65,13 @@ body::-webkit-scrollbar {
   @apply bg-content4 rounded-xl;
 }
 
+.hide-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
+
 @media (max-width: 640px) {
   :root {
     --page-top-space: 1.5rem;

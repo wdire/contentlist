@@ -84,15 +84,36 @@ export type ListRequestTypes = {
       }>
     >;
   };
-  "/list/getAll": {
+  "/list/getHomeLists": {
     response: ResponseBodyType<
-      Prisma.ListGetPayload<{
+      Prisma.TopicGetPayload<{
         select: {
           id: true;
           name: true;
+          ListInTopic: {
+            select: {
+              index: true;
+              list: {
+                select: {
+                  id: true;
+                  name: true;
+                  imageUrl: true;
+                };
+              };
+            };
+          };
         };
       }>[]
     >;
+    types: {
+      list: Prisma.ListGetPayload<{
+        select: {
+          id: true;
+          name: true;
+          imageUrl: true;
+        };
+      }>;
+    };
   };
   "/list/update": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;

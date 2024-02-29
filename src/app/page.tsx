@@ -1,5 +1,5 @@
 import SectionContainer from "@/components/common/SectionContainer";
-import ListItems from "@/components/home/listItems";
+import TopicLists from "@/components/home/TopicLists";
 
 export default function Home() {
   return (
@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </SectionContainer>
 
-      <ListItems />
+      <TopicLists />
     </>
   );
 }
