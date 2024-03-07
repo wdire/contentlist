@@ -10,7 +10,8 @@ import {createNewRow} from "@/lib/utils/createList.utils";
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 const CreateImage = dynamic(() => import("./CreateImage"));
 
-// TODO: Add button to auto generate list image
+// DONE: Add button to auto generate list image
+// TODO: Connect image upload system, create and save new thumbnail image on list save
 
 const ListActions = () => {
   const dispatch = useAppDispatch();

@@ -43,7 +43,14 @@ const ContentCard = memo(function ContentCard({content}: Props) {
   const showName = useAppSelector((state) => state.list.showName);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={wrapperClassName}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className={wrapperClassName}
+      data-contentcard="true"
+    >
       <Image
         src={content.data.image_url}
         width={80}
