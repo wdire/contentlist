@@ -16,12 +16,14 @@ export const withValidation = async <B = null, P = null>(
     paramsUrl,
     bodySchema,
     paramsSchema,
+    formdataSchema,
   }: {
     _request?: Request;
     _params?: RequestParams; // next.js params like /get/123
     paramsUrl?: string; // params like /search?query=abc&lang=en
     bodySchema?: ZodType;
     paramsSchema?: ZodType;
+    formdataSchema?: ZodType;
   },
   handler: (props: BodyAndParams<B, P>) => Promise<Response>,
 ) => {
@@ -31,11 +33,27 @@ export const withValidation = async <B = null, P = null>(
       params: null as P,
     };
 
-    if (bodySchema) {
+    if (bodySchema || formdataSchema) {
       if (!_request?.body) {
         return CreateResponse({status: 500, message: "Couldn't recieve request for validation"});
       }
-      props.body = await bodySchema.parse(await _request.json());
+
+      if (formdataSchema) {
+        const receivedFormdata = await _request.formData();
+        const formdataObject: {[key: string]: unknown} = {};
+
+        Array.from(receivedFormdata.entries()).forEach(([key, value]) => {
+          if (key === "body") {
+            formdataObject[key] = JSON.parse(value as string);
+          } else {
+            formdataObject[key] = value;
+          }
+        });
+
+        props.body = await formdataSchema.parse(formdataObject);
+      } else if (bodySchema) {
+        props.body = await bodySchema.parse(await _request.json());
+      }
     }
 
     if (paramsSchema) {

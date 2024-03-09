@@ -20,8 +20,8 @@ export const ListItemCard = ({
         "flex-shrink-0 inline-block rounded-xl overflow-hidden relative transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
         {
           "pointer-events-none": isLoading,
-          "w-[calc(50%-10px)] sm:w-[167px] sm:h-[200px]": !xScrollParent,
-          "w-[140px] sm:w-[167px] sm:h-[200px]": xScrollParent,
+          "w-[calc(50%-10px)] sm:w-[222px] sm:h-[266px]": !xScrollParent,
+          "w-[140px] sm:w-[222px] sm:h-[266px]": xScrollParent,
         },
       )}
     >
@@ -34,14 +34,21 @@ export const ListItemCard = ({
         classNames={{
           wrapper: "rounded-none",
         }}
-        src={list.imageUrl || "/assets/no-image.png"}
+        src={
+          list.cloudinaryImage?.publicId
+            ? `https://res.cloudinary.com/dgib2iezn/image/upload/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`
+            : "/assets/no-image.png"
+        }
         priority
         isLoading={isLoading || false}
       />
 
       <Skeleton
         isLoaded={!isLoading}
-        className="absolute min-h-[33px] bottom-0 z-10 p-3 h-auto subpixel-antialiased rounded-b-xl border-b-1  border-white/20 bg-content1/50 backdrop-blur backdrop-saturate-100 overflow-hidden py-1 shadow-small w-full"
+        className="absolute bottom-0 z-10 p-3 h-auto subpixel-antialiased rounded-b-xl border-b-1  border-white/20 bg-content1/50 backdrop-blur backdrop-saturate-100 overflow-hidden py-1 shadow-small w-full"
+        classNames={{
+          content: "min-h-[35px] flex items-center",
+        }}
       >
         {list.name}
       </Skeleton>

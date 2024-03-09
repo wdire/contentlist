@@ -27,6 +27,15 @@ const ListContentSchema = z.object({
     .nullable(),
 }) satisfies ZodType<PrismaJson.ContentType>;
 
+const ImageSchema = z
+  .any()
+  .refine((file) => file instanceof File, "Image should be a file.")
+  .refine((file) => {
+    return file?.size <= 1024 * 1024 * 5;
+  }, `Max image size is 5MB.`)
+  .refine((file) => ["image/png"].includes(file?.type), "Only .png format is supported.")
+  .optional();
+
 const ListObjectSchema = z.object({
   name: z.string(),
   rows: z.array(
@@ -44,6 +53,11 @@ const ListObjectSchema = z.object({
   storage: PrismaJson.ContentType[];
 }>;
 
+const ListUpdateCreateSchema = z.object({
+  body: ListObjectSchema,
+  image: ImageSchema,
+});
+
 export const ListSchemas = {
   "/list/get": {
     params: z.object({
@@ -52,6 +66,7 @@ export const ListSchemas = {
   },
   "/list/update": {
     body: ListObjectSchema,
+    formdata: ListUpdateCreateSchema,
     params: z.object({
       id: ZodDbId,
     }),
@@ -97,7 +112,12 @@ export type ListRequestTypes = {
                 select: {
                   id: true;
                   name: true;
-                  imageUrl: true;
+                  cloudinaryImage: {
+                    select: {
+                      publicId: true;
+                      version: true;
+                    };
+                  };
                 };
               };
             };
@@ -110,7 +130,12 @@ export type ListRequestTypes = {
         select: {
           id: true;
           name: true;
-          imageUrl: true;
+          cloudinaryImage: {
+            select: {
+              publicId: true;
+              version: true;
+            };
+          };
         };
       }>;
     };
@@ -118,6 +143,7 @@ export type ListRequestTypes = {
   "/list/update": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;
     body: ZodTypeOf<(typeof ListSchemas)["/list/update"]["body"]>;
+    formdata: ZodTypeOf<(typeof ListSchemas)["/list/update"]["formdata"]>;
     response: ResponseBodyType<Prisma.ListGetPayload<object>>;
   };
   "/list/create": {
@@ -135,7 +161,12 @@ export type ListRequestTypes = {
         select: {
           id: true;
           name: true;
-          imageUrl: true;
+          cloudinaryImage: {
+            select: {
+              publicId: true;
+              version: true;
+            };
+          };
         };
       }>[]
     >;

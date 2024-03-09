@@ -26,16 +26,17 @@ model User {
 }
 
 model List {
-  id          Int           @id @unique @default(autoincrement())
-  name        String
-  user        User          @relation(fields: [userId], references: [id])
-  userId      String
-  imageUrl    String?
-  private     Boolean       @default(false)
-  edited      Boolean       @default(false)
-  ListInTopic ListInTopic[]
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @default(now())
+  id                Int              @id @unique @default(autoincrement())
+  name              String
+  user              User             @relation(fields: [userId], references: [id])
+  userId            String
+  cloudinaryImage   CloudinaryImage? @relation(fields: [cloudinaryImageId], references: [id])
+  cloudinaryImageId String?          @unique
+  private           Boolean          @default(false)
+  edited            Boolean          @default(false)
+  ListInTopic       ListInTopic[]
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @default(now())
 
   /// [ListData]
   contentsData Json
@@ -50,7 +51,7 @@ model Topic {
 }
 
 model ListInTopic {
-  list    List  @relation(fields: [listId], references: [id])
+  list    List  @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId  Int
   index   Int?
   topic   Topic @relation(fields: [topicId], references: [id])
@@ -61,4 +62,12 @@ model ListInTopic {
   @@unique([topicId, listId])
   @@index([listId], name: "idx_listInTopic_listId")
   @@index([topicId], name: "idx_listInTopic_topicId")
+}
+
+model CloudinaryImage {
+  id       String @id @default(cuid())
+  publicId String @unique
+  format   String
+  version  String
+  List     List?
 }

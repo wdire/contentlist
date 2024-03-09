@@ -38,6 +38,7 @@
     "@rtk-query/graphql-request-base-query": "^2.3.1",
     "@types/lodash.debounce": "^4.0.9",
     "axios": "^1.6.7",
+    "cloudinary": "^2.0.3",
     "clsx": "^2.1.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.3",

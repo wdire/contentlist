@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
 
-const test_user_id = "user_2cPMYROVpKIfiWfQBYQBQnmbaxR";
+const test_user_id = "user_2cPMYROVpKIfiWfQBYQBQnmeexR";
 const topic_id = 1;
 const topic_name = "Anime";
 

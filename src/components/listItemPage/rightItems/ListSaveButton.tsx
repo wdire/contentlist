@@ -1,4 +1,5 @@
 import {createListFromDnd} from "@/lib/utils/createList.utils";
+import {listThumbnailGenerate} from "@/lib/utils/imageCreate.utils";
 import {useUpdateMutation} from "@/services/listApi";
 
 import {useAppSelector} from "@/store";
@@ -13,7 +14,16 @@ const ListSaveButton = () => {
 
   const handleSaveClick = async () => {
     try {
-      await trigger(createListFromDnd(list));
+      const createdList = createListFromDnd(list);
+      const listImagefile = await listThumbnailGenerate();
+
+      await trigger({
+        formdata: {
+          body: createdList.body,
+          image: listImagefile,
+        },
+        params: createdList.params,
+      });
     } catch (err) {
       console.error(err);
     }

@@ -23,3 +23,7 @@ export const rowColors = [
   "white",
   "yellow",
 ] as const;
+
+// API
+export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
+export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;

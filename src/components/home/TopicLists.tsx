@@ -27,9 +27,9 @@ const TopicLists = () => {
             <div>
               <Skeleton className="w-32 rounded-medium h-8 mb-4" />
               <div className={listsWrapperClass}>
-                {[1, 2, 3, 4, 5, 6].map((l, i) => (
+                {[1, 2, 3, 4, 5].map((l, i) => (
                   <ListItemCard
-                    list={{id: 0, name: "", imageUrl: null}}
+                    list={{id: 0, name: "", cloudinaryImage: null}}
                     key={i}
                     xScrollParent
                     isLoading
@@ -40,9 +40,9 @@ const TopicLists = () => {
             <div>
               <Skeleton className="w-32 rounded-medium h-8 mb-4" />
               <div className={listsWrapperClass}>
-                {[1, 2, 3, 4, 5, 6].map((l, i) => (
+                {[1, 2, 3, 4, 5].map((l, i) => (
                   <ListItemCard
-                    list={{id: 0, name: "", imageUrl: null}}
+                    list={{id: 0, name: "", cloudinaryImage: null}}
                     key={i}
                     xScrollParent
                     isLoading
