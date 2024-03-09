@@ -20,7 +20,7 @@ model User {
   imageUrl   String?
   List       List[]
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([username], name: "idx_user_username")
 }
@@ -36,7 +36,7 @@ model List {
   edited            Boolean          @default(false)
   ListInTopic       ListInTopic[]
   created_at        DateTime         @default(now())
-  updated_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
 
   /// [ListData]
   contentsData Json

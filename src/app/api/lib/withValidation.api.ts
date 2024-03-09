@@ -80,12 +80,16 @@ export const withValidation = async <B = null, P = null>(
       if (error instanceof AxiosError) {
         return CreateResponse({status: 406, error: error?.message});
       }
+
+      console.error("Unknown error:", error);
       return CreateResponse({status: 500});
     }
   } catch (error) {
     if (error instanceof ZodError) {
       return CreateResponse({status: 406, error: error.issues});
     }
+
+    console.error("Unknown validation error:", error);
 
     return CreateResponse({status: 406, error: "Error occured on validation"});
   }
