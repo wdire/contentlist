@@ -71,6 +71,7 @@ export const withValidation = async <B = null, P = null>(
     try {
       return await handler(props);
     } catch (error) {
+      console.error("Route handler error", error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
           return CreateResponse({status: 404, error: "Missing record to perform the action."});
@@ -81,7 +82,7 @@ export const withValidation = async <B = null, P = null>(
         return CreateResponse({status: 406, error: error?.message});
       }
 
-      console.error("Unknown error:", error);
+      console.error("Unknown route handler error", error);
       return CreateResponse({status: 500});
     }
   } catch (error) {
@@ -89,7 +90,12 @@ export const withValidation = async <B = null, P = null>(
       return CreateResponse({status: 406, error: error.issues});
     }
 
-    console.error("Unknown validation error:", error);
+    if (error instanceof SyntaxError) {
+      // Json error
+      return CreateResponse({status: 406, error: "Request body must be non-empty json object"});
+    }
+
+    console.error("Unknown validation error", error);
 
     return CreateResponse({status: 406, error: "Error occured on validation"});
   }

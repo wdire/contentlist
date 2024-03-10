@@ -20,6 +20,9 @@ declare global {
       CLOUDINARY_API_KEY: string;
       CLOUDINARY_API_SECRET: string;
 
+      TWITCH_CLIENT_ID: string;
+      TWITCH_CLIENT_SECRET: string;
+
       /**
        * Array of topic ids to show on home page
        * Will be used with JSON.parse
