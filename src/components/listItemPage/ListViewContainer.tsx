@@ -139,7 +139,7 @@ function ListViewContainer() {
                 contents={contents.filter((content) => content.rowId === activeRow.id)}
               />
             )}
-            {activeContent && <ContentCard content={activeContent} />}
+            {activeContent && <ContentCard content={activeContent} dragOverlay />}
           </DragOverlay>
         </DndContext>
       </div>

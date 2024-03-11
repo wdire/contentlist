@@ -104,6 +104,10 @@ export const createListFromDnd = (
                 source: c.data.source,
               };
 
+              if (c.data.notPoster) {
+                newC.notPoster = c.data.notPoster;
+              }
+
               if (c.data.source === "tmdb") {
                 newC.tmdb = c.data.tmdb;
               } else if (c.data.source === "anilist") {
@@ -128,6 +132,10 @@ export const createListFromDnd = (
           image_url: c.data.image_url,
           source: c.data.source,
         };
+
+        if (c.data.notPoster) {
+          newC.notPoster = c.data.notPoster;
+        }
 
         if (c.data.source === "tmdb") {
           newC.tmdb = c.data.tmdb;

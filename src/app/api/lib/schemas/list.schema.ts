@@ -11,6 +11,7 @@ const ListContentSchema = z.object({
   name: z.string(),
   image_url: z.string(),
   source: z.enum(ContentSourceType),
+  notPoster: z.boolean().optional(),
   tmdb: z
     .object({
       id: z.number(),

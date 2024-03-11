@@ -1,8 +1,14 @@
 import {ContentInfoType} from "@/lib/types/list.type";
 import {ContentMediaName} from "@/lib/utils/helper.utils";
-import {Avatar} from "@nextui-org/react";
+import Image from "next/image";
 
-const SearchResult = ({info, onClick}: {info: ContentInfoType; onClick?: () => void}) => {
+type SearchResultProps = {
+  info: ContentInfoType;
+  onClick?: () => void;
+  notPoster?: PrismaJson.ContentType["notPoster"];
+};
+
+const SearchResult = ({info, onClick, notPoster = true}: SearchResultProps) => {
   const getMediaName = () => {
     if (info.source === "anilist") {
       return info.anilist?.type as ContentMediaName;
@@ -22,11 +28,11 @@ const SearchResult = ({info, onClick}: {info: ContentInfoType; onClick?: () => v
   return (
     <div className="flex justify-between items-center" aria-label={info.name} onClick={onClick}>
       <div className="flex gap-2 max-w-full items-center">
-        <Avatar
+        <Image
           alt={info.name}
-          className="flex-shrink-0"
-          size="lg"
-          radius="none"
+          className={`flex-shrink-0 max-h-[84px] ${notPoster ? "object-contain" : "object-cover h-[84px]"}`}
+          width={56}
+          height={84}
           src={info.image_url}
           aria-label={info.name}
         />
