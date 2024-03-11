@@ -3,9 +3,21 @@ import {ContentMediaName} from "@/lib/utils/helper.utils";
 import {Avatar} from "@nextui-org/react";
 
 const SearchResult = ({info, onClick}: {info: ContentInfoType; onClick?: () => void}) => {
-  const mediaType = (
-    info.source === "anilist" ? info.anilist?.type.toLocaleLowerCase() : info.tmdb?.media_type
-  ) as ContentMediaName;
+  const getMediaName = () => {
+    if (info.source === "anilist") {
+      return info.anilist?.type as ContentMediaName;
+    }
+    if (info.source === "tmdb") {
+      return info.tmdb?.media_type as ContentMediaName;
+    }
+    if (info.source === "igdb") {
+      return "game" as ContentMediaName;
+    }
+
+    return null;
+  };
+
+  const mediaType = getMediaName();
 
   return (
     <div className="flex justify-between items-center" aria-label={info.name} onClick={onClick}>

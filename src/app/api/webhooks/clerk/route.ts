@@ -4,8 +4,6 @@ import {WebhookEvent} from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import {redirect} from "next/navigation";
 
-// TODO: Add/update created_at and updated_at for User and List
-
 export async function POST(req: Request) {
   const {CLERK_WEBHOOK_SECRET} = process.env;
 

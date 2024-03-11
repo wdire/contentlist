@@ -10,13 +10,14 @@ export const randColor = () => {
   return rowColors[Math.floor(Math.random() * rowColors.length)];
 };
 
-export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType]: string} = {
+export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType | "game"]: string} = {
   anime: "Anime",
   manga: "Manga",
   character: "Character",
   movie: "Movie",
   person: "Person",
   tv: "Tv",
+  game: "Game",
 };
 
 export type ContentMediaName = keyof typeof ContentMediaName;

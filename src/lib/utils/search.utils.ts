@@ -102,7 +102,7 @@ export const getContentInfoFromIgdbGame = ({
 }): ContentInfoType[] => {
   return (
     data?.map((item) => {
-      if (item.id && item.name && item.cover.image_id) {
+      if (item?.id && item?.name && item?.cover?.image_id) {
         const returnData: ContentInfoType = {
           name: item.name,
           image_url: `${IGDB_IMAGE_URL_BASE + item.cover.image_id}.png`,
