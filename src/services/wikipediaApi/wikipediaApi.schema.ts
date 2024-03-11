@@ -18,6 +18,16 @@ type WikipediaSearchPageResult = {
   };
   query: {
     pages: WikipediaSearchPageResultItem[];
+    redirects?: {
+      index: number;
+      from: string;
+      to: string;
+    }[];
+    prefixsearch: {
+      ns: number;
+      pageid: number;
+      title: string;
+    }[];
   };
 };
 
@@ -31,5 +41,4 @@ type WikipediaSearchPageResultItem = {
     width: number;
     height: number;
   };
-  pageimage: string;
 };

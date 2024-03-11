@@ -17,17 +17,26 @@ export const wikipediaApi = createApi({
           action: "query",
           format: "json",
           prop: "pageimages",
-          exportschema: "0.10",
+          list: "prefixsearch",
           generator: "prefixsearch",
-          formatversion: "2",
+          redirects: "1",
+          piprop: "thumbnail",
           pithumbsize: "500",
           pilicense: "any",
+          pssearch: query,
+          psnamespace: "0",
           gpssearch: query,
           gpsnamespace: "0",
+          formatversion: "2",
           origin: "*",
         },
         method: "GET",
       }),
+      transformResponse: (response: WikipediaRequestTypes["search"]["response"]) => {
+        response.query.pages.sort((a, b) => a.index - b.index);
+
+        return response;
+      },
     }),
   }),
 });
