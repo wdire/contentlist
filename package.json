@@ -19,7 +19,7 @@
     "migrate:reset": "prisma migrate reset",
     "migrate:deploy": "prisma migrate deploy",
     "tsc": "npx tsc --noEmit",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && patch-package",
     "generate-types:anilist": "npx graphql-code-generator --config ./scripts/anilist-ts-gen.ts && prettier --write \"./src/services/anilistApi/**/*.{ts,tsx}\" && eslint --fix ./src/services/anilistApi"
   },
   "dependencies": {
@@ -48,6 +48,7 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.319.0",
     "next": "^14.1.0",
+    "patch-package": "^8.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "prisma": "^5.10.2",
