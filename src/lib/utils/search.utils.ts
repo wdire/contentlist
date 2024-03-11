@@ -5,6 +5,7 @@ import {
   MediaType as AnilistGeneratedMediaType,
 } from "@/services/anilistApi/anilist.generated";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
+import {WikipediaRequestTypes} from "@/services/wikipediaApi/wikipediaApi.schema";
 import {ContentInfoType} from "../types/list.type";
 import {IGDB_IMAGE_URL_BASE} from "../constants";
 
@@ -109,6 +110,31 @@ export const getContentInfoFromIgdbGame = ({
           source: "igdb",
           igdb: {
             id: item.id,
+          },
+        };
+
+        return returnData;
+      }
+
+      return null;
+    }) || []
+  ).filter((item): item is ContentInfoType => item !== null);
+};
+
+export const getContentInfoFromWikipedia = ({
+  data,
+}: {
+  data: WikipediaRequestTypes["search"]["types"]["WikipediaSearchPageResultItem"][];
+}): ContentInfoType[] => {
+  return (
+    data?.map((item) => {
+      if (item?.pageid && item?.title && item?.thumbnail?.source) {
+        const returnData: ContentInfoType = {
+          name: item.title,
+          image_url: item?.thumbnail?.source,
+          source: "wikipedia",
+          wikipedia: {
+            id: item.pageid,
           },
         };
 

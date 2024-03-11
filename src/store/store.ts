@@ -6,6 +6,7 @@ import {tmdbApi} from "@/services/tmdbApi";
 import {userApi} from "@/services/userApi";
 import {anilistApi} from "@/services/anilistApi";
 import {igdbApi} from "@/services/igdbApi";
+import {wikipediaApi} from "@/services/wikipediaApi";
 
 export const makeStore = () => {
   return configureStore({
@@ -15,6 +16,7 @@ export const makeStore = () => {
       [userApi.reducerPath]: userApi.reducer,
       [anilistApi.reducerPath]: anilistApi.reducer,
       [igdbApi.reducerPath]: igdbApi.reducer,
+      [wikipediaApi.reducerPath]: wikipediaApi.reducer,
       search: searchReducer,
       list: listReducer,
     },
@@ -25,6 +27,7 @@ export const makeStore = () => {
         userApi.middleware,
         anilistApi.middleware,
         igdbApi.middleware,
+        wikipediaApi.middleware,
       ),
   });
 };

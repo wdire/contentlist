@@ -31,6 +31,12 @@ const ListContentSchema = z.object({
     })
     .optional()
     .nullable(),
+  wikipedia: z
+    .object({
+      id: z.number(),
+    })
+    .optional()
+    .nullable(),
 }) satisfies ZodType<PrismaJson.ContentType>;
 
 const ImageSchema = z

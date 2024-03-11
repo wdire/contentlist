@@ -20,6 +20,9 @@ const nextConfig = {
       {
         hostname: "images.igdb.com",
       },
+      {
+        hostname: "upload.wikimedia.org",
+      },
     ],
   },
 

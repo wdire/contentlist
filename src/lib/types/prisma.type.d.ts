@@ -38,6 +38,7 @@ declare global {
       tmdb?: TmdbDetailsType | null;
       anilist?: AnilistDetailsType | null;
       igdb?: IgdbDetailsType | null;
+      wikipedia?: WikipediaDetailsType | null;
     };
 
     type TmdbDetailsType = {
@@ -51,6 +52,10 @@ declare global {
     };
 
     type IgdbDetailsType = {
+      id: number;
+    };
+
+    type WikipediaDetailsType = {
       id: number;
     };
   }

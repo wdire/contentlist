@@ -13,7 +13,9 @@ import {
   getContentInfoFromAnilistCharacter,
   getContentInfoFromAnilistMedia,
   getContentInfoFromIgdbGame,
+  getContentInfoFromWikipedia,
 } from "@/lib/utils/search.utils";
+import {wikipediaSearchInitiate} from "@/services/wikipediaApi";
 
 const SearchInput = () => {
   const dispatch = useAppDispatch();
@@ -69,6 +71,18 @@ const SearchInput = () => {
 
           dispatch(
             searchActions.setSearchResults(getContentInfoFromIgdbGame({data: result.data || []})),
+          );
+        } else if (searchSource === "wikipedia") {
+          const result = await dispatch(
+            wikipediaSearchInitiate({
+              query,
+            }),
+          ).unwrap();
+
+          dispatch(
+            searchActions.setSearchResults(
+              getContentInfoFromWikipedia({data: result.query.pages || []}),
+            ),
           );
         } else {
           console.error("Unkown search source, how did you do that?");

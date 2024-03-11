@@ -32,6 +32,8 @@ const SelectedSearchResult = () => {
       newContent.data.anilist = selectedResult.anilist;
     } else if (selectedResult.source === "igdb") {
       newContent.data.igdb = selectedResult.igdb;
+    } else if (selectedResult.source === "wikipedia") {
+      newContent.data.wikipedia = selectedResult.wikipedia;
     }
 
     dispatch(listActions.addContent(newContent));

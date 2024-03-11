@@ -110,6 +110,8 @@ export const createListFromDnd = (
                 newC.anilist = c.data.anilist;
               } else if (c.data.source === "igdb") {
                 newC.igdb = c.data.igdb;
+              } else if (c.data.source === "wikipedia") {
+                newC.wikipedia = c.data.wikipedia;
               } else {
                 console.error("Content source not found");
               }
@@ -133,6 +135,8 @@ export const createListFromDnd = (
           newC.anilist = c.data.anilist;
         } else if (c.data.source === "igdb") {
           newC.igdb = c.data.igdb;
+        } else if (c.data.source === "wikipedia") {
+          newC.wikipedia = c.data.wikipedia;
         } else {
           console.error("Content source not found");
         }
