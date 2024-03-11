@@ -108,6 +108,10 @@ export const createListFromDnd = (
                 newC.tmdb = c.data.tmdb;
               } else if (c.data.source === "anilist") {
                 newC.anilist = c.data.anilist;
+              } else if (c.data.source === "igdb") {
+                newC.igdb = c.data.igdb;
+              } else {
+                console.error("Content source not found");
               }
 
               return newC;
@@ -127,6 +131,10 @@ export const createListFromDnd = (
           newC.tmdb = c.data.tmdb;
         } else if (c.data.source === "anilist") {
           newC.anilist = c.data.anilist;
+        } else if (c.data.source === "igdb") {
+          newC.igdb = c.data.igdb;
+        } else {
+          console.error("Content source not found");
         }
 
         return newC;

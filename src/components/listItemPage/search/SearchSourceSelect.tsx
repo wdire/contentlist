@@ -23,7 +23,6 @@ const SearchSourceSelect = () => {
       className="mb-3"
       radius="md"
       selectedKeys={[searchSource]}
-      disabledKeys={["igdb"]}
       listboxProps={{
         itemClasses: {
           base: "h-10",

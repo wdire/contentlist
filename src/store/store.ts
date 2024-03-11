@@ -5,6 +5,7 @@ import {listApi} from "@/services/listApi";
 import {tmdbApi} from "@/services/tmdbApi";
 import {userApi} from "@/services/userApi";
 import {anilistApi} from "@/services/anilistApi";
+import {igdbApi} from "@/services/igdbApi";
 
 export const makeStore = () => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
       [listApi.reducerPath]: listApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
       [anilistApi.reducerPath]: anilistApi.reducer,
+      [igdbApi.reducerPath]: igdbApi.reducer,
       search: searchReducer,
       list: listReducer,
     },
@@ -22,6 +24,7 @@ export const makeStore = () => {
         tmdbApi.middleware,
         userApi.middleware,
         anilistApi.middleware,
+        igdbApi.middleware,
       ),
   });
 };

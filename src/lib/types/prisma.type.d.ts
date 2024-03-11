@@ -37,6 +37,7 @@ declare global {
       source: ContentSourceType;
       tmdb?: TmdbDetailsType | null;
       anilist?: AnilistDetailsType | null;
+      igdb?: IgdbDetailsType | null;
     };
 
     type TmdbDetailsType = {
@@ -47,6 +48,10 @@ declare global {
     type AnilistDetailsType = {
       id: number;
       type: AnilistMediaType;
+    };
+
+    type IgdbDetailsType = {
+      id: number;
     };
   }
 }

@@ -40,3 +40,5 @@ export const tmdbApi = createApi({
     }),
   }),
 });
+
+export const {initiate: tmdbSearchMultiInitiate} = tmdbApi.endpoints.searchMulti;

@@ -6,6 +6,8 @@ import {useAppSelector} from "@/store";
 import {Button} from "@nextui-org/react";
 import React, {useMemo} from "react";
 
+// TODO: Create image only if first 12 contents changed
+
 const ListSaveButton = () => {
   const list = useAppSelector((state) => state.list);
   const hasUnsavedChanges = useAppSelector((state) => state.list.hasUnsavedChanges);

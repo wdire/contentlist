@@ -30,6 +30,8 @@ const SelectedSearchResult = () => {
       newContent.data.tmdb = selectedResult.tmdb;
     } else if (selectedResult.source === "anilist") {
       newContent.data.anilist = selectedResult.anilist;
+    } else if (selectedResult.source === "igdb") {
+      newContent.data.igdb = selectedResult.igdb;
     }
 
     dispatch(listActions.addContent(newContent));

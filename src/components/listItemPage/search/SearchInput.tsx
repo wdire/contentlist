@@ -4,14 +4,16 @@ import {Input} from "@nextui-org/react";
 import debounce from "lodash.debounce";
 import {SearchIcon} from "lucide-react";
 import {useEffect, useMemo} from "react";
-import {tmdbApi} from "@/services/tmdbApi";
-import {anilistApi} from "@/services/anilistApi";
+import {tmdbSearchMultiInitiate} from "@/services/tmdbApi";
+import {AnilistGetCharacterListInitiate, AnilistGetMediaListInitiate} from "@/services/anilistApi";
+import {MediaSort, MediaType} from "@/services/anilistApi/anilist.generated";
+import {igdbSearchGamesInitiate} from "@/services/igdbApi";
 import {
+  getContentInfoFromTmdb,
   getContentInfoFromAnilistCharacter,
   getContentInfoFromAnilistMedia,
-  getContentInfoFromTmdb,
-} from "@/lib/utils/helper.utils";
-import {MediaSort, MediaType} from "@/services/anilistApi/anilist.generated";
+  getContentInfoFromIgdbGame,
+} from "@/lib/utils/search.utils";
 
 const SearchInput = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,7 @@ const SearchInput = () => {
 
         if (searchSource === "tmdb") {
           const result = await dispatch(
-            tmdbApi.endpoints.searchMulti.initiate({
+            tmdbSearchMultiInitiate({
               query,
             }),
           ).unwrap();
@@ -40,7 +42,7 @@ const SearchInput = () => {
           );
         } else if (searchSource === "anilist_anime" || searchSource === "anilist_manga") {
           const result = await dispatch(
-            anilistApi.endpoints.GetMediaList.initiate({
+            AnilistGetMediaListInitiate({
               search: query,
               sort: MediaSort.SearchMatch,
               type: searchSource === "anilist_anime" ? MediaType.Anime : MediaType.Manga,
@@ -50,7 +52,7 @@ const SearchInput = () => {
           dispatch(searchActions.setSearchResults(getContentInfoFromAnilistMedia({data: result})));
         } else if (searchSource === "anilist_character") {
           const result = await dispatch(
-            anilistApi.endpoints.GetCharacterList.initiate({
+            AnilistGetCharacterListInitiate({
               search: query,
             }),
           ).unwrap();
@@ -58,6 +60,18 @@ const SearchInput = () => {
           dispatch(
             searchActions.setSearchResults(getContentInfoFromAnilistCharacter({data: result})),
           );
+        } else if (searchSource === "igdb") {
+          const result = await dispatch(
+            igdbSearchGamesInitiate({
+              query,
+            }),
+          ).unwrap();
+
+          dispatch(
+            searchActions.setSearchResults(getContentInfoFromIgdbGame({data: result.data || []})),
+          );
+        } else {
+          console.error("Unkown search source, how did you do that?");
         }
 
         dispatch(searchActions.setLoading(false));

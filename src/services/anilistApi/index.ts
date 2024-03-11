@@ -5,3 +5,8 @@ export const anilistApi = generatedApi.enhanceEndpoints({
     GetMediaList: {},
   },
 });
+
+export const {
+  GetCharacterList: {initiate: AnilistGetCharacterListInitiate},
+  GetMediaList: {initiate: AnilistGetMediaListInitiate},
+} = anilistApi.endpoints;
