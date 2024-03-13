@@ -11,8 +11,12 @@ const poppinsFont = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "ContentList",
-  description: "",
+  title: {
+    template: "%s - ContentList",
+    default: "ContentList",
+  },
+  description:
+    "Create best to worst rankings easily. Add contents to your list by easily searching and drag into group with similar ranked contents.",
 };
 
 export default function RootLayout({

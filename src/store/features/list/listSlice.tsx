@@ -53,6 +53,7 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.info = action.payload.info;
+      state.fetchLoading = false;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
@@ -171,7 +172,6 @@ export const listSlice = createSlice({
 
         if (state.contents[activeIndex].rowId !== state.contents[overIndex].rowId) {
           state.contents[activeIndex].rowId = state.contents[overIndex].rowId;
-          console.log("HEEYYY", activeIndex, overIndex);
           state.contents = arrayMove(state.contents, activeIndex, overIndex - 1);
         }
 

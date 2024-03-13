@@ -1,29 +1,29 @@
 "use client";
 
-import {useGetQuery} from "@/services/listApi";
 import {useCallback, useEffect} from "react";
 import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {useUser} from "@clerk/nextjs";
 import {useRouter} from "next/navigation";
 import {createListFromDb} from "@/lib/utils/createList.utils";
+import {ListByIdResponse} from "@/services/fetch/listFetch";
 import ListViewContainer from "./ListViewContainer";
 
-const ListItemPage = ({id}: {id: string}) => {
-  const {data, isFetching, error} = useGetQuery({id: Number(id)});
+const ListItemPage = ({list}: {list: ListByIdResponse}) => {
   const {user} = useUser();
   const router = useRouter();
 
   const dispatch = useAppDispatch();
 
   const init = useCallback(async () => {
-    if (data?.data) {
+    if (list) {
       try {
         console.log("setting list");
+
         dispatch(
           listActions.initList(
             await createListFromDb({
-              listGetData: data?.data,
+              listGetData: list,
               currentUser: user,
             }),
           ),
@@ -32,13 +32,13 @@ const ListItemPage = ({id}: {id: string}) => {
         console.error("Error occured while transfering database data", err);
       }
     }
-  }, [data?.data, dispatch, user]);
+  }, [list, dispatch, user]);
 
   useEffect(() => {
-    if ((!isFetching && data?.data === null) || error) {
+    if (list === null) {
       router.replace("/");
     }
-  }, [router, isFetching, data?.data, error]);
+  }, [router, list]);
 
   useEffect(() => {
     init();
