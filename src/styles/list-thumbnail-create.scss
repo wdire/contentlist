@@ -9,6 +9,7 @@
 .thumbnail-c-con > div {
   width: 100%;
   height: 100%;
+  max-height: none;
 
   &:nth-child(1),
   &:nth-child(3),
@@ -16,6 +17,5 @@
   &:nth-child(10) {
     grid-column: span 2;
     grid-row: span 2;
-    max-height: none;
   }
 }
