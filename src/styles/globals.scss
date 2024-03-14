@@ -55,6 +55,7 @@ body::-webkit-scrollbar {
 
 ::-webkit-scrollbar {
   width: 4px;
+  @apply bg-content2 p-2;
 }
 
 ::-webkit-scrollbar:horizontal {
@@ -69,6 +70,24 @@ body::-webkit-scrollbar {
   &::-webkit-scrollbar {
     width: 0px;
     height: 0px;
+  }
+}
+
+.terms-container {
+  p {
+    @apply mb-3;
+  }
+
+  ul {
+    @apply list-disc ml-8 mb-3;
+  }
+
+  a {
+    @apply text-primary transition-opacity hover:opacity-80;
+  }
+
+  h2 {
+    @apply text-xl font-bold mb-2 mt-6;
   }
 }
 

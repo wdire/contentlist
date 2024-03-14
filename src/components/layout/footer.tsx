@@ -29,13 +29,32 @@ const Footer = () => {
             See more details.
           </a>
         </div>
-        <div className="flex items-center w-full h-full text-sm gap-3">
-          <Link className={policyClass} href="#">
-            Terms of Service
-          </Link>
-          <Link className={policyClass} href="#">
-            Privacy Policy
-          </Link>
+        <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
+            <Link className={policyClass} href="/legal/terms-of-service">
+              Terms of Service
+            </Link>
+            <Link
+              className={policyClass}
+              target="_blank"
+              href="https://www.iubenda.com/privacy-policy/93141495"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              className={policyClass}
+              target="_blank"
+              href="https://www.iubenda.com/privacy-policy/93141495/cookie-policy"
+            >
+              Cookie Policy
+            </Link>
+          </div>
+          <div>
+            Contact{" "}
+            <a href="mailto:contentlist.rank@gmail.com" className={policyClass}>
+              contentlist.rank@gmail.com
+            </a>
+          </div>
         </div>
       </SectionContainer>
     </div>
