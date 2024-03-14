@@ -11,6 +11,8 @@ import SearchContainer from "./search/SearchContainer";
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
+// TODO: Add "Sources" button to show sources
+
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);
