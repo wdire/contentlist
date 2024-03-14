@@ -35,6 +35,10 @@ const ListPage = async ({params}: {params: {id: string}}) => {
 
   const list = await getListById(params.id);
 
+  if (list === null) {
+    redirect("/404", RedirectType.replace);
+  }
+
   return <ListItemPage list={list} />;
 };
 

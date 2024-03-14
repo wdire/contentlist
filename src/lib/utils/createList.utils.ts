@@ -8,13 +8,13 @@ import {generateId} from "./helper.utils";
 import {STORAGE_ROW_ID} from "../constants";
 import {defaultNewListInfo} from "../config";
 
-export const createListFromDb = async ({
+export const createListFromDb = ({
   listGetData,
   currentUser,
 }: {
   listGetData: ListRequestTypes["/list/get"]["response"]["data"];
   currentUser: UserResource | null | undefined;
-}): Promise<InitListProps> => {
+}): InitListProps => {
   if (!listGetData) {
     throw Error("No listGetData found");
   }

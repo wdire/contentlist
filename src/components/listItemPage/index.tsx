@@ -4,14 +4,12 @@ import {useCallback, useEffect} from "react";
 import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {useUser} from "@clerk/nextjs";
-import {useRouter} from "next/navigation";
 import {createListFromDb} from "@/lib/utils/createList.utils";
 import {ListByIdResponse} from "@/services/fetch/listFetch";
 import ListViewContainer from "./ListViewContainer";
 
 const ListItemPage = ({list}: {list: ListByIdResponse}) => {
   const {user} = useUser();
-  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -22,7 +20,7 @@ const ListItemPage = ({list}: {list: ListByIdResponse}) => {
 
         dispatch(
           listActions.initList(
-            await createListFromDb({
+            createListFromDb({
               listGetData: list,
               currentUser: user,
             }),
@@ -33,12 +31,6 @@ const ListItemPage = ({list}: {list: ListByIdResponse}) => {
       }
     }
   }, [list, dispatch, user]);
-
-  useEffect(() => {
-    if (list === null) {
-      router.replace("/");
-    }
-  }, [router, list]);
 
   useEffect(() => {
     init();
