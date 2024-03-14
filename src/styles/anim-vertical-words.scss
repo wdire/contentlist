@@ -5,7 +5,7 @@
     animation: animUl 7s ease infinite;
     background: var(--rowColor-red);
 
-    @apply overflow-hidden block relative rounded-lg h-9 sm:h-10 list-none m-0;
+    @apply overflow-hidden block relative rounded-lg h-9 sm:h-10 list-none m-0 w-[89px] sm:w-[124px];
 
     li {
       animation: animLi 7s infinite;

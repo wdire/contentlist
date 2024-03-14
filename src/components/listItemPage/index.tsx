@@ -1,6 +1,6 @@
 "use client";
 
-import {useCallback, useEffect} from "react";
+import {useEffect} from "react";
 import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {useUser} from "@clerk/nextjs";
@@ -13,30 +13,30 @@ const ListItemPage = ({list}: {list: ListByIdResponse}) => {
 
   const dispatch = useAppDispatch();
 
-  const init = useCallback(async () => {
-    if (list) {
-      try {
-        console.log("setting list");
-
-        dispatch(
-          listActions.initList(
-            createListFromDb({
-              listGetData: list,
-              currentUser: user,
-            }),
-          ),
-        );
-      } catch (err) {
-        console.error("Error occured while transfering database data", err);
-      }
-    }
-  }, [list, dispatch, user]);
-
   useEffect(() => {
-    init();
-  }, [init]);
+    try {
+      console.log("setting list");
 
-  return <ListViewContainer />;
+      document.title = `${list.name} - ContentList`;
+
+      dispatch(
+        listActions.initList(
+          createListFromDb({
+            listGetData: list,
+            currentUser: user,
+          }),
+        ),
+      );
+    } catch (err) {
+      console.error("Error occured while transfering database data", err);
+    }
+  }, [dispatch, list, user]);
+
+  return (
+    <>
+      <ListViewContainer />
+    </>
+  );
 };
 
 export default ListItemPage;

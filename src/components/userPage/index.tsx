@@ -1,68 +1,18 @@
-"use client";
-
-import {useGetQuery} from "@/services/userApi";
 import React from "react";
 import Image from "next/image";
-import {useGetAllByUserIdQuery} from "@/services/listApi";
-import {Skeleton} from "@nextui-org/react";
-import {useRouter} from "next/navigation";
+
+import {UserByUsernameResponse} from "@/services/fetch/userFetch";
+import {ListsByUserIdResponse} from "@/services/fetch/listFetch";
 import SectionContainer from "../common/SectionContainer";
 import {ListItemCard} from "../cards/ListItemCard";
 
-const UserPage = ({username}: {username: string}) => {
-  const router = useRouter();
-
-  const {
-    data: userData,
-    isFetching: userFetching,
-    isLoading: userLoading,
-  } = useGetQuery({
-    username,
-  });
-
-  const {data: userLists, isLoading: userListsLoading} = useGetAllByUserIdQuery(
-    {
-      userId: userData?.data?.id || "",
-    },
-    {
-      skip: !userData?.data?.id,
-    },
-  );
-
-  if (!userFetching && !userData?.data?.id) {
-    router.replace("/404");
-  }
-
-  if (userLoading || userListsLoading) {
-    return (
-      <SectionContainer className="pt-page-top-space">
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Skeleton className="h-[84px] font-medium text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
-              Lists of
-            </Skeleton>
-            <Skeleton className="flex-shrink-0 h-[84px] w-48 rounded-medium" />
-          </div>
-
-          <div className="flex gap-2">
-            <div className="flex gap-3 flex-wrap w-full">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <ListItemCard list={{id: 0, name: "", cloudinaryImage: null}} key={s} isLoading />
-              ))}
-            </div>
-          </div>
-        </div>
-      </SectionContainer>
-    );
-  }
-
-  if (!userData?.data?.id) {
-    console.error("Couldn't get user data");
-    return null;
-  }
-
-  const user = userData.data;
-
+const UserPage = ({
+  user,
+  userLists,
+}: {
+  user: UserByUsernameResponse;
+  userLists: ListsByUserIdResponse;
+}) => {
   return (
     <SectionContainer className="pt-page-top-space">
       <div className="flex flex-col gap-6">
@@ -72,10 +22,10 @@ const UserPage = ({username}: {username: string}) => {
           </div>
           <div className="max-w-full w-max sm:max-w-72 bg-content1 gap-4 py-3 px-4 rounded-medium flex items-center">
             <Image
-              src={user.imageUrl || "/assets/no-image.png"}
+              src={user?.imageUrl || "/assets/no-image.png"}
               width={60}
               height={60}
-              alt={`${user.username} profile image`}
+              alt={`${user?.username} profile image`}
               className="rounded-full"
               priority
             />
@@ -85,7 +35,9 @@ const UserPage = ({username}: {username: string}) => {
 
         <div className="flex gap-2">
           <div className="flex gap-5 flex-wrap">
-            {userLists?.data?.map((list, index) => <ListItemCard list={list} key={index} />)}
+            {userLists.map((list, index) => (
+              <ListItemCard list={list} key={index} />
+            ))}
           </div>
         </div>
       </div>

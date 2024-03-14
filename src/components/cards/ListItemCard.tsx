@@ -1,5 +1,5 @@
-import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {Image, Skeleton} from "@nextui-org/react";
+import {Prisma} from "@prisma/client";
 import clsx from "clsx";
 import NImage from "next/image";
 import Link from "next/link";
@@ -9,7 +9,18 @@ export const ListItemCard = ({
   isLoading,
   xScrollParent,
 }: {
-  list: ApiRequestTypes["/list/getHomeLists"]["types"]["list"];
+  list: Prisma.ListGetPayload<{
+    select: {
+      id: true;
+      name: true;
+      cloudinaryImage: {
+        select: {
+          publicId: true;
+          version: true;
+        };
+      };
+    };
+  }>;
   isLoading?: boolean;
   xScrollParent?: boolean;
 }) => {
@@ -21,7 +32,7 @@ export const ListItemCard = ({
         {
           "pointer-events-none": isLoading,
           "w-[calc(50%-10px)] sm:w-[222px] sm:h-[266px]": !xScrollParent,
-          "w-[140px] sm:w-[222px] sm:h-[266px]": xScrollParent,
+          "w-[155px] h-[188px] sm:w-[222px] sm:h-[266px]": xScrollParent,
         },
       )}
     >
@@ -47,7 +58,7 @@ export const ListItemCard = ({
         isLoaded={!isLoading}
         className="absolute bottom-0 z-10 p-3 h-auto subpixel-antialiased rounded-b-xl border-b-1  border-white/20 bg-content1/50 backdrop-blur backdrop-saturate-100 overflow-hidden py-1 shadow-small w-full"
         classNames={{
-          content: "min-h-[35px] flex items-center",
+          content: "min-h-[24px] sm:min-h-[35px] flex items-center",
         }}
       >
         {list.name}
