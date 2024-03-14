@@ -4,6 +4,7 @@ import "../styles/globals.scss";
 import {Providers} from "@/lib/providers";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import Script from "next/script";
 
 const poppinsFont = Poppins({
   subsets: ["latin"],
@@ -28,6 +29,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-QRTRW4MKWQ"
+          strategy="afterInteractive"
+        />
+        <Script id="script_ga" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);} 
+          gtag('js', new Date()); 
+          
+          gtag('config', 'G-QRTRW4MKWQ');
+          `}
+        </Script>
         <meta
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
