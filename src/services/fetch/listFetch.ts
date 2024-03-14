@@ -56,6 +56,9 @@ export const getListsByUserId = async (userId: string) => {
         },
       },
     },
+    orderBy: {
+      updated_at: "desc",
+    },
   });
 
   return response;
