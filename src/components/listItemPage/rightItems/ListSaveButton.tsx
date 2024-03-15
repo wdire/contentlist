@@ -1,9 +1,12 @@
 import {createListFromDnd} from "@/lib/utils/createList.utils";
+import {listThumbnailGenerate} from "@/lib/utils/imageCreate.utils";
 import {useUpdateMutation} from "@/services/listApi";
 
 import {useAppSelector} from "@/store";
 import {Button} from "@nextui-org/react";
 import React, {useMemo} from "react";
+
+// TODO: Create image only if first 12 contents changed
 
 const ListSaveButton = () => {
   const list = useAppSelector((state) => state.list);
@@ -13,7 +16,19 @@ const ListSaveButton = () => {
 
   const handleSaveClick = async () => {
     try {
-      await trigger(createListFromDnd(list));
+      const createdList = createListFromDnd(list);
+      const listImagefile = await listThumbnailGenerate();
+
+      const deleteImage = Boolean(list.info.cloudinaryImage?.publicId) && listImagefile === null;
+
+      await trigger({
+        formdata: {
+          body: createdList.body,
+          image: listImagefile,
+          deleteImage,
+        },
+        params: createdList.params,
+      });
     } catch (err) {
       console.error(err);
     }

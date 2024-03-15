@@ -10,10 +10,12 @@ import {createNewRow} from "@/lib/utils/createList.utils";
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 const CreateImage = dynamic(() => import("./CreateImage"));
 
-// TODO: Add button to auto generate list image
+// DONE: Add button to auto generate list image
+// TODO: Connect image upload system, create and save new thumbnail image on list save
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
+  const showName = useAppSelector((state) => state.list.showName);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
@@ -29,6 +31,10 @@ const ListActions = () => {
     }
   };
 
+  const handleShowNamesToggle = () => {
+    dispatch(listActions.setShowName(!showName));
+  };
+
   return (
     <div className="pb-2.5">
       <Input
@@ -37,6 +43,14 @@ const ListActions = () => {
         defaultValue={listName}
         maxLength={47}
       />
+      <Button
+        variant="flat"
+        color={showName ? "primary" : "secondary"}
+        className="mt-2"
+        onPress={handleShowNamesToggle}
+      >
+        {showName ? "Showing" : "Hiding"} Names
+      </Button>
       <div className="text-base mb-3 mt-4">Actions</div>
       <div className="flex items-center justify-between">
         <Button

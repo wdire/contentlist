@@ -11,6 +11,8 @@ import SearchContainer from "./search/SearchContainer";
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
+// TODO: Add "Sources" button to show sources
+
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);
@@ -25,8 +27,8 @@ const RightContainer = () => {
             <div className="text-2xl">
               <b className="break-words">{listName}</b>
             </div>
-            <div className="mt-2 flex gap-x-2 gap-y-1 leading-5 flex-wrap">
-              <span className="text-default-500 flex-shrink-0">List by</span>{" "}
+            <div className="mt-2 flex gap-x-1.5 gap-y-1 leading-5 flex-wrap">
+              <span className="text-default-500 flex-shrink-0">List by</span>
               <Link
                 href={`/user/${listOwnerUsername}`}
                 className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"

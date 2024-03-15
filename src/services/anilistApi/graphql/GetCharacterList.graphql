@@ -1,0 +1,13 @@
+query GetCharacterList($search: String) {
+  Page(perPage: 8) {
+    characters(search: $search) {
+      id
+      name {
+        full
+      }
+      image {
+        large
+      }
+    }
+  }
+}

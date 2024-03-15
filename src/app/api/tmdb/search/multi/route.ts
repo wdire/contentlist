@@ -11,7 +11,7 @@ export const GET = (_request: Request) =>
       paramsSchema: ApiSchemas["/tmdb/search/multi"].params,
     },
     async ({params}) => {
-      const response: AxiosResponse<ApiRequestTypes["/tmdb/search/multi"]["response"]> =
+      const response: AxiosResponse<ApiRequestTypes["/tmdb/search/multi"]["response"]["data"]> =
         await tmdbAxios({
           url: "/search/multi",
           params: {
@@ -20,6 +20,9 @@ export const GET = (_request: Request) =>
           method: "GET",
         });
 
-      return CreateResponse({status: 200, data: response.data});
+      return CreateResponse<ApiRequestTypes["/tmdb/search/multi"]["response"]["data"]>({
+        status: 200,
+        data: response.data,
+      });
     },
   );

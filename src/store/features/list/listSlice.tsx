@@ -1,5 +1,6 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
+import {ListByIdResponse} from "@/services/actions/list.actions";
 import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
@@ -10,6 +11,7 @@ export type ListState = {
   info: {
     id: number | undefined;
     name: string | undefined;
+    cloudinaryImage: ListByIdResponse["cloudinaryImage"] | undefined;
     isListOwner: boolean | undefined;
     owner:
       | {
@@ -24,6 +26,7 @@ export type ListState = {
   activeContent: Content | null;
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
+  showName: boolean;
 };
 
 export type InitListProps = Pick<ListState, "rows" | "contents" | "info">;
@@ -34,6 +37,7 @@ const initialState: ListState = {
     name: undefined,
     isListOwner: undefined,
     owner: undefined,
+    cloudinaryImage: undefined,
   },
   contents: [],
   rows: [],
@@ -41,6 +45,7 @@ const initialState: ListState = {
   activeRow: null,
   fetchLoading: true,
   hasUnsavedChanges: false,
+  showName: false,
 };
 
 export const listSlice = createSlice({
@@ -51,6 +56,7 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.info = action.payload.info;
+      state.fetchLoading = false;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
@@ -87,6 +93,9 @@ export const listSlice = createSlice({
       });
       state.rows = state.rows.filter((r) => r.id !== action.payload.id);
       state.hasUnsavedChanges = true;
+    },
+    setShowName: (state, action: PayloadAction<boolean>) => {
+      state.showName = action.payload;
     },
     onDragStart: (
       state,
@@ -166,7 +175,6 @@ export const listSlice = createSlice({
 
         if (state.contents[activeIndex].rowId !== state.contents[overIndex].rowId) {
           state.contents[activeIndex].rowId = state.contents[overIndex].rowId;
-          console.log("HEEYYY", activeIndex, overIndex);
           state.contents = arrayMove(state.contents, activeIndex, overIndex - 1);
         }
 

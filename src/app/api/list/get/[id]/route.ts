@@ -20,6 +20,12 @@ export const GET = (_request: Request, _params: RequestParams) =>
           },
           include: {
             user: true,
+            cloudinaryImage: {
+              select: {
+                publicId: true,
+                version: true,
+              },
+            },
           },
         });
 

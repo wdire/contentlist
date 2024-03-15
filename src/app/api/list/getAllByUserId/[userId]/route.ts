@@ -21,7 +21,12 @@ export const GET = (_request: Request, _params: RequestParams) =>
           select: {
             id: true,
             name: true,
-            imageUrl: true,
+            cloudinaryImage: {
+              select: {
+                publicId: true,
+                version: true,
+              },
+            },
           },
         });
 

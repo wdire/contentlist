@@ -1,6 +1,5 @@
-import {ArrayElement} from "@/api/lib/index.type.api";
-import {ListRequestTypes} from "@/api/lib/schemas/list.schema";
 import {Image, Skeleton} from "@nextui-org/react";
+import {Prisma} from "@prisma/client";
 import clsx from "clsx";
 import NImage from "next/image";
 import Link from "next/link";
@@ -8,17 +7,32 @@ import Link from "next/link";
 export const ListItemCard = ({
   list,
   isLoading,
+  xScrollParent,
 }: {
-  list: ArrayElement<NonNullable<ListRequestTypes["/list/getAll"]["response"]["data"]>>;
+  list: Prisma.ListGetPayload<{
+    select: {
+      id: true;
+      name: true;
+      cloudinaryImage: {
+        select: {
+          publicId: true;
+          version: true;
+        };
+      };
+    };
+  }>;
   isLoading?: boolean;
+  xScrollParent?: boolean;
 }) => {
   return (
     <Link
       href={`/list/${list.id}`}
       className={clsx(
-        "inline-block rounded-xl overflow-hidden relative w-[calc(50%-10px)] sm:w-[167px] sm:h-[200px] transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
+        "flex-shrink-0 inline-block rounded-xl overflow-hidden relative transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
         {
           "pointer-events-none": isLoading,
+          "w-[calc(50%-10px)] sm:w-[222px] sm:h-[266px]": !xScrollParent,
+          "w-[155px] h-[188px] sm:w-[222px] sm:h-[266px]": xScrollParent,
         },
       )}
     >
@@ -31,14 +45,21 @@ export const ListItemCard = ({
         classNames={{
           wrapper: "rounded-none",
         }}
-        src={"/assets/no-image.png"}
+        src={
+          list.cloudinaryImage?.publicId
+            ? `https://res.cloudinary.com/dgib2iezn/image/upload/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`
+            : "/assets/no-image.png"
+        }
         priority
         isLoading={isLoading || false}
       />
 
       <Skeleton
         isLoaded={!isLoading}
-        className="absolute min-h-[33px] bottom-0 z-10 p-3 h-auto subpixel-antialiased rounded-b-xl border-b-1  border-white/20 bg-content1/50 backdrop-blur backdrop-saturate-100 overflow-hidden py-1 shadow-small w-full"
+        className="absolute bottom-0 z-10 p-3 h-auto subpixel-antialiased rounded-b-xl border-b-1  border-white/20 bg-content1/50 backdrop-blur backdrop-saturate-100 overflow-hidden py-1 shadow-small w-full"
+        classNames={{
+          content: "min-h-[24px] sm:min-h-[35px] flex items-center",
+        }}
       >
         {list.name}
       </Skeleton>

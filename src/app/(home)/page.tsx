@@ -1,7 +1,13 @@
 import SectionContainer from "@/components/common/SectionContainer";
-import ListItems from "@/components/home/listItems";
+import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
+import TopicLists from "@/components/home/TopicLists";
+import {getHomeLists} from "@/services/actions/list.actions";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const homeLists = await getHomeLists();
+
   return (
     <>
       <SectionContainer className="pt-page-top-space">
@@ -26,15 +32,11 @@ export default function Home() {
         </h1>
 
         <div className="mt-4 text-sm text-default-500">
-          <p>
-            Create best to worst rankings easily. Add contents to your list by easily searching and
-            drag into group with similar ranked contents.{" "}
-          </p>
-          <p className="pt-1">Currently only supported content source is TMDB(movie, tv, anime).</p>
+          <HomeDescriptionContent />
         </div>
       </SectionContainer>
 
-      <ListItems />
+      <TopicLists homeLists={homeLists || []} />
     </>
   );
 }

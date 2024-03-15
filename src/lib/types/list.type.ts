@@ -12,7 +12,7 @@ export type Content = {
   data: ContentInfoType;
 };
 
-export const ContentSourceType = ["tmdb", "anilist"] as const;
+export const ContentSourceType = ["tmdb", "anilist", "igdb", "wikipedia"] as const;
 
 export type ContentSourceType = (typeof ContentSourceType)[number];
 

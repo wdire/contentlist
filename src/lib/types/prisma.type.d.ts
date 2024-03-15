@@ -1,5 +1,5 @@
 import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
-import {MediaType as AnilistMediaType} from "@/services/anilistApi/anilist.generated";
+import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {ContentSourceType} from "./list.type";
 
 declare global {
@@ -35,8 +35,11 @@ declare global {
       name: string;
       image_url: string;
       source: ContentSourceType;
+      notPoster?: boolean;
       tmdb?: TmdbDetailsType | null;
       anilist?: AnilistDetailsType | null;
+      igdb?: IgdbDetailsType | null;
+      wikipedia?: WikipediaDetailsType | null;
     };
 
     type TmdbDetailsType = {
@@ -47,6 +50,14 @@ declare global {
     type AnilistDetailsType = {
       id: number;
       type: AnilistMediaType;
+    };
+
+    type IgdbDetailsType = {
+      id: number;
+    };
+
+    type WikipediaDetailsType = {
+      id: number;
     };
   }
 }

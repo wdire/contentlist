@@ -2,21 +2,19 @@ import {createApi} from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "@/lib/rtkBaseQueries/axiosBaseQuery";
 import {ListRequestTypes} from "@/api/lib/schemas/list.schema";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
+import {bodyConvertFormData} from "@/lib/utils/formdata.utils";
 
 export const listApi = createApi({
   reducerPath: "listApi",
   baseQuery: axiosBaseQuery({baseUrl: "/api"}),
   tagTypes: ["List"],
   endpoints: (builder) => ({
-    getAll: builder.query<ListRequestTypes["/list/getAll"]["response"], void>({
+    getHomeLists: builder.query<ListRequestTypes["/list/getHomeLists"]["response"], void>({
       query: () => ({
-        url: "/list/getAll",
+        url: "/list/getHomeLists",
         method: "GET",
       }),
-      providesTags: (result) => [
-        {type: "List", id: "ALL"},
-        ...(result?.data?.map(({id}) => ({type: "List" as const, id})) || []),
-      ],
+      providesTags: () => [{type: "List", id: "ALL"}],
     }),
     get: builder.query<
       ApiRequestTypes["/list/get"]["response"],
@@ -32,13 +30,19 @@ export const listApi = createApi({
       ApiRequestTypes["/list/update"]["response"],
       {
         params: ListRequestTypes["/list/update"]["params"];
-        body: ListRequestTypes["/list/update"]["body"];
+        formdata: ListRequestTypes["/list/update"]["formdata"];
       }
     >({
-      query: ({body, params}) => ({
+      query: ({formdata, params}) => ({
         url: `/list/update/${params.id}`,
         method: "PUT",
-        data: body,
+        data: bodyConvertFormData({
+          items: {
+            body: formdata.body,
+            ...(formdata.deleteImage ? {deleteImage: formdata.deleteImage} : {}),
+          },
+          files: [{key: "image", value: formdata.image as Blob}],
+        }),
       }),
       invalidatesTags: (result) => {
         if (result) {
@@ -87,7 +91,7 @@ export const listApi = createApi({
 });
 
 export const {
-  useGetAllQuery,
+  useGetHomeListsQuery,
   useGetQuery,
   useUpdateMutation,
   useDeleteMutation,

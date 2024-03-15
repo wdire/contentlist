@@ -23,3 +23,9 @@ export const rowColors = [
   "white",
   "yellow",
 ] as const;
+
+export const IGDB_IMAGE_URL_BASE = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
+
+// API
+export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
+export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;

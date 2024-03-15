@@ -1,21 +1,15 @@
 name: Lint and format checks
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
-  push:
-    branches:
-      - master
-      - dev
+  workflow_call:
 jobs:
-  checks:
+  lint_format_checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: Install dependencies
         run: npm ci

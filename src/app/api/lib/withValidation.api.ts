@@ -16,12 +16,14 @@ export const withValidation = async <B = null, P = null>(
     paramsUrl,
     bodySchema,
     paramsSchema,
+    formdataSchema,
   }: {
     _request?: Request;
     _params?: RequestParams; // next.js params like /get/123
     paramsUrl?: string; // params like /search?query=abc&lang=en
     bodySchema?: ZodType;
     paramsSchema?: ZodType;
+    formdataSchema?: ZodType;
   },
   handler: (props: BodyAndParams<B, P>) => Promise<Response>,
 ) => {
@@ -31,11 +33,31 @@ export const withValidation = async <B = null, P = null>(
       params: null as P,
     };
 
-    if (bodySchema) {
+    if (bodySchema || formdataSchema) {
       if (!_request?.body) {
         return CreateResponse({status: 500, message: "Couldn't recieve request for validation"});
       }
-      props.body = await bodySchema.parse(await _request.json());
+
+      if (formdataSchema) {
+        const receivedFormdata = await _request.formData();
+        const formdataObject: {[key: string]: unknown} = {};
+
+        Array.from(receivedFormdata.entries()).forEach(([key, value]) => {
+          if (typeof value === "string") {
+            try {
+              formdataObject[key] = JSON.parse(value);
+            } catch (error) {
+              formdataObject[key] = value;
+            }
+          } else {
+            formdataObject[key] = value;
+          }
+        });
+
+        props.body = await formdataSchema.parse(formdataObject);
+      } else if (bodySchema) {
+        props.body = await bodySchema.parse(await _request.json());
+      }
     }
 
     if (paramsSchema) {
@@ -53,6 +75,7 @@ export const withValidation = async <B = null, P = null>(
     try {
       return await handler(props);
     } catch (error) {
+      console.error("Route handler error", error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
           return CreateResponse({status: 404, error: "Missing record to perform the action."});
@@ -62,12 +85,21 @@ export const withValidation = async <B = null, P = null>(
       if (error instanceof AxiosError) {
         return CreateResponse({status: 406, error: error?.message});
       }
+
+      console.error("Unknown route handler error", error);
       return CreateResponse({status: 500});
     }
   } catch (error) {
     if (error instanceof ZodError) {
       return CreateResponse({status: 406, error: error.issues});
     }
+
+    if (error instanceof SyntaxError) {
+      // Json error
+      return CreateResponse({status: 406, error: "Request body must be non-empty json object"});
+    }
+
+    console.error("Unknown validation error", error);
 
     return CreateResponse({status: 406, error: "Error occured on validation"});
   }

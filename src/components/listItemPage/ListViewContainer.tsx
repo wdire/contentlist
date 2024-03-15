@@ -109,7 +109,7 @@ function ListViewContainer() {
 
   return (
     <SectionContainer>
-      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden pt-page-top-space">
+      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden py-page-top-space">
         <DndContext
           id="main-dnd"
           sensors={sensors}
@@ -139,7 +139,7 @@ function ListViewContainer() {
                 contents={contents.filter((content) => content.rowId === activeRow.id)}
               />
             )}
-            {activeContent && <ContentCard content={activeContent} />}
+            {activeContent && <ContentCard content={activeContent} dragOverlay />}
           </DragOverlay>
         </DndContext>
       </div>

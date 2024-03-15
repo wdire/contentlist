@@ -9,7 +9,7 @@ const isListOwner =
     const user = await currentUser();
 
     if (!user) {
-      return CreateResponse({status: 401});
+      return CreateResponse({status: 401, message: "isListOwner: user not found"});
     }
 
     const response = await prisma.list.findUnique({
@@ -22,7 +22,7 @@ const isListOwner =
       return next();
     }
 
-    return CreateResponse({status: 401});
+    return CreateResponse({status: 401, message: "isListOwner: user doesn't own the list"});
   };
 
 export default isListOwner;

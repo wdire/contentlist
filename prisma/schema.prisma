@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
 }
 
 generator json {
@@ -13,23 +13,61 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id         String   @id @unique @default(cuid())
+  username   String   @unique
+  email      String   @unique
+  imageUrl   String?
+  List       List[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([username], name: "idx_user_username")
+}
+
 model List {
-  id             Int     @id @unique @default(autoincrement())
-  name           String
-  user           User    @relation(fields: [userId], references: [id])
-  userId         String
-  imageUrl       String?
-  listOnHomepage Boolean @default(true)
-  edited         Boolean @default(false)
+  id                Int              @id @unique @default(autoincrement())
+  name              String
+  user              User             @relation(fields: [userId], references: [id])
+  userId            String
+  cloudinaryImage   CloudinaryImage? @relation(fields: [cloudinaryImageId], references: [id])
+  cloudinaryImageId String?          @unique
+  private           Boolean          @default(false)
+  edited            Boolean          @default(false)
+  ListInTopic       ListInTopic[]
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
 
   /// [ListData]
   contentsData Json
+
+  @@index([userId], name: "idx_list_userId")
 }
 
-model User {
-  id       String  @id @unique @default(cuid())
-  username String  @unique
-  email    String  @unique
-  imageUrl String?
-  List     List[]
+model Topic {
+  id          Int           @id @unique @default(autoincrement())
+  name        String        @unique
+  ListInTopic ListInTopic[]
+}
+
+model ListInTopic {
+  list    List  @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId  Int
+  index   Int?
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int
+
+  @@id(name: "id_listInTopic", [topicId, listId])
+  @@unique([topicId, index])
+  @@unique([topicId, listId])
+  @@index([listId], name: "idx_listInTopic_listId")
+  @@index([topicId], name: "idx_listInTopic_topicId")
+}
+
+model CloudinaryImage {
+  id       String @id @default(cuid())
+  publicId String @unique
+  format   String
+  version  String
+  List     List?
 }

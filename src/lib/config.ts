@@ -32,9 +32,16 @@ export const defaultNewListInfo: {rows: Row[]} = {
   ],
 };
 
-export const searchSources: {value: SearchSource; label: string}[] = [
+export const searchSources: {
+  value: SearchSource | "_group_";
+  label: string;
+  items?: {value: SearchSource; label: string}[];
+}[] = [
   {value: "tmdb", label: "Movie/TV/Person - TMDB"},
+  {value: "igdb", label: "Game - IGDB"},
+  {value: "wikipedia", label: "General - Wikipedia"},
+
   {value: "anilist_anime", label: "Anime - AniList"},
   {value: "anilist_manga", label: "Manga - AniList"},
-  {value: "igdb", label: "Game - IGDB"},
+  {value: "anilist_character", label: "Character - AniList"},
 ];

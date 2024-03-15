@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {Button} from "@nextui-org/react";
+import {Button, Switch, Tooltip} from "@nextui-org/react";
 import {X} from "lucide-react";
 import {searchActions} from "@/store/features/search/searchSlice";
 import {listActions} from "@/store/features/list/listSlice";
@@ -12,6 +12,8 @@ import SearchResult from "./SearchResult";
 const SelectedSearchResult = () => {
   const selectedResult = useAppSelector((state) => state.search.selectedResult);
   const dispatch = useAppDispatch();
+
+  const [notPoster, setNotPoster] = useState<PrismaJson.ContentType["notPoster"]>(undefined);
 
   if (!selectedResult) return null;
 
@@ -26,10 +28,18 @@ const SelectedSearchResult = () => {
       rowId: STORAGE_ROW_ID,
     };
 
+    if (notPoster) {
+      newContent.data.notPoster = true;
+    }
+
     if (selectedResult.source === "tmdb") {
       newContent.data.tmdb = selectedResult.tmdb;
     } else if (selectedResult.source === "anilist") {
       newContent.data.anilist = selectedResult.anilist;
+    } else if (selectedResult.source === "igdb") {
+      newContent.data.igdb = selectedResult.igdb;
+    } else if (selectedResult.source === "wikipedia") {
+      newContent.data.wikipedia = selectedResult.wikipedia;
     }
 
     dispatch(listActions.addContent(newContent));
@@ -39,6 +49,10 @@ const SelectedSearchResult = () => {
 
   const handleCloseClick = () => {
     dispatch(searchActions.setSelectedResult(null));
+  };
+
+  const imageFitSwitchClick = () => {
+    setNotPoster(!notPoster);
   };
 
   return (
@@ -53,8 +67,32 @@ const SelectedSearchResult = () => {
         </div>
       </div>
       <div className="relative bg-content1 py-2 px-2 rounded-md">
-        <SearchResult info={selectedResult} />
+        <SearchResult info={selectedResult} notPoster={notPoster} />
       </div>
+
+      <label className="flex items-center w-max text-sm gap-4 mt-2">
+        <Tooltip
+          showArrow
+          color="foreground"
+          placement="top"
+          content={
+            <span className="text-center">
+              Fit images to poster size <br /> or keep as it is
+            </span>
+          }
+        >
+          <span>Poster size</span>
+        </Tooltip>
+
+        <Switch
+          defaultSelected
+          isSelected={!notPoster}
+          onValueChange={imageFitSwitchClick}
+          classNames={{wrapper: "m-0"}}
+          size="sm"
+        />
+      </label>
+
       <Button color="primary" fullWidth className="mt-4" onClick={handleAddToListClick}>
         Add to List
       </Button>

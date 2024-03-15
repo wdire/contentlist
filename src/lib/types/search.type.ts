@@ -4,7 +4,14 @@ import {
   GetMediaListQueryVariables,
 } from "@/services/anilistApi/anilist.generated";
 
-export const SearchSource = ["tmdb", "anilist_anime", "anilist_manga", "igdb"] as const;
+export const SearchSource = [
+  "tmdb",
+  "anilist_anime",
+  "anilist_manga",
+  "anilist_character",
+  "igdb",
+  "wikipedia",
+] as const;
 
 export type SearchSource = (typeof SearchSource)[number];
 

@@ -8,13 +8,13 @@ import {generateId} from "./helper.utils";
 import {STORAGE_ROW_ID} from "../constants";
 import {defaultNewListInfo} from "../config";
 
-export const createListFromDb = async ({
+export const createListFromDb = ({
   listGetData,
   currentUser,
 }: {
   listGetData: ListRequestTypes["/list/get"]["response"]["data"];
   currentUser: UserResource | null | undefined;
-}): Promise<InitListProps> => {
+}): InitListProps => {
   if (!listGetData) {
     throw Error("No listGetData found");
   }
@@ -23,6 +23,7 @@ export const createListFromDb = async ({
     id,
     name,
     user,
+    cloudinaryImage,
     contentsData: {rows, storage},
   } = listGetData;
 
@@ -37,6 +38,7 @@ export const createListFromDb = async ({
         id: user.id,
         username: user.username,
       },
+      cloudinaryImage,
     },
   };
 
@@ -104,10 +106,20 @@ export const createListFromDnd = (
                 source: c.data.source,
               };
 
+              if (c.data.notPoster) {
+                newC.notPoster = c.data.notPoster;
+              }
+
               if (c.data.source === "tmdb") {
                 newC.tmdb = c.data.tmdb;
               } else if (c.data.source === "anilist") {
                 newC.anilist = c.data.anilist;
+              } else if (c.data.source === "igdb") {
+                newC.igdb = c.data.igdb;
+              } else if (c.data.source === "wikipedia") {
+                newC.wikipedia = c.data.wikipedia;
+              } else {
+                console.error("Content source not found");
               }
 
               return newC;
@@ -123,10 +135,20 @@ export const createListFromDnd = (
           source: c.data.source,
         };
 
+        if (c.data.notPoster) {
+          newC.notPoster = c.data.notPoster;
+        }
+
         if (c.data.source === "tmdb") {
           newC.tmdb = c.data.tmdb;
         } else if (c.data.source === "anilist") {
           newC.anilist = c.data.anilist;
+        } else if (c.data.source === "igdb") {
+          newC.igdb = c.data.igdb;
+        } else if (c.data.source === "wikipedia") {
+          newC.wikipedia = c.data.wikipedia;
+        } else {
+          console.error("Content source not found");
         }
 
         return newC;

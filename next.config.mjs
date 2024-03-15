@@ -14,6 +14,15 @@ const nextConfig = {
       {
         hostname: "s4.anilist.co",
       },
+      {
+        hostname: "res.cloudinary.com",
+      },
+      {
+        hostname: "images.igdb.com",
+      },
+      {
+        hostname: "upload.wikimedia.org",
+      },
     ],
   },
 

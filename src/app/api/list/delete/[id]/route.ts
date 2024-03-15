@@ -2,7 +2,9 @@ import isListOwner from "@/api/lib/middlewares/isListOwner.api";
 import {CreateResponse} from "@/api/lib/response.api";
 import {withMiddlewares} from "@/api/lib/runMiddlewares.api";
 import {ApiRequestTypes, ApiSchemas} from "@/api/lib/schemas/index.schema";
+import {deleteImage} from "@/api/lib/utils/cloudinary.util.api";
 import {RequestParams, withValidation} from "@/api/lib/withValidation.api";
+import {CLOUDINARY_LIST_THUMBS_FOLDER_NAME, CLOUDINARY_PUBLIC_ID_SUFFIX} from "@/lib/constants";
 import prisma from "@/lib/prisma";
 
 export const DELETE = (_request: Request, _params: RequestParams) =>
@@ -20,6 +22,11 @@ export const DELETE = (_request: Request, _params: RequestParams) =>
               id: params.id,
             },
           });
+
+          const deleteImageRes = await deleteImage(
+            `${CLOUDINARY_LIST_THUMBS_FOLDER_NAME}/${CLOUDINARY_PUBLIC_ID_SUFFIX}${params.id}`,
+          );
+          console.log("deleteImageRes", deleteImageRes);
 
           return CreateResponse({
             status: 204,
