@@ -1,4 +1,4 @@
-import {ListHomeListsResponse} from "@/services/fetch/listFetch";
+import {ListHomeListsResponse} from "@/services/actions/list.actions";
 import SectionContainer from "../common/SectionContainer";
 import {ListItemCard} from "../cards/ListItemCard";
 

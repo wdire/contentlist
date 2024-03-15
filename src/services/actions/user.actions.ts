@@ -10,6 +10,7 @@ export type UserByUsernameResponse = Prisma.UserGetPayload<{
 }>;
 
 export const getUserByUsername = async (username: string) => {
+  console.info("action call - getUserByUsername");
   const response: UserByUsernameResponse | null = await prisma.user.findFirst({
     where: {
       username,

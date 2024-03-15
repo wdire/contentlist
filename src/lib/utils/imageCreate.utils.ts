@@ -12,6 +12,10 @@ export const listThumbnailGenerate = async () => {
       12,
     );
 
+    if (!(contentCards.length > 0)) {
+      return null;
+    }
+
     const tmpContentCardsContainer = document.createElement("div");
 
     tmpContentCardsContainer.style.width = `${IMAGE_SIZE}px`;
@@ -81,6 +85,6 @@ export const listThumbnailGenerate = async () => {
     });
   } catch (err) {
     console.error("err", err);
-    return false;
+    return null;
   }
 };

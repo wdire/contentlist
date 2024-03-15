@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 
-import {UserByUsernameResponse} from "@/services/fetch/userFetch";
-import {ListsByUserIdResponse} from "@/services/fetch/listFetch";
+import {ListsByUserIdResponse} from "@/services/actions/list.actions";
+import {UserByUsernameResponse} from "@/services/actions/user.actions";
 import SectionContainer from "../common/SectionContainer";
 import {ListItemCard} from "../cards/ListItemCard";
 

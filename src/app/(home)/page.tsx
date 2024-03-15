@@ -1,7 +1,9 @@
 import SectionContainer from "@/components/common/SectionContainer";
 import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
 import TopicLists from "@/components/home/TopicLists";
-import {getHomeLists} from "@/services/fetch/listFetch";
+import {getHomeLists} from "@/services/actions/list.actions";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const homeLists = await getHomeLists();
@@ -34,7 +36,7 @@ export default async function Home() {
         </div>
       </SectionContainer>
 
-      <TopicLists homeLists={homeLists} />
+      <TopicLists homeLists={homeLists || []} />
     </>
   );
 }

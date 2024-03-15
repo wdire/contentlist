@@ -108,6 +108,12 @@ export type ListRequestTypes = {
       Prisma.ListGetPayload<{
         include: {
           user: true;
+          cloudinaryImage: {
+            select: {
+              publicId: true;
+              version: true;
+            };
+          };
         };
       }>
     >;

@@ -1,5 +1,5 @@
 import ListItemPage from "@/components/listItemPage";
-import {getListById} from "@/services/fetch/listFetch";
+import {getListById} from "@/services/actions/list.actions";
 import {RedirectType, redirect} from "next/navigation";
 
 /*

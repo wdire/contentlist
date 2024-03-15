@@ -1,6 +1,6 @@
 import UserPage from "@/components/userPage";
-import {getListsByUserId} from "@/services/fetch/listFetch";
-import {getUserByUsername} from "@/services/fetch/userFetch";
+import {getListsByUserId} from "@/services/actions/list.actions";
+import {getUserByUsername} from "@/services/actions/user.actions";
 import {RedirectType, redirect} from "next/navigation";
 
 const User = async ({params}: {params: {username: string}}) => {

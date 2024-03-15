@@ -5,7 +5,7 @@ import {useAppDispatch} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {useUser} from "@clerk/nextjs";
 import {createListFromDb} from "@/lib/utils/createList.utils";
-import {ListByIdResponse} from "@/services/fetch/listFetch";
+import {ListByIdResponse} from "@/services/actions/list.actions";
 import ListViewContainer from "./ListViewContainer";
 
 const ListItemPage = ({list}: {list: ListByIdResponse}) => {
