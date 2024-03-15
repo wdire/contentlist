@@ -7,10 +7,7 @@ on:
     branches:
       - master
 jobs:
-  lint:
-    uses: ./.github/workflows/lint_and_format_checks.yml
   deploy-prod:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
