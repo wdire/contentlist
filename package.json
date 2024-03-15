@@ -22,6 +22,9 @@
     "postinstall": "prisma generate && patch-package",
     "generate-types:anilist": "npx graphql-code-generator --config ./scripts/anilist-ts-gen.ts && prettier --write \"./src/services/anilistApi/**/*.{ts,tsx}\" && eslint --fix ./src/services/anilistApi"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@clerk/nextjs": "^4.29.7",
     "@clerk/themes": "^1.7.9",

@@ -41,3 +41,4 @@ try {
 }
 
 console.log("✔ check-envs.ts: All the needed environment variables exists ");
+console.log(`- Node.js version ${process.version}`);

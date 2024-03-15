@@ -1,5 +1,3 @@
-import {isWeakMap} from "util/types";
-
 const IMAGE_SIZE = 600;
 
 export const listThumbnailGenerate = async () => {
