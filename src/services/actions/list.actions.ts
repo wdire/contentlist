@@ -14,7 +14,6 @@ export type ListByIdResponse = Prisma.ListGetPayload<{
 }>;
 
 export const getListById = async (id: string | number) => {
-  console.info("action call - getListById");
   const response: ListByIdResponse | null = await prisma.list.findFirst({
     where: {
       id: Number(id),
@@ -45,8 +44,6 @@ export type ListsByUserIdResponse = Prisma.ListGetPayload<{
 }>[];
 
 export const getListsByUserId = async (userId: string) => {
-  console.info("action call - getListsByUserId");
-
   const response: ListsByUserIdResponse | null = await prisma.list.findMany({
     where: {
       userId,
@@ -92,7 +89,6 @@ export type ListHomeListsResponse = Prisma.TopicGetPayload<{
 }>[];
 
 export const getHomeLists = async () => {
-  console.info("action call - getHomeLists");
   const topicIds: number[] = JSON.parse(process.env.HOME_TOPIC_IDS) || [];
 
   const response: ListHomeListsResponse = await prisma.topic.findMany({

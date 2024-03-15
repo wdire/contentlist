@@ -91,6 +91,11 @@ body::-webkit-scrollbar {
   }
 }
 
+// Bottom privacy choices
+.iub__us-widget {
+  @apply bg-content1;
+}
+
 @media (max-width: 640px) {
   :root {
     --page-top-space: 1.5rem;
