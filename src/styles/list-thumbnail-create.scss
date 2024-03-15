@@ -2,20 +2,212 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(6, 100px);
-  grid-template-rows: repeat(6, 150px);
-  gap: 1px;
-}
+  grid-template-rows: repeat(4, 150px);
+  justify-content: center;
+  overflow: hidden;
+  //gap: 1px;
+  //border: 1px solid black;
 
-.thumbnail-c-con > div {
-  width: 100%;
-  height: 100%;
-  max-height: none;
+  & > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
 
-  &:nth-child(1),
-  &:nth-child(3),
-  &:nth-child(8),
-  &:nth-child(10) {
-    grid-column: span 2;
-    grid-row: span 2;
+  &_grid-2 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(2) {
+        display: flex;
+        grid-column: span 3;
+        grid-row: span 4;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &_grid-3 {
+    & > div {
+      display: none;
+      &:nth-child(-n + 3) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 4;
+      }
+    }
+  }
+
+  &_grid-4 {
+    & > div {
+      display: none;
+      &:nth-child(-n + 4) {
+        display: flex;
+        grid-column: span 3;
+        grid-row: span 2;
+      }
+    }
+  }
+
+  &_grid-5 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(4),
+      &:nth-child(5) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(3) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 4;
+      }
+    }
+  }
+
+  &_grid-6 {
+    & > div {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  &_grid-7 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(5),
+      &:nth-child(6) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(4),
+      &:nth-child(7) {
+        display: flex;
+        grid-column: span 1;
+        grid-row: span 2;
+      }
+    }
+  }
+
+  &_grid-8 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(5),
+      &:nth-child(6),
+      &:nth-child(7),
+      &:nth-child(8) {
+        display: flex;
+        grid-column: span 1;
+        grid-row: span 2;
+      }
+    }
+  }
+
+  &_grid-9 {
+    & > div {
+      display: none;
+      &:nth-child(-n + 5) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(n + 6):not(:nth-child(n + 10)) {
+        display: flex;
+      }
+    }
+  }
+
+  &_grid-10 {
+    & > div {
+      display: none;
+      &:nth-child(-n + 4) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(5),
+      &:nth-child(6) {
+        display: flex;
+        grid-column: span 1;
+        grid-row: span 2;
+      }
+
+      &:nth-child(n + 7):not(:nth-child(n + 11)) {
+        display: flex;
+      }
+    }
+  }
+
+  &_grid-11 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        display: flex;
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6),
+      &:nth-child(7) {
+        display: flex;
+        grid-column: span 1;
+        grid-row: span 2;
+      }
+
+      &:nth-child(n + 7):not(:nth-child(n + 12)) {
+        display: flex;
+      }
+    }
+  }
+
+  &_grid-12 {
+    & > div {
+      display: none;
+      &:nth-child(1),
+      &:nth-child(3),
+      &:nth-child(8),
+      &:nth-child(10) {
+        grid-column: span 2;
+        grid-row: span 2;
+        display: flex;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6),
+      &:nth-child(7),
+      &:nth-child(9),
+      &:nth-child(11),
+      &:nth-child(12) {
+        display: flex;
+      }
+    }
   }
 }

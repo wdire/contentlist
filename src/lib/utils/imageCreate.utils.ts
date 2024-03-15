@@ -1,7 +1,6 @@
-// image ratio = 1/1, size = (pure size) + (1px gap * column length) = 600 + 5
-const IMAGE_SIZE = 605;
+import {isWeakMap} from "util/types";
 
-// TODO: Different grid layouts depending on contents length
+const IMAGE_SIZE = 600;
 
 export const listThumbnailGenerate = async () => {
   try {
@@ -12,7 +11,7 @@ export const listThumbnailGenerate = async () => {
       12,
     );
 
-    if (!(contentCards.length > 0)) {
+    if (!(contentCards.length >= 3)) {
       return null;
     }
 
@@ -21,14 +20,17 @@ export const listThumbnailGenerate = async () => {
     tmpContentCardsContainer.style.width = `${IMAGE_SIZE}px`;
     tmpContentCardsContainer.style.height = `${IMAGE_SIZE}px`;
     tmpContentCardsContainer.style.display = "none";
-    tmpContentCardsContainer.style.width = "100%";
-    tmpContentCardsContainer.style.height = "100%";
+    tmpContentCardsContainer.style.width = `${IMAGE_SIZE}px`;
+    tmpContentCardsContainer.style.height = `${IMAGE_SIZE}px`;
 
     // Apply grid css
-    tmpContentCardsContainer.className = "thumbnail-c-con bg-black";
+    tmpContentCardsContainer.className = `thumbnail-c-con thumbnail-c-con_grid-${contentCards.length} bg-black`;
 
     contentCards.forEach((contentCard) => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
+
+      clonedContentCard.querySelector("& > div")?.remove();
+
       tmpContentCardsContainer.append(clonedContentCard);
     });
 
@@ -47,14 +49,12 @@ export const listThumbnailGenerate = async () => {
     document.body.append(tmpContentCardsContainer);
 
     const canvas = await html2canvas(tmpContentCardsContainer, {
-      // + 2 comes from border
-      width: IMAGE_SIZE + 2,
-      height: IMAGE_SIZE + 2,
+      width: IMAGE_SIZE,
+      height: IMAGE_SIZE,
       windowWidth: 800,
       windowHeight: 800,
       scale: 1,
       onclone: (_doc, element) => {
-        element.style.border = "1px solid black";
         element.style.display = "grid";
       },
     });

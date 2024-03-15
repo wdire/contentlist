@@ -37,7 +37,10 @@ export const listApi = createApi({
         url: `/list/update/${params.id}`,
         method: "PUT",
         data: bodyConvertFormData({
-          body: formdata.body,
+          items: {
+            body: formdata.body,
+            ...(formdata.deleteImage ? {deleteImage: formdata.deleteImage} : {}),
+          },
           files: [{key: "image", value: formdata.image as Blob}],
         }),
       }),

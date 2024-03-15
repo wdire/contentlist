@@ -23,6 +23,7 @@ export const createListFromDb = ({
     id,
     name,
     user,
+    cloudinaryImage,
     contentsData: {rows, storage},
   } = listGetData;
 
@@ -37,6 +38,7 @@ export const createListFromDb = ({
         id: user.id,
         username: user.username,
       },
+      cloudinaryImage,
     },
   };
 

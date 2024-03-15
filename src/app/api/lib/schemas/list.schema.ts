@@ -42,11 +42,14 @@ const ListContentSchema = z.object({
 
 const ImageSchema = z
   .any()
-  .refine((file) => file instanceof File, "Image should be a file.")
+  .refine((file) => file instanceof File || file === null, "Image should be a file or null.")
   .refine((file) => {
-    return file?.size <= 1024 * 1024 * 5;
-  }, `Max image size is 5MB.`)
-  .refine((file) => ["image/png"].includes(file?.type), "Only .png format is supported.")
+    return file === null || file?.size <= 1024 * 1024 * 1;
+  }, `Max image size is 1MB.`)
+  .refine(
+    (file) => file === null || ["image/png"].includes(file?.type),
+    "Only .png format is supported.",
+  )
   .optional();
 
 const ListObjectSchema = z.object({
@@ -69,6 +72,7 @@ const ListObjectSchema = z.object({
 const ListUpdateCreateSchema = z.object({
   body: ListObjectSchema,
   image: ImageSchema,
+  deleteImage: z.boolean().optional(),
 });
 
 export const ListSchemas = {

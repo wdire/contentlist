@@ -19,10 +19,13 @@ const ListSaveButton = () => {
       const createdList = createListFromDnd(list);
       const listImagefile = await listThumbnailGenerate();
 
+      const deleteImage = Boolean(list.info.cloudinaryImage?.publicId) && listImagefile === null;
+
       await trigger({
         formdata: {
           body: createdList.body,
           image: listImagefile,
+          deleteImage,
         },
         params: createdList.params,
       });

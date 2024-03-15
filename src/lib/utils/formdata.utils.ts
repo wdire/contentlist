@@ -1,13 +1,15 @@
 export const bodyConvertFormData = ({
-  body,
+  items,
   files,
 }: {
-  body: object;
+  items: {[key: string]: object | string | number | boolean | null};
   files?: {key: string; value: Blob}[];
 }) => {
   const formdata = new FormData();
 
-  formdata.append("body", JSON.stringify(body));
+  Object.entries(items).forEach(([key, value]) => {
+    formdata.append(key, JSON.stringify(value));
+  });
 
   if (files) {
     files.forEach((file) => {

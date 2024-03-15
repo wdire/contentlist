@@ -43,8 +43,12 @@ export const withValidation = async <B = null, P = null>(
         const formdataObject: {[key: string]: unknown} = {};
 
         Array.from(receivedFormdata.entries()).forEach(([key, value]) => {
-          if (key === "body") {
-            formdataObject[key] = JSON.parse(value as string);
+          if (typeof value === "string") {
+            try {
+              formdataObject[key] = JSON.parse(value);
+            } catch (error) {
+              formdataObject[key] = value;
+            }
           } else {
             formdataObject[key] = value;
           }

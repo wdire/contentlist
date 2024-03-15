@@ -1,5 +1,6 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
+import {ListByIdResponse} from "@/services/actions/list.actions";
 import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
@@ -10,6 +11,7 @@ export type ListState = {
   info: {
     id: number | undefined;
     name: string | undefined;
+    cloudinaryImage: ListByIdResponse["cloudinaryImage"] | undefined;
     isListOwner: boolean | undefined;
     owner:
       | {
@@ -35,6 +37,7 @@ const initialState: ListState = {
     name: undefined,
     isListOwner: undefined,
     owner: undefined,
+    cloudinaryImage: undefined,
   },
   contents: [],
   rows: [],
