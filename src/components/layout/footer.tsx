@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {LEGAL_LINKS} from "@/lib/constants";
 import SectionContainer from "../common/SectionContainer";
 
 const Footer = () => {
@@ -39,21 +40,13 @@ const Footer = () => {
         </div>
         <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap">
           <div className="flex gap-3 flex-wrap">
-            <Link className={policyClass} href="/legal/terms-of-service">
+            <Link className={policyClass} href={LEGAL_LINKS.terms_of_service}>
               Terms of Service
             </Link>
-            <Link
-              className={policyClass}
-              target="_blank"
-              href="https://www.iubenda.com/privacy-policy/93141495"
-            >
+            <Link className={policyClass} target="_blank" href={LEGAL_LINKS.privacy_policy}>
               Privacy Policy
             </Link>
-            <Link
-              className={policyClass}
-              target="_blank"
-              href="https://www.iubenda.com/privacy-policy/93141495/cookie-policy"
-            >
+            <Link className={policyClass} target="_blank" href={LEGAL_LINKS.cookie_policy}>
               Cookie Policy
             </Link>
           </div>
