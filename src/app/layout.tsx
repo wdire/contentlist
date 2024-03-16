@@ -1,10 +1,12 @@
 import type {Metadata} from "next";
 import {Poppins} from "next/font/google";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.scss";
 import {Providers} from "@/lib/providers";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import Script from "next/script";
+import {ToastContainer} from "react-toastify";
 
 const poppinsFont = Poppins({
   subsets: ["latin"],
@@ -166,6 +168,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <ToastContainer theme="dark" position="bottom-center" hideProgressBar />
         </Providers>
       </body>
     </html>

@@ -69,7 +69,7 @@ const ListObjectSchema = z.object({
   storage: PrismaJson.ContentType[];
 }>;
 
-const ListUpdateCreateSchema = z.object({
+const ListUpdateSchema = z.object({
   body: ListObjectSchema,
   image: ImageSchema,
   deleteImage: z.boolean().optional(),
@@ -82,16 +82,26 @@ export const ListSchemas = {
     }),
   },
   "/list/update": {
-    body: ListObjectSchema,
-    formdata: ListUpdateCreateSchema,
+    formdata: ListUpdateSchema,
     params: z.object({
       id: ZodDbId,
     }),
   },
   "/list/create": {
-    body: ListObjectSchema.pick({
-      name: true,
-    }),
+    formdata: z
+      .object({
+        name: ListObjectSchema.shape.name,
+      })
+      .or(
+        z.object({
+          copyListId: z.number(),
+          contentsData: z.object({
+            rows: ListObjectSchema.shape.rows,
+            storage: ListObjectSchema.shape.storage,
+          }),
+          image: ImageSchema,
+        }),
+      ),
   },
   "/list/delete": {
     params: z.object({
@@ -165,13 +175,15 @@ export type ListRequestTypes = {
   };
   "/list/update": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;
-    body: ZodTypeOf<(typeof ListSchemas)["/list/update"]["body"]>;
     formdata: ZodTypeOf<(typeof ListSchemas)["/list/update"]["formdata"]>;
     response: ResponseBodyType<Prisma.ListGetPayload<object>>;
   };
   "/list/create": {
-    body: ZodTypeOf<(typeof ListSchemas)["/list/create"]["body"]>;
-    response: ResponseBodyType<Prisma.ListGetPayload<object>>;
+    formdata: ZodTypeOf<(typeof ListSchemas)["/list/create"]["formdata"]>;
+    response: ResponseBodyType<{
+      type: "created" | "has_unedited" | "copy_limit_exceeded";
+      redirectListId?: Prisma.ListGetPayload<object>["id"];
+    }>;
   };
   "/list/delete": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/delete"]["params"]>;

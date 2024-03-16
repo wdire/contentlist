@@ -1,31 +1,24 @@
-import {ListRequestTypes, ListSchemas} from "@/api/lib/schemas/list.schema";
 import {InitListProps, ListState} from "@/store/features/list/listSlice";
 import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
-import {ZodTypeOf} from "@/api/lib/index.type.api";
-import {Content, ContentInfoType, Row} from "../types/list.type";
+import {ListByIdResponse} from "@/services/actions/list.actions";
+import {Content, ContentInfoType} from "../types/list.type";
 import {generateId} from "./helper.utils";
 import {STORAGE_ROW_ID} from "../constants";
 import {defaultNewListInfo} from "../config";
 
-export const createListFromDb = ({
+export const convertDBListToRedux = ({
   listGetData,
   currentUser,
 }: {
-  listGetData: ListRequestTypes["/list/get"]["response"]["data"];
+  listGetData: ListByIdResponse;
   currentUser: UserResource | null | undefined;
 }): InitListProps => {
   if (!listGetData) {
     throw Error("No listGetData found");
   }
 
-  const {
-    id,
-    name,
-    user,
-    cloudinaryImage,
-    contentsData: {rows, storage},
-  } = listGetData;
+  const {id, name, user, cloudinaryImage, contentsData} = listGetData;
 
   const list: InitListProps = {
     rows: [],
@@ -40,56 +33,24 @@ export const createListFromDb = ({
       },
       cloudinaryImage,
     },
+    startContents: [],
   };
 
-  list.rows = rows.map((r) => {
-    return {
-      color: r.color,
-      title: r.name,
-      id: r.row_id,
-    };
+  const {rows, contents} = convertDBContentsDataToRedux({
+    contentsData,
   });
 
-  list.contents = rows
-    .map((r) => {
-      return (
-        r?.contents?.map((c): Content => {
-          return {
-            id: generateId(),
-            rowId: r.row_id,
-            data: c,
-          };
-        }) || []
-      );
-    })
-    .flat();
-
-  list.contents = [
-    ...list.contents,
-    ...(storage.map((c): Content => {
-      return {
-        id: generateId(),
-        rowId: STORAGE_ROW_ID,
-        data: c,
-      };
-    }) || []),
-  ];
-
-  if (list.rows.length === 0) {
-    list.rows = defaultNewListInfo.rows;
-
-    if (list.contents.length > 0) {
-      console.error("Got 0 rows but has contents");
-    }
-  }
+  list.rows = rows;
+  list.contents = contents;
+  list.startContents = contents;
 
   return list;
 };
 
-export const createListFromDnd = (
+export const convertReduxListForDBUpdate = (
   list: ListState,
-): Pick<ApiRequestTypes["/list/update"], "body" | "params"> => {
-  const body: ZodTypeOf<(typeof ListSchemas)["/list/update"]["body"]> = {
+): Pick<ApiRequestTypes["/list/update"], "formdata" | "params"> => {
+  const body: ApiRequestTypes["/list/update"]["formdata"]["body"] = {
     name: list.info.name || "",
     rows: list.rows.map((r) => {
       return {
@@ -156,17 +117,67 @@ export const createListFromDnd = (
   };
 
   return {
-    body,
+    formdata: {
+      body,
+    },
     params: {
       id: list.info.id as number,
     },
   };
 };
 
-export const createNewRow = (): Row => {
-  return {
-    color: "green",
-    title: "NEW",
-    id: generateId(),
+export const convertDBContentsDataToRedux = ({
+  contentsData,
+}: {
+  contentsData: PrismaJson.ListData;
+}): Pick<ListState, "rows" | "contents"> => {
+  const {rows, storage} = contentsData;
+
+  const list: Pick<ListState, "rows" | "contents"> = {
+    rows: [],
+    contents: [],
   };
+
+  list.rows = rows.map((r) => {
+    return {
+      color: r.color,
+      title: r.name,
+      id: r.row_id,
+    };
+  });
+
+  list.contents = rows
+    .map((r) => {
+      return (
+        r?.contents?.map((c): Content => {
+          return {
+            id: generateId(),
+            rowId: r.row_id,
+            data: c,
+          };
+        }) || []
+      );
+    })
+    .flat();
+
+  list.contents = [
+    ...list.contents,
+    ...(storage.map((c): Content => {
+      return {
+        id: generateId(),
+        rowId: STORAGE_ROW_ID,
+        data: c,
+      };
+    }) || []),
+  ];
+
+  if (list.rows.length === 0) {
+    list.rows = defaultNewListInfo.rows;
+
+    if (list.contents.length > 0) {
+      console.error("Got 0 rows but has contents");
+    }
+  }
+
+  return list;
 };

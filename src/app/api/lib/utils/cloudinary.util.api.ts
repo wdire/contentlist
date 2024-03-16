@@ -1,6 +1,7 @@
 import {UploadApiResponse, v2 as cloudinary} from "cloudinary";
 import prisma from "@/lib/prisma";
 import {CLOUDINARY_LIST_THUMBS_FOLDER_NAME} from "@/lib/constants";
+import {Prisma} from "@prisma/client";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -34,21 +35,34 @@ const uploadImageCloudinary = (
   });
 };
 
-export const uploadImage = async (
-  base64String: string,
-  public_id: string | undefined = undefined,
-) => {
+export const uploadImage = async ({
+  base64String,
+  public_id = undefined,
+  listId = undefined,
+}: {
+  base64String: string;
+  public_id: string | undefined;
+  listId?: number;
+}) => {
   const uploadedImage = await uploadImageCloudinary(base64String, public_id);
 
   if (!uploadedImage) {
     return false;
   }
 
-  const imageInfo = {
+  const imageInfo: Prisma.CloudinaryImageCreateInput = {
     publicId: uploadedImage.public_id,
     format: uploadedImage.format,
     version: `${uploadedImage.version}`,
   };
+
+  if (listId) {
+    imageInfo.List = {
+      connect: {
+        id: listId,
+      },
+    };
+  }
 
   const createdImageInfo = await prisma.cloudinaryImage.upsert({
     where: {

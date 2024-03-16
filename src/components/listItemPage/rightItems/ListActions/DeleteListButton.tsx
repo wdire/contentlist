@@ -10,11 +10,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import {Trash} from "lucide-react";
+import {useRouter} from "next/navigation";
 import React from "react";
 
 const DeleteListButton = () => {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const listId = useAppSelector((state) => state.list.info.id);
+  const router = useRouter();
 
   const [trigger, {isLoading, error}] = useDeleteMutation();
 
@@ -27,6 +29,9 @@ const DeleteListButton = () => {
 
     try {
       await trigger({id: listId});
+
+      // TODO: Redirect to user's page
+      router.replace("/");
     } catch (err) {
       console.error(err);
     }

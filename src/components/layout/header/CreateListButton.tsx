@@ -5,6 +5,7 @@ import {useCreateMutation} from "@/services/listApi";
 import {Button} from "@nextui-org/react";
 import {Plus} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {toast} from "react-toastify";
 
 const CreateListButton = () => {
   const [trigger, {isLoading}] = useCreateMutation();
@@ -18,12 +19,15 @@ const CreateListButton = () => {
         name: "My Shiny List",
       }).unwrap();
 
-      // Show toast if redirect to already existing unedited list
-
-      if (response.data?.id) {
-        router.push(`/list/${response.data?.id}`);
+      if (response.data?.redirectListId) {
+        if (response.data.type === "has_unedited") {
+          toast("You already have a unedited list.", {
+            type: "info",
+          });
+        }
+        router.push(`/list/${response.data.redirectListId}`);
       } else {
-        throw new Error("Couldn't get response data id");
+        throw new Error("Couldn't get redirectListId");
       }
     } catch (err) {
       console.log(err);

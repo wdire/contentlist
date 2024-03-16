@@ -6,18 +6,22 @@ import listSelectors from "@/store/features/list/listSelectors";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 import Link from "next/link";
+import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
+import ListCopyButton from "./rightItems/ListCopyButton";
 
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
-// TODO: Add "Sources" button to show sources
+// TODO: Add "Source details" button to show source(tmdb, igdb, ...) and type(movie, game, ...)
 
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
   const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
+
+  const {user} = useUser();
 
   return (
     <div className="w-full lg:w-[260px] rounded-medium">
@@ -59,6 +63,10 @@ const RightContainer = () => {
         {fetchLoading ? <Skeleton className="w-full h-[197px] rounded-medium" /> : null}
 
         {isListOwner ? <ListSaveButton /> : null}
+
+        {user === null ? <div className="mt-3 text-gray-400">Sign In to save changes</div> : null}
+
+        {user && !isListOwner ? <ListCopyButton /> : null}
       </div>
     </div>
   );

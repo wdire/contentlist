@@ -26,6 +26,14 @@ export const rowColors = [
 
 export const IGDB_IMAGE_URL_BASE = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
 
+export const LEGAL_LINKS = {
+  privacy_policy: "https://www.iubenda.com/privacy-policy/93141495",
+  cookie_policy: "https://www.iubenda.com/privacy-policy/93141495/cookie-policy",
+  terms_of_service: "/legal/terms-of-service",
+};
+
 // API
 export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;
+
+export const USER_LIST_MAX_COPY_COUNT = 3;

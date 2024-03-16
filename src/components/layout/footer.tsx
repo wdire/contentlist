@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {LEGAL_LINKS} from "@/lib/constants";
 import SectionContainer from "../common/SectionContainer";
 
 const Footer = () => {
@@ -8,52 +9,46 @@ const Footer = () => {
   return (
     <div className="bg-content1 py-3">
       <SectionContainer className="h-full ">
-        <div className="text-sm mb-3">
-          Using contents from{" "}
-          <a className={linkClass} href="https://www.themoviedb.org" target="_blank">
-            TMDB
-          </a>
-          {", "}
-          <a className={linkClass} href="https://anilist.co" target="_blank">
-            AniList
-          </a>
-          {", "}
-          <a className={linkClass} href="https://www.igdb.com" target="_blank">
-            IGDB
-          </a>
-          {" and "}
-          <a className={linkClass} href="https://www.wikipedia.org" target="_blank">
-            Wikipedia.
-          </a>{" "}
-          <a className={`${linkClass} pl-1`} href="/content-sources">
-            See more details.
-          </a>
+        <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap mb-2">
+          <div className="text-sm">
+            Using contents from{" "}
+            <a className={linkClass} href="https://www.themoviedb.org" target="_blank">
+              TMDB
+            </a>
+            {", "}
+            <a className={linkClass} href="https://anilist.co" target="_blank">
+              AniList
+            </a>
+            {", "}
+            <a className={linkClass} href="https://www.igdb.com" target="_blank">
+              IGDB
+            </a>
+            {" and "}
+            <a className={linkClass} href="https://www.wikipedia.org" target="_blank">
+              Wikipedia.
+            </a>{" "}
+            <a className={`${linkClass} pl-1`} href="/content-sources">
+              See more details.
+            </a>
+          </div>
+          <div>
+            Contact <br />
+            <a href="mailto:contentlist.rank@gmail.com" className={linkClass}>
+              contentlist.rank@gmail.com
+            </a>
+          </div>
         </div>
         <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap">
           <div className="flex gap-3 flex-wrap">
-            <Link className={policyClass} href="/legal/terms-of-service">
+            <Link className={policyClass} href={LEGAL_LINKS.terms_of_service}>
               Terms of Service
             </Link>
-            <Link
-              className={policyClass}
-              target="_blank"
-              href="https://www.iubenda.com/privacy-policy/93141495"
-            >
+            <Link className={policyClass} target="_blank" href={LEGAL_LINKS.privacy_policy}>
               Privacy Policy
             </Link>
-            <Link
-              className={policyClass}
-              target="_blank"
-              href="https://www.iubenda.com/privacy-policy/93141495/cookie-policy"
-            >
+            <Link className={policyClass} target="_blank" href={LEGAL_LINKS.cookie_policy}>
               Cookie Policy
             </Link>
-          </div>
-          <div>
-            Contact{" "}
-            <a href="mailto:contentlist.rank@gmail.com" className={policyClass}>
-              contentlist.rank@gmail.com
-            </a>
           </div>
         </div>
       </SectionContainer>

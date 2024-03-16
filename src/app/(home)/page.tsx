@@ -9,8 +9,8 @@ export default async function Home() {
   const homeLists = await getHomeLists();
 
   return (
-    <>
-      <SectionContainer className="pt-page-top-space">
+    <div className="pt-page-top-space pb-20">
+      <SectionContainer>
         <h1 className="text-xl sm:text-3xl font-bold flex items-center">
           <span className="anim-vertical-words">
             <ul>
@@ -37,6 +37,6 @@ export default async function Home() {
       </SectionContainer>
 
       <TopicLists homeLists={homeLists || []} />
-    </>
+    </div>
   );
 }

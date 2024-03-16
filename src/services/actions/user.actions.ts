@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
+import {cache} from "react";
 
 export type UserByUsernameResponse = Prisma.UserGetPayload<{
   select: {
@@ -9,7 +10,7 @@ export type UserByUsernameResponse = Prisma.UserGetPayload<{
   };
 }>;
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = cache(async (username: string) => {
   const response: UserByUsernameResponse | null = await prisma.user.findFirst({
     where: {
       username,
@@ -22,4 +23,4 @@ export const getUserByUsername = async (username: string) => {
   });
 
   return response;
-};
+});
