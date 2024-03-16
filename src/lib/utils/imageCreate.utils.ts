@@ -78,6 +78,8 @@ export const listThumbnailGenerate = async () => {
     document.body.appendChild(imgElement);
     */
 
+    console.log("Create thumbnail");
+
     return new File([imageBlob], "thumbnail.png", {
       type: "image/png",
     });

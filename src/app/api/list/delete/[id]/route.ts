@@ -26,7 +26,10 @@ export const DELETE = (_request: Request, _params: RequestParams) =>
           const deleteImageRes = await deleteImage(
             `${CLOUDINARY_LIST_THUMBS_FOLDER_NAME}/${CLOUDINARY_PUBLIC_ID_SUFFIX}${params.id}`,
           );
-          console.log("deleteImageRes", deleteImageRes);
+
+          if (!deleteImageRes) {
+            console.error("List delete. Couldn't delete image.");
+          }
 
           return CreateResponse({
             status: 204,

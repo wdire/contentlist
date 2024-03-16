@@ -34,6 +34,11 @@ model List {
   cloudinaryImageId String?          @unique
   private           Boolean          @default(false)
   edited            Boolean          @default(false)
+  //
+  copiedFrom        List?            @relation("ListCopyHistory", fields: [copiedFromId], references: [id])
+  copiedFromId      Int?
+  listsCopiedThis   List[]           @relation("ListCopyHistory")
+  //
   ListInTopic       ListInTopic[]
   created_at        DateTime         @default(now())
   updated_at        DateTime         @updatedAt

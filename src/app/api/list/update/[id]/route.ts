@@ -53,10 +53,10 @@ export const PUT = (_request: Request, _params: RequestParams) =>
               }
             }
           } else if (image && image instanceof File) {
-            const savedImage = await uploadImage(
-              Buffer.from(await (image as File).arrayBuffer()).toString("base64"),
-              `list_thumb_${params.id}`,
-            );
+            const savedImage = await uploadImage({
+              base64String: Buffer.from(await (image as File).arrayBuffer()).toString("base64"),
+              public_id: `list_thumb_${params.id}`,
+            });
 
             if (!savedImage) {
               return CreateResponse({

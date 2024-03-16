@@ -65,13 +65,33 @@ export const listApi = createApi({
     }),
     create: builder.mutation<
       ListRequestTypes["/list/create"]["response"],
-      ListRequestTypes["/list/create"]["body"]
+      ListRequestTypes["/list/create"]["formdata"]
     >({
-      query: (body) => ({
-        url: `/list/create`,
-        method: "POST",
-        data: body,
-      }),
+      query: (formdata) => {
+        let data;
+
+        if ("copyListId" in formdata) {
+          data = bodyConvertFormData({
+            items: {
+              contentsData: formdata.contentsData,
+              copyListId: formdata.copyListId,
+            },
+            files: [{key: "image", value: formdata.image as Blob}],
+          });
+        } else {
+          data = bodyConvertFormData({
+            items: {
+              name: formdata.name,
+            },
+          });
+        }
+
+        return {
+          url: `/list/create`,
+          method: "POST",
+          data,
+        };
+      },
       invalidatesTags: [{type: "List", id: "ALL"}],
     }),
     getAllByUserId: builder.query<

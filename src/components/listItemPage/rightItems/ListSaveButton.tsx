@@ -30,7 +30,6 @@ const ListSaveButton = () => {
         list.contents.length >= 3
       ) {
         listImagefile = await listThumbnailGenerate();
-        console.log("Create thumbnail");
       }
 
       // Delete image if list's content count is less than 3

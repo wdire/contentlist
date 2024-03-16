@@ -1,10 +1,8 @@
-import {ListSchemas} from "@/api/lib/schemas/list.schema";
 import {InitListProps, ListState} from "@/store/features/list/listSlice";
 import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
-import {ZodTypeOf} from "@/api/lib/index.type.api";
 import {ListByIdResponse} from "@/services/actions/list.actions";
-import {Content, ContentInfoType, Row} from "../types/list.type";
+import {Content, ContentInfoType} from "../types/list.type";
 import {generateId} from "./helper.utils";
 import {STORAGE_ROW_ID} from "../constants";
 import {defaultNewListInfo} from "../config";
