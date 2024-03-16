@@ -1,8 +1,8 @@
 import ListItemPage from "@/components/listItemPage";
 import {getListById} from "@/services/actions/list.actions";
+import {Metadata} from "next";
 import {RedirectType, redirect} from "next/navigation";
 
-/*
 export async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
   const list = await getListById(params.id);
 
@@ -27,7 +27,6 @@ export async function generateMetadata({params}: {params: {id: string}}): Promis
 
   return metadata;
 }
-*/
 
 const ListPage = async ({params}: {params: {id: string}}) => {
   if (!params.id) {

@@ -17,8 +17,6 @@ const ListItemPage = ({list}: {list: ListByIdResponse}) => {
     try {
       console.log("setting list");
 
-      document.title = `${list.name} - ContentList`;
-
       dispatch(
         listActions.initList(
           createListFromDb({

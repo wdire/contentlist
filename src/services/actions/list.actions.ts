@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
+import {cache} from "react";
 
 export type ListByIdResponse = Prisma.ListGetPayload<{
   include: {
@@ -13,7 +14,7 @@ export type ListByIdResponse = Prisma.ListGetPayload<{
   };
 }>;
 
-export const getListById = async (id: string | number) => {
+export const getListById = cache(async (id: string | number) => {
   const response: ListByIdResponse | null = await prisma.list.findFirst({
     where: {
       id: Number(id),
@@ -30,7 +31,7 @@ export const getListById = async (id: string | number) => {
   });
 
   return response;
-};
+});
 
 export type ListsByUserIdResponse = Prisma.ListGetPayload<{
   include: {
@@ -43,7 +44,7 @@ export type ListsByUserIdResponse = Prisma.ListGetPayload<{
   };
 }>[];
 
-export const getListsByUserId = async (userId: string) => {
+export const getListsByUserId = cache(async (userId: string) => {
   const response: ListsByUserIdResponse | null = await prisma.list.findMany({
     where: {
       userId,
@@ -62,7 +63,7 @@ export const getListsByUserId = async (userId: string) => {
   });
 
   return response;
-};
+});
 
 export type ListHomeListsResponse = Prisma.TopicGetPayload<{
   select: {
@@ -88,7 +89,7 @@ export type ListHomeListsResponse = Prisma.TopicGetPayload<{
   };
 }>[];
 
-export const getHomeLists = async () => {
+export const getHomeLists = cache(async () => {
   const topicIds: number[] = JSON.parse(process.env.HOME_TOPIC_IDS) || [];
 
   const response: ListHomeListsResponse = await prisma.topic.findMany({
@@ -130,4 +131,4 @@ export const getHomeLists = async () => {
   });
 
   return sortedResponse;
-};
+});

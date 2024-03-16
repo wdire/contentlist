@@ -11,7 +11,7 @@ import SearchContainer from "./search/SearchContainer";
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
-// TODO: Add "Sources" button to show sources
+// TODO: Add "Source details" button to show source(tmdb, igdb, ...) and type(movie, game, ...)
 
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);

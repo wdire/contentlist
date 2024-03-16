@@ -8,26 +8,34 @@ const Footer = () => {
   return (
     <div className="bg-content1 py-3">
       <SectionContainer className="h-full ">
-        <div className="text-sm mb-3">
-          Using contents from{" "}
-          <a className={linkClass} href="https://www.themoviedb.org" target="_blank">
-            TMDB
-          </a>
-          {", "}
-          <a className={linkClass} href="https://anilist.co" target="_blank">
-            AniList
-          </a>
-          {", "}
-          <a className={linkClass} href="https://www.igdb.com" target="_blank">
-            IGDB
-          </a>
-          {" and "}
-          <a className={linkClass} href="https://www.wikipedia.org" target="_blank">
-            Wikipedia.
-          </a>{" "}
-          <a className={`${linkClass} pl-1`} href="/content-sources">
-            See more details.
-          </a>
+        <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap mb-2">
+          <div className="text-sm">
+            Using contents from{" "}
+            <a className={linkClass} href="https://www.themoviedb.org" target="_blank">
+              TMDB
+            </a>
+            {", "}
+            <a className={linkClass} href="https://anilist.co" target="_blank">
+              AniList
+            </a>
+            {", "}
+            <a className={linkClass} href="https://www.igdb.com" target="_blank">
+              IGDB
+            </a>
+            {" and "}
+            <a className={linkClass} href="https://www.wikipedia.org" target="_blank">
+              Wikipedia.
+            </a>{" "}
+            <a className={`${linkClass} pl-1`} href="/content-sources">
+              See more details.
+            </a>
+          </div>
+          <div>
+            Contact <br />
+            <a href="mailto:contentlist.rank@gmail.com" className={linkClass}>
+              contentlist.rank@gmail.com
+            </a>
+          </div>
         </div>
         <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap">
           <div className="flex gap-3 flex-wrap">
@@ -48,12 +56,6 @@ const Footer = () => {
             >
               Cookie Policy
             </Link>
-          </div>
-          <div>
-            Contact{" "}
-            <a href="mailto:contentlist.rank@gmail.com" className={policyClass}>
-              contentlist.rank@gmail.com
-            </a>
           </div>
         </div>
       </SectionContainer>
