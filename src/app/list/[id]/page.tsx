@@ -28,20 +28,32 @@ export async function generateMetadata({params}: {params: {id: string}}): Promis
   return metadata;
 }
 
-const ListPage = async ({params}: {params: {id: string}}) => {
+const ListPage = async ({
+  params,
+  searchParams,
+}: {
+  params: {id: string};
+  searchParams: {local?: string};
+}) => {
   if (!params.id) {
     return redirect("/", RedirectType.replace);
   }
 
-  const list = await getListById(params.id);
+  if (Number.isNaN(Number(params.id))) {
+    return redirect("/404", RedirectType.replace);
+  }
 
-  if (list === null) {
+  const isLocal = searchParams?.local ? searchParams?.local === "true" : false;
+
+  const list = searchParams?.local ? null : await getListById(params.id);
+
+  if (!isLocal && list === null) {
     redirect("/404", RedirectType.replace);
   }
 
   return (
     <>
-      <ListItemPage list={list} />
+      <ListItemPage list={list} localId={isLocal ? params.id : undefined} />
     </>
   );
 };

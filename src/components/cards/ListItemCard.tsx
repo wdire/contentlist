@@ -8,6 +8,7 @@ export const ListItemCard = ({
   list,
   isLoading,
   xScrollParent,
+  isLocal,
 }: {
   list: Prisma.ListGetPayload<{
     select: {
@@ -23,10 +24,11 @@ export const ListItemCard = ({
   }>;
   isLoading?: boolean;
   xScrollParent?: boolean;
+  isLocal?: boolean;
 }) => {
   return (
     <Link
-      href={`/list/${list.id}`}
+      href={`/list/${list.id}${isLocal ? "?local=true" : ""}`}
       className={clsx(
         "flex-shrink-0 inline-block rounded-xl overflow-hidden relative transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
         {

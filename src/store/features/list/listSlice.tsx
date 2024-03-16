@@ -28,9 +28,13 @@ export type ListState = {
   hasUnsavedChanges: boolean;
   showName: boolean;
   startContents: Content[];
+  isLocalMode: boolean;
 };
 
-export type InitListProps = Pick<ListState, "rows" | "contents" | "info" | "startContents">;
+export type InitListProps = Pick<
+  ListState,
+  "rows" | "contents" | "info" | "startContents" | "isLocalMode"
+>;
 export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents">;
 
 const initialState: ListState = {
@@ -49,6 +53,7 @@ const initialState: ListState = {
   hasUnsavedChanges: false,
   showName: false,
   startContents: [],
+  isLocalMode: false,
 };
 
 export const listSlice = createSlice({
@@ -61,6 +66,7 @@ export const listSlice = createSlice({
       state.startContents = action.payload.startContents;
       state.info = action.payload.info;
       state.fetchLoading = false;
+      state.isLocalMode = action.payload.isLocalMode;
     },
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
       state.rows = action.payload.rows;
@@ -105,6 +111,9 @@ export const listSlice = createSlice({
     },
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
+    },
+    setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
+      state.hasUnsavedChanges = action.payload;
     },
     onDragStart: (
       state,

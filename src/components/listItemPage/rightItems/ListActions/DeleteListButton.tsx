@@ -1,3 +1,4 @@
+import {LocalMode} from "@/lib/utils/localMode.utils";
 import {useDeleteMutation} from "@/services/listApi";
 import {useAppSelector} from "@/store";
 import {
@@ -12,8 +13,9 @@ import {
 import {Trash} from "lucide-react";
 import {useRouter} from "next/navigation";
 import React from "react";
+import {toast} from "react-toastify";
 
-const DeleteListButton = () => {
+const DeleteListButton = ({isLocalMode}: {isLocalMode?: boolean}) => {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const listId = useAppSelector((state) => state.list.info.id);
   const router = useRouter();
@@ -27,13 +29,27 @@ const DeleteListButton = () => {
       return;
     }
 
-    try {
-      await trigger({id: listId});
+    if (isLocalMode) {
+      LocalMode.deleteList(listId);
+      toast("Deleted local list ", {
+        type: "success",
+      });
+      router.push("/local-lists");
+    } else {
+      try {
+        await trigger({id: listId});
 
-      // TODO: Redirect to user's page
-      router.replace("/");
-    } catch (err) {
-      console.error(err);
+        // TODO: Redirect to user's page
+        toast("Deleted list ", {
+          type: "success",
+        });
+        router.push("/");
+      } catch (err) {
+        toast("Couldn't delete list", {
+          type: "error",
+        });
+        console.error(err);
+      }
     }
   };
 

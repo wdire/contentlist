@@ -9,6 +9,7 @@ import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
 import ListCopyButton from "./rightItems/ListCopyButton";
+import ListLocalSaveButton from "./rightItems/ListLocalSaveButton";
 
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
@@ -19,6 +20,7 @@ const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
+  const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
   const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
 
   const {user} = useUser();
@@ -32,13 +34,17 @@ const RightContainer = () => {
               <b className="break-words">{listName}</b>
             </div>
             <div className="mt-2 flex gap-x-1.5 gap-y-1 leading-5 flex-wrap">
-              <span className="text-default-500 flex-shrink-0">List by</span>
-              <Link
-                href={`/user/${listOwnerUsername}`}
-                className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"
-              >
-                {listOwnerUsername}
-              </Link>
+              <span className="text-default-500 flex-shrink-0">
+                {isLocalMode ? "Local mode" : "List by"}
+              </span>
+              {isLocalMode ? null : (
+                <Link
+                  href={`/user/${listOwnerUsername}`}
+                  className="text-rowColor-blue break-words max-w-full transition-opacity hover:opacity-85"
+                >
+                  {listOwnerUsername}
+                </Link>
+              )}
             </div>
           </div>
         ) : (
@@ -54,7 +60,7 @@ const RightContainer = () => {
             <AccordionItem key={"search"} title="Seach">
               <SearchContainer />
             </AccordionItem>
-            <AccordionItem key={"list"} title="List">
+            <AccordionItem key={"list"} title="List Options">
               <ListActions />
             </AccordionItem>
           </Accordion>
@@ -64,7 +70,14 @@ const RightContainer = () => {
 
         {isListOwner ? <ListSaveButton /> : null}
 
-        {user === null ? <div className="mt-3 text-gray-400">Sign In to save changes</div> : null}
+        {user === null && listName ? (
+          <>
+            {isLocalMode ? null : (
+              <div className="mt-3 text-gray-400">Sign in to save changes online</div>
+            )}
+            <ListLocalSaveButton />
+          </>
+        ) : null}
 
         {user && !isListOwner ? <ListCopyButton /> : null}
       </div>

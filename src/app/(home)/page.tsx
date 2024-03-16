@@ -36,7 +36,7 @@ export default async function Home() {
         </div>
       </SectionContainer>
 
-      <TopicLists homeLists={homeLists || []} />
+      <TopicLists homeLists={homeLists} />
     </div>
   );
 }

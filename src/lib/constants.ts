@@ -32,6 +32,8 @@ export const LEGAL_LINKS = {
   terms_of_service: "/legal/terms-of-service",
 };
 
+export const LOCALMODE_KEY = "_local_lists_";
+
 // API
 export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;
