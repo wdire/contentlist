@@ -180,7 +180,10 @@ export type ListRequestTypes = {
   };
   "/list/create": {
     formdata: ZodTypeOf<(typeof ListSchemas)["/list/create"]["formdata"]>;
-    response: ResponseBodyType<Prisma.ListGetPayload<object>>;
+    response: ResponseBodyType<{
+      type: "created" | "has_unedited" | "copy_limit_exceeded";
+      redirectListId?: Prisma.ListGetPayload<object>["id"];
+    }>;
   };
   "/list/delete": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/delete"]["params"]>;

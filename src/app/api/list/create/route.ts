@@ -5,6 +5,7 @@ import {CreateResponse} from "@/api/lib/response.api";
 import {currentUser} from "@clerk/nextjs";
 import {Prisma} from "@prisma/client";
 import {uploadImage} from "@/api/lib/utils/cloudinary.util.api";
+import {USER_LIST_MAX_COPY_COUNT} from "@/lib/constants";
 
 export const POST = (_request: Request) =>
   withValidation<ApiRequestTypes["/list/create"]["formdata"], never>(
@@ -29,9 +30,28 @@ export const POST = (_request: Request) =>
             storage: [],
           },
         },
+        select: {
+          id: true,
+        },
       };
 
       if ("copyListId" in body) {
+        const countAlreadyCopied = await prisma.list.count({
+          where: {
+            userId: user.id,
+            copiedFromId: body.copyListId,
+          },
+        });
+
+        if (countAlreadyCopied >= USER_LIST_MAX_COPY_COUNT) {
+          return CreateResponse<ApiRequestTypes["/list/create"]["response"]["data"]>({
+            status: 200,
+            data: {
+              type: "copy_limit_exceeded",
+            },
+          });
+        }
+
         const listToCopy = await prisma.list.findFirst({
           where: {
             id: body.copyListId,
@@ -60,13 +80,18 @@ export const POST = (_request: Request) =>
             },
             edited: false,
           },
+          select: {
+            id: true,
+          },
         });
 
         if (hasUneditedList) {
           return CreateResponse<ApiRequestTypes["/list/create"]["response"]["data"]>({
             status: 200,
-            message: "User already has an unedited list",
-            data: hasUneditedList,
+            data: {
+              type: "has_unedited",
+              redirectListId: hasUneditedList.id,
+            },
           });
         }
 
@@ -91,7 +116,10 @@ export const POST = (_request: Request) =>
 
       return CreateResponse<ApiRequestTypes["/list/create"]["response"]["data"]>({
         status: 200,
-        data: response,
+        data: {
+          type: "created",
+          redirectListId: response.id,
+        },
       });
     },
   );

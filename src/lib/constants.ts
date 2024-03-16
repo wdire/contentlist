@@ -35,3 +35,5 @@ export const LEGAL_LINKS = {
 // API
 export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;
+
+export const USER_LIST_MAX_COPY_COUNT = 3;

@@ -14,7 +14,7 @@ const UserPage = ({
   userLists: ListsByUserIdResponse;
 }) => {
   return (
-    <SectionContainer className="pt-page-top-space">
+    <SectionContainer className="py-page-top-space">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="h-[84px] font-medium text-3xl bg-content1 w-max px-5 rounded-medium flex items-center">
@@ -34,7 +34,7 @@ const UserPage = ({
         </div>
 
         <div className="flex gap-2">
-          <div className="flex gap-5 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             {userLists.map((list, index) => (
               <ListItemCard list={list} key={index} />
             ))}
