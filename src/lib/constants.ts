@@ -32,6 +32,20 @@ export const LEGAL_LINKS = {
   terms_of_service: "/legal/terms-of-service",
 };
 
+export const LOCALMODE_KEY = "_local_lists_";
+
+export const APP_BASE_URL = (() => {
+  if (process.env.VERCEL_ENV === "production") {
+    return "https://www.contentlist.space";
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:3000";
+  }
+
+  return "https://dev.contentlist.space";
+})();
+
 // API
 export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;

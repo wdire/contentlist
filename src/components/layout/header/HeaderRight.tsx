@@ -18,6 +18,9 @@ const HeaderRight = () => {
   if (isLoaded && !user?.id) {
     return (
       <>
+        <Button variant="flat" color="secondary" as={Link} href="/local-lists">
+          Local Lists
+        </Button>
         <Button
           variant="flat"
           as={Link}

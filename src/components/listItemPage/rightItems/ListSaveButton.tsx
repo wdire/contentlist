@@ -10,6 +10,7 @@ import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
 import {Button} from "@nextui-org/react";
 import React, {useMemo} from "react";
+import {toast} from "react-toastify";
 
 const ListSaveButton = () => {
   const list = useAppSelector((state) => state.list);
@@ -62,6 +63,9 @@ const ListSaveButton = () => {
         );
       }
     } catch (err) {
+      toast("Couldn't update list", {
+        type: "error",
+      });
       console.error(err);
     }
   };

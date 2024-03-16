@@ -16,6 +16,8 @@ const ListActions = () => {
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
+  const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
+
   const maxLengthReached = rowsLength >= LIST_MAX_ROW_LENGTH;
 
   const handleAddRowClick = () => {
@@ -58,7 +60,7 @@ const ListActions = () => {
         >
           {maxLengthReached ? "Max Row Length" : "Add Row"}
         </Button>
-        {isListOwner ? <DeleteListButton /> : null}
+        {isListOwner || isLocalMode ? <DeleteListButton isLocalMode={isLocalMode} /> : null}
       </div>
 
       <div className="text-base mb-3 mt-4">Share</div>

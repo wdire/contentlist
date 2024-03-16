@@ -18,21 +18,27 @@ const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
     <>
       <SectionContainer className="pt-7 md:pt-11">
         <div className="flex flex-col gap-6">
-          {homeLists.map((topic, topicIndex) => {
-            return (
-              <div key={topicIndex}>
-                <h2 className={"text-2xl mb-4 font-medium"}>
-                  Topic <span className={titleColors[topicIndex]}>{topic.name}</span>
-                </h2>
+          {}
 
-                <div className={listsWrapperClass}>
-                  {topic.ListInTopic?.map((ListInTopicItem, listIndex) => (
-                    <ListItemCard list={ListInTopicItem.list} key={listIndex} xScrollParent />
-                  ))}
+          {!homeLists || homeLists.length === 0 ? (
+            <div>No content found</div>
+          ) : (
+            homeLists.map((topic, topicIndex) => {
+              return (
+                <div key={topicIndex}>
+                  <h2 className={"text-2xl mb-4 font-medium"}>
+                    Topic <span className={titleColors[topicIndex]}>{topic.name}</span>
+                  </h2>
+
+                  <div className={listsWrapperClass}>
+                    {topic.ListInTopic?.map((ListInTopicItem, listIndex) => (
+                      <ListItemCard list={ListInTopicItem.list} key={listIndex} xScrollParent />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </SectionContainer>
     </>

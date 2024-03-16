@@ -1,5 +1,10 @@
 import SectionContainer from "@/components/common/SectionContainer";
 import Image from "next/image";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Content Sources",
+};
 
 const ContentSources = () => {
   const SourceTitle = ({count, link, name}: {count: string; name: string; link: string}) => {
