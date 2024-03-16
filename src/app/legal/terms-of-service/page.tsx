@@ -1,6 +1,9 @@
-"use client";
-
 import SectionContainer from "@/components/common/SectionContainer";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+};
 
 const TermsOfService = () => {
   return (

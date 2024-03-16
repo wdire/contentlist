@@ -14,7 +14,6 @@ export async function generateMetadata({params}: {params: {id: string}}): Promis
     const image = `https://res.cloudinary.com/dgib2iezn/image/upload/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`;
 
     metadata.twitter = {
-      card: "summary_large_image",
       images: [image],
     };
 
