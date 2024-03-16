@@ -5,13 +5,10 @@ import debounce from "lodash.debounce";
 import React from "react";
 import dynamic from "next/dynamic";
 import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
-import {createNewRow} from "@/lib/utils/createList.utils";
+import {createNewRow} from "@/lib/utils/helper.utils";
 
 const DeleteListButton = dynamic(() => import("./DeleteListButton"));
 const CreateImage = dynamic(() => import("./CreateImage"));
-
-// DONE: Add button to auto generate list image
-// TODO: Connect image upload system, create and save new thumbnail image on list save
 
 const ListActions = () => {
   const dispatch = useAppDispatch();

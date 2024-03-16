@@ -5,7 +5,6 @@ import {ApiRequestTypes, ApiSchemas} from "@/api/lib/schemas/index.schema";
 import {deleteImage, uploadImage} from "@/api/lib/utils/cloudinary.util.api";
 import {RequestParams, withValidation} from "@/api/lib/withValidation.api";
 import prisma from "@/lib/prisma";
-import {Prisma} from "@prisma/client";
 
 export const PUT = (_request: Request, _params: RequestParams) =>
   withValidation<
@@ -22,19 +21,13 @@ export const PUT = (_request: Request, _params: RequestParams) =>
       withMiddlewares({
         middlewares: [isListOwner(params.id)],
         handler: async () => {
-          const updatePayload: Prisma.ListUpdateArgs = {
-            where: {
-              id: params.id,
-            },
-            data: {
-              name: body.name,
-              contentsData: {
-                rows: body.rows,
-                storage: body.storage,
-              },
-              edited: true,
-            },
-          };
+          let cloudinaryImage:
+            | {
+                connect: {
+                  id: string;
+                };
+              }
+            | undefined;
 
           if (image === null) {
             if (deleteImageValue) {
@@ -71,14 +64,27 @@ export const PUT = (_request: Request, _params: RequestParams) =>
                 message: "Error occured while uploading image",
               });
             }
-            updatePayload.data.cloudinaryImage = {
+            cloudinaryImage = {
               connect: {
                 id: savedImage.id,
               },
             };
           }
 
-          const response = await prisma.list.update(updatePayload);
+          const response = await prisma.list.update({
+            where: {
+              id: params.id,
+            },
+            data: {
+              name: body.name,
+              contentsData: {
+                rows: body.rows,
+                storage: body.storage,
+              },
+              edited: true,
+              cloudinaryImage,
+            },
+          });
 
           return CreateResponse<ApiRequestTypes["/list/update"]["response"]["data"]>({
             status: 200,

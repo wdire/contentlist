@@ -82,7 +82,6 @@ export const ListSchemas = {
     }),
   },
   "/list/update": {
-    body: ListObjectSchema,
     formdata: ListUpdateCreateSchema,
     params: z.object({
       id: ZodDbId,
@@ -165,9 +164,19 @@ export type ListRequestTypes = {
   };
   "/list/update": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;
-    body: ZodTypeOf<(typeof ListSchemas)["/list/update"]["body"]>;
     formdata: ZodTypeOf<(typeof ListSchemas)["/list/update"]["formdata"]>;
-    response: ResponseBodyType<Prisma.ListGetPayload<object>>;
+    response: ResponseBodyType<
+      Prisma.ListGetPayload<{
+        include: {
+          cloudinaryImage: {
+            select: {
+              publicId: true;
+              version: true;
+            };
+          };
+        };
+      }>
+    >;
   };
   "/list/create": {
     body: ZodTypeOf<(typeof ListSchemas)["/list/create"]["body"]>;

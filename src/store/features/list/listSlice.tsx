@@ -27,9 +27,11 @@ export type ListState = {
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
   showName: boolean;
+  startContents: Content[];
 };
 
-export type InitListProps = Pick<ListState, "rows" | "contents" | "info">;
+export type InitListProps = Pick<ListState, "rows" | "contents" | "info" | "startContents">;
+export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents">;
 
 const initialState: ListState = {
   info: {
@@ -46,6 +48,7 @@ const initialState: ListState = {
   fetchLoading: true,
   hasUnsavedChanges: false,
   showName: false,
+  startContents: [],
 };
 
 export const listSlice = createSlice({
@@ -55,8 +58,14 @@ export const listSlice = createSlice({
     initList: (state, action: PayloadAction<InitListProps>) => {
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
+      state.startContents = action.payload.startContents;
       state.info = action.payload.info;
       state.fetchLoading = false;
+    },
+    updateList: (state, action: PayloadAction<ListUpdateProps>) => {
+      state.rows = action.payload.rows;
+      state.contents = action.payload.contents;
+      state.startContents = action.payload.startContents;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
