@@ -65,7 +65,7 @@ export const listSlice = createSlice({
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
       state.info = action.payload.info;
-      // state.fetchLoading = false;
+      state.fetchLoading = false;
       state.isLocalMode = action.payload.isLocalMode;
     },
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
