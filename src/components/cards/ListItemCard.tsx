@@ -1,3 +1,5 @@
+"use client";
+
 import {Skeleton} from "@nextui-org/react";
 import {Prisma} from "@prisma/client";
 import clsx from "clsx";
