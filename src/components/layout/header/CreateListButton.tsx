@@ -24,6 +24,10 @@ const CreateListButton = () => {
           toast("You already have a unedited list.", {
             type: "info",
           });
+        } else if (response.data.type === "created") {
+          toast("Created a new list.", {
+            type: "success",
+          });
         }
         router.push(`/list/${response.data.redirectListId}`);
       } else {

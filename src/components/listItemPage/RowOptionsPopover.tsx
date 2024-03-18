@@ -69,7 +69,6 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
   };
 
   const resetStates = () => {
-    console.log("resetStates");
     setRowTitleInputValue(row.title);
     setRowColorValue(row.color);
   };

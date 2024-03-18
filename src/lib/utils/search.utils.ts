@@ -37,7 +37,7 @@ export const getContentInfoFromTmdb = ({
     }
 
     if (returnData.image_url) {
-      returnData.image_url = `https://image.tmdb.org/t/p/w400${returnData.image_url}`;
+      returnData.image_url = `https://image.tmdb.org/t/p/w300${returnData.image_url}`;
     }
 
     return returnData;

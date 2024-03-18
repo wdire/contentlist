@@ -47,7 +47,7 @@ const SearchResults = memo(function SearchResults() {
             textValue={item?.name}
             onClick={() => onSearchResultClick(item)}
           >
-            <SearchResult info={item} />
+            <SearchResult info={item} notPoster />
           </ListboxItem>
         );
       }}

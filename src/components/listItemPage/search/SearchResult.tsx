@@ -8,7 +8,7 @@ type SearchResultProps = {
   notPoster?: PrismaJson.ContentType["notPoster"];
 };
 
-const SearchResult = ({info, onClick, notPoster = true}: SearchResultProps) => {
+const SearchResult = ({info, onClick, notPoster = undefined}: SearchResultProps) => {
   const getMediaName = () => {
     if (info.source === "anilist") {
       return info.anilist?.type as ContentMediaName;
@@ -35,6 +35,7 @@ const SearchResult = ({info, onClick, notPoster = true}: SearchResultProps) => {
           height={84}
           src={info.image_url}
           aria-label={info.name}
+          unoptimized
         />
         <div className="flex basis-full flex-shrink flex-col  break-words">
           <span className="text-small text-wrap break-words">{info.name}</span>

@@ -29,7 +29,7 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
   };
 
   const wrapperClassName = clsx(
-    "w-[50px] md:w-[80px] md:max-h-[120px] overflow-hidden items-center select-none touch-none",
+    "w-[60px] max-h-[90px] md:w-[80px] md:max-h-[120px] overflow-hidden items-center select-none touch-none",
     "flex text-left cursor-grab relative content",
     {
       "opacity-50": isDragging,
@@ -43,7 +43,7 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
   );
 
   const contentImageClassname = clsx(
-    "object-cover w-full min-h-[50px] pointer-events-none block select-none",
+    "w-full min-h-[50px] pointer-events-none block select-none max-h-full",
     {
       "h-auto object-contain": content?.data?.notPoster,
       "h-full object-cover": !content?.data?.notPoster,
@@ -65,10 +65,10 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
         src={content.data.image_url}
         width={80}
         height={120}
-        sizes="200px"
+        sizes="80px"
         alt={content.data.name}
         className={contentImageClassname}
-        priority
+        unoptimized
       />
       {showName && <div className={contentNameClassName}>{content.data.name}</div>}
     </div>

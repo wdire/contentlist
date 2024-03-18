@@ -9,7 +9,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import NImage from "next/image";
+import Image from "next/image";
 import {useState} from "react";
 
 const CreateImage = () => {
@@ -199,7 +199,7 @@ const CreateImage = () => {
             <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-10">
               View
             </div>
-            <NImage
+            <Image
               width={50}
               height={50}
               src={imgUrl}
@@ -214,12 +214,13 @@ const CreateImage = () => {
                 <ModalBody>
                   <p>You can copy paste or download image.</p>
                   <div className="overflow-y-auto max-h-[350px] sm:max-h-[500px]">
-                    <NImage
+                    <Image
                       src={imgUrl}
                       width={500}
                       height={500}
                       alt="List Preview Image Big"
                       className="w-full object-contain max-h-[600px] sm:max-h-[800px]"
+                      unoptimized
                     />
                   </div>
                 </ModalBody>

@@ -22,12 +22,13 @@ const UserPage = ({
           </div>
           <div className="max-w-full w-max sm:max-w-72 bg-content1 gap-4 py-3 px-4 rounded-medium flex items-center">
             <Image
-              src={user?.imageUrl || "/assets/no-image.png"}
+              src={user?.imageUrl ? `${user?.imageUrl}?width=100` : "/assets/no-image.png"}
               width={60}
               height={60}
               alt={`${user?.username} profile image`}
               className="rounded-full"
               priority
+              unoptimized={!!user?.imageUrl}
             />
             <div className="font-medium max-w-full break-words min-w-1 pr-3">@{user.username}</div>
           </div>

@@ -39,26 +39,30 @@ const RowsContainer = () => {
 export default RowsContainer;
 
 const RowsContainerSkeleton = () => {
-  const head = "w-[120px] h-[80px] flex-shrink-0";
-  const body = "ml-0.5 w-full h-[80px]";
+  const rowHead = "w-[80px] h-[60px] sm:w-[120px] sm:h-[80px] flex-shrink-0";
+  const rowBody = "ml-0.5 w-full h-[60px] sm:h-[80px]";
 
   return (
     <>
       <div className="flex">
-        <Skeleton className={head} />
-        <Skeleton className={body} />
+        <Skeleton className={rowHead} />
+        <Skeleton className={rowBody} />
       </div>
       <div className="flex">
-        <Skeleton className={head} />
-        <Skeleton className={body} />
+        <Skeleton className={rowHead} />
+        <Skeleton className={rowBody} />
       </div>
       <div className="flex">
-        <Skeleton className={head} />
-        <Skeleton className={body} />
+        <Skeleton className={rowHead} />
+        <Skeleton className={rowBody} />
       </div>
       <div className="flex">
-        <Skeleton className={head} />
-        <Skeleton className={body} />
+        <Skeleton className={rowHead} />
+        <Skeleton className={rowBody} />
+      </div>
+      <div className="flex">
+        <Skeleton className={rowHead} />
+        <Skeleton className={rowBody} />
       </div>
     </>
   );

@@ -48,7 +48,7 @@ const RightContainer = () => {
             </div>
           </div>
         ) : (
-          <Skeleton isLoaded={!fetchLoading} className="w-full mb-5 h-[88px] rounded-medium" />
+          <Skeleton isLoaded={!fetchLoading} className="w-full mb-5 h-[92px] rounded-medium" />
         )}
 
         <div
@@ -66,20 +66,21 @@ const RightContainer = () => {
           </Accordion>
         </div>
 
-        {fetchLoading ? <Skeleton className="w-full h-[197px] rounded-medium" /> : null}
+        {fetchLoading ? <Skeleton className="w-full h-[257px] rounded-medium" /> : null}
 
-        {isListOwner ? <ListSaveButton /> : null}
+        {fetchLoading ? <Skeleton className="w-20 h-10 mt-5 rounded-medium" /> : null}
 
-        {user === null && listName ? (
+        {!fetchLoading && isListOwner ? <ListSaveButton /> : null}
+
+        {!fetchLoading && user === null && listName && !isLocalMode ? (
           <>
-            {isLocalMode ? null : (
-              <div className="mt-3 text-gray-400">Sign in to save changes online</div>
-            )}
-            <ListLocalSaveButton />
+            <div className="mt-5 text-gray-400">Sign in to save changes online</div>
           </>
         ) : null}
 
-        {user && !isListOwner ? <ListCopyButton /> : null}
+        {!fetchLoading && isLocalMode ? <ListLocalSaveButton /> : null}
+
+        {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
       </div>
     </div>
   );

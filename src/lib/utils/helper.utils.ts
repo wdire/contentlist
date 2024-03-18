@@ -39,9 +39,9 @@ export const isListFirst12ContentsChanged = (
 
   for (let i = 0; i < lengthToCheck; i += 1) {
     if (
-      startContents[i].id !== currentContents[i].id ||
-      startContents[i].rowId !== currentContents[i].rowId ||
-      startContents[i].data.name !== currentContents[i].data.name
+      (currentContents?.[i]?.id && startContents[i].id !== currentContents[i].id) ||
+      startContents[i]?.rowId !== currentContents[i]?.rowId ||
+      startContents[i].data?.name !== currentContents[i].data?.name
     ) {
       return true;
     }

@@ -52,6 +52,7 @@ export const listThumbnailGenerate = async () => {
       windowWidth: 800,
       windowHeight: 800,
       scale: 1,
+      useCORS: true,
       onclone: (_doc, element) => {
         element.style.display = "grid";
       },

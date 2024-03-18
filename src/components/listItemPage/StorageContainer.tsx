@@ -35,7 +35,7 @@ const StorageContainer = ({contents}: Props) => {
         <div className="flex">
           <h2 className="text-2xl">Box</h2>
         </div>
-        <div className="flex flex-grow flex-wrap min-h-[75px] md:min-h-[120px]">
+        <div className="flex flex-grow flex-wrap min-h-[90px] md:min-h-[120px]">
           <SortableContext id={STORAGE_ROW_ID} items={contentIds}>
             {contents.map((content) => (
               <ContentCard key={content.id} content={content} />
