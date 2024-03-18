@@ -1,6 +1,6 @@
+import {ListItemCard} from "@/components/cards/ListItemCard";
+import SectionContainer from "@/components/common/SectionContainer";
 import {ListHomeListsResponse} from "@/services/actions/list.actions";
-import SectionContainer from "../common/SectionContainer";
-import {ListItemCard} from "../cards/ListItemCard";
 
 const titleColors = [
   "text-rowColor-red",

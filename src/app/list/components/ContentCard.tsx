@@ -7,7 +7,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import {memo} from "react";
 import {useAppSelector} from "@/store";
-import {Content} from "../../lib/types/list.type";
+import {Content} from "../../../lib/types/list.type";
 
 interface Props {
   content: Content;

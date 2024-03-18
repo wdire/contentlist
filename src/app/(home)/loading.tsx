@@ -1,7 +1,7 @@
-import {ListItemCard} from "@/components/cards/ListItemCard";
 import SectionContainer from "@/components/common/SectionContainer";
-import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
 import {Skeleton} from "@nextui-org/react";
+import {ListItemCard} from "@/components/cards/ListItemCard";
+import {HomeDescriptionContent} from "./components/HomeDescriptionContent";
 
 const Loading = () => {
   const listsWrapperClass =

@@ -1,8 +1,8 @@
-import UserPage from "@/components/userPage";
 import {getListsByUserId} from "@/services/actions/list.actions";
 import {getUserByUsername} from "@/services/actions/user.actions";
 import {Metadata} from "next";
 import {RedirectType, redirect} from "next/navigation";
+import User from "../components/User";
 
 export async function generateMetadata({params}: {params: {username: string}}): Promise<Metadata> {
   const user = await getUserByUsername(params.username);
@@ -26,7 +26,7 @@ export async function generateMetadata({params}: {params: {username: string}}): 
   return metadata;
 }
 
-const User = async ({params}: {params: {username: string}}) => {
+const UserPage = async ({params}: {params: {username: string}}) => {
   const user = await getUserByUsername(params.username);
 
   if (user === null) {
@@ -34,7 +34,7 @@ const User = async ({params}: {params: {username: string}}) => {
   }
   const userLists = await getListsByUserId(user.id);
 
-  return <UserPage user={user} userLists={userLists} />;
+  return <User user={user} userLists={userLists} />;
 };
 
-export default User;
+export default UserPage;

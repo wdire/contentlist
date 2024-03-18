@@ -1,7 +1,7 @@
 import SectionContainer from "@/components/common/SectionContainer";
-import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
-import TopicLists from "@/components/home/TopicLists";
 import {getHomeLists} from "@/services/actions/list.actions";
+import {HomeDescriptionContent} from "./components/HomeDescriptionContent";
+import TopicLists from "./components/TopicLists";
 
 export const dynamic = "force-dynamic";
 

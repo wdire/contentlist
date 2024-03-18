@@ -7,7 +7,7 @@ import {STORAGE_ROW_ID} from "@/lib/constants";
 import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import {Skeleton} from "@nextui-org/react";
-import {Content} from "../../lib/types/list.type";
+import {Content} from "../../../lib/types/list.type";
 import ContentCard from "./ContentCard";
 import ContentTrashbox from "./ContentTrashbox";
 

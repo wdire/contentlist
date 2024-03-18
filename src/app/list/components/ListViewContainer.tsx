@@ -26,7 +26,7 @@ import RowItem from "./RowItem";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
-import SectionContainer from "../common/SectionContainer";
+import SectionContainer from "../../../components/common/SectionContainer";
 
 const ContentCard = dynamic(() => import("./ContentCard"));
 

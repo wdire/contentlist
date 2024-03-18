@@ -11,7 +11,7 @@ import {
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
 
-import {Row, Content} from "../../lib/types/list.type";
+import {Row, Content} from "../../../lib/types/list.type";
 import ContentCard from "./ContentCard";
 import RowOptionsPopover from "./RowOptionsPopover";
 

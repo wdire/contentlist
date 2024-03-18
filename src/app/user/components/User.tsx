@@ -3,10 +3,10 @@ import Image from "next/image";
 
 import {ListsByUserIdResponse} from "@/services/actions/list.actions";
 import {UserByUsernameResponse} from "@/services/actions/user.actions";
-import SectionContainer from "../common/SectionContainer";
-import {ListItemCard} from "../cards/ListItemCard";
+import SectionContainer from "@/components/common/SectionContainer";
+import {ListItemCard} from "@/components/cards/ListItemCard";
 
-const UserPage = ({
+const User = ({
   user,
   userLists,
 }: {
@@ -46,4 +46,4 @@ const UserPage = ({
   );
 };
 
-export default UserPage;
+export default User;

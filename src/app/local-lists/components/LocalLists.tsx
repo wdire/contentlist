@@ -6,8 +6,8 @@ import {LocalModeType} from "@/lib/types/localMode.type";
 import {Button} from "@nextui-org/react";
 import {defaultNewListInfo} from "@/lib/config";
 import {useRouter} from "next/navigation";
-import SectionContainer from "../common/SectionContainer";
-import {ListItemCard} from "../cards/ListItemCard";
+import SectionContainer from "@/components/common/SectionContainer";
+import {ListItemCard} from "@/components/cards/ListItemCard";
 
 const LocalLists = () => {
   const [localLists, setLocalLists] = useState<LocalModeType | null | undefined>(undefined);

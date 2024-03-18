@@ -1,4 +1,4 @@
-import ListItemPage from "@/components/listItemPage";
+import ListItemPage from "@/app/list/components";
 import {getListById} from "@/services/actions/list.actions";
 import {Metadata} from "next";
 import {RedirectType, redirect} from "next/navigation";

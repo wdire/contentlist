@@ -48,6 +48,7 @@ const UserButtonAndMenu = () => {
           <DropdownItem key="info" className="h-16" isReadOnly textValue="Profile Info">
             <div className="flex gap-3 h-12 items-center pl-1">
               <Avatar
+                src={`${user.imageUrl}?width=100`}
                 isBordered
                 classNames={{
                   base: "ring-offset-content1",
