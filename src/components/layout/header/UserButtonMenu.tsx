@@ -66,12 +66,14 @@ const UserButtonAndMenu = () => {
             key="account"
             startContent={<UserIcon {...itemIconProps} />}
             onPress={() => openUserProfile()}
+            color="warning"
           >
             Account Settings
           </DropdownItem>
           <DropdownItem
             key="mylist"
             startContent={<ListStart {...itemIconProps} />}
+            color="primary"
             as={Link}
             href={`/user/${user.username}`}
           >
@@ -80,6 +82,7 @@ const UserButtonAndMenu = () => {
           <DropdownItem
             key="locallists"
             startContent={<CloudOff {...itemIconProps} />}
+            color="secondary"
             as={Link}
             href={`/local-lists`}
           >

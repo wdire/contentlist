@@ -15,18 +15,15 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-
 import {STORAGE_ROW_ID} from "@/lib/constants";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
-
 import {listActions} from "@/store/features/list/listSlice";
+import SectionContainer from "@/components/common/SectionContainer";
 import RowItem from "./RowItem";
-
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
-import SectionContainer from "../../../components/common/SectionContainer";
 
 const ContentCard = dynamic(() => import("./ContentCard"));
 

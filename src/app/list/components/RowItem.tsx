@@ -7,13 +7,13 @@ import {
   rectSortingStrategy,
   useSortable,
 } from "@dnd-kit/sortable";
-
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
-
+import dynamic from "next/dynamic";
 import {Row, Content} from "../../../lib/types/list.type";
-import ContentCard from "./ContentCard";
 import RowOptionsPopover from "./RowOptionsPopover";
+
+const ContentCard = dynamic(() => import("./ContentCard"));
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   defaultAnimateLayoutChanges({...args, wasDragging: true});

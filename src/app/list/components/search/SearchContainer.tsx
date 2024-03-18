@@ -1,12 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
 import SearchInput from "./SearchInput";
 import SearchSourceSelect from "./SearchSourceSelect";
-
-const SearchResults = dynamic(() => import("./SearchResults"));
-const SelectedSearchResult = dynamic(() => import("./SelectedSearchResult"));
+import SearchResults from "./SearchResults";
+import SelectedSearchResult from "./SelectedSearchResult";
 
 const SearchContainer = () => {
   return (

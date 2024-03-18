@@ -1,3 +1,5 @@
+"use client";
+
 import {Listbox, ListboxItem, Spinner} from "@nextui-org/react";
 import React, {memo} from "react";
 import {useAppDispatch, useAppSelector} from "@/store";

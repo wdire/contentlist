@@ -3,12 +3,10 @@ import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input} from "@nextui-org/react";
 import debounce from "lodash.debounce";
 import React from "react";
-import dynamic from "next/dynamic";
 import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
 import {createNewRow} from "@/lib/utils/helper.utils";
-
-const DeleteListButton = dynamic(() => import("./DeleteListButton"));
-const CreateImage = dynamic(() => import("./CreateImage"));
+import DeleteListButton from "./DeleteListButton";
+import CreateImage from "./CreateImage";
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
