@@ -75,7 +75,8 @@ const CreateImage = () => {
       await html2canvas(clonedElm, {
         windowWidth: 1400,
         windowHeight: 900,
-
+        scale: 1,
+        useCORS: true,
         onclone: (_doc, element) => {
           element.style.border = "1px solid black";
           element.style.display = "flex";
@@ -101,80 +102,6 @@ const CreateImage = () => {
     }
   };
 
-  /*
-  const thumbnailGenerateTest = async () => {
-    try {
-      setIsLoading(true);
-
-      // Get first 12 content cards
-      const contentCards = Array.prototype.slice.call(
-        document.querySelectorAll("[data-contentcard='true']"),
-        0,
-        12,
-      );
-
-      const tmpContentCardsContainer = document.createElement("div");
-      const tmpContentCardsWrapper = document.createElement("div");
-
-      tmpContentCardsContainer.style.width = "487px";
-      tmpContentCardsContainer.style.height = "487px";
-      tmpContentCardsContainer.style.display = "none";
-      tmpContentCardsContainer.className = "bg-black";
-
-      tmpContentCardsWrapper.style.width = "100%";
-      tmpContentCardsWrapper.style.height = "100%";
-
-      // Apply grid css
-      tmpContentCardsWrapper.className = "thumbnail-c-con";
-
-      contentCards.forEach((contentCard) => {
-        const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
-        tmpContentCardsWrapper.append(clonedContentCard);
-      });
-
-      const html2canvas = (await import("html2canvas")).default;
-
-      // Fixes texts shifting down
-      const style = document.createElement("style");
-      document.body.prepend(style);
-      style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
-
-      // Images doesn't show in result image with having "srcset", need to remove it here.
-      tmpContentCardsWrapper.querySelectorAll("img").forEach((img) => {
-        img.removeAttribute("srcset");
-      });
-
-      tmpContentCardsContainer.append(tmpContentCardsWrapper);
-
-      document.body.append(tmpContentCardsContainer);
-
-      await html2canvas(tmpContentCardsContainer, {
-        onclone: (_doc, element) => {
-          element.style.border = "1px solid black";
-          element.style.display = "flex";
-        },
-      }).then((canvas) => {
-        style.remove();
-        tmpContentCardsContainer.remove();
-        setIsLoading(false);
-
-        canvas.toBlob(function toBlob(blob) {
-          if (!blob) {
-            return;
-          }
-          const url = URL.createObjectURL(blob);
-
-          setImgUrl(url);
-
-          onOpen();
-        });
-      });
-    } catch (err) {
-      console.error("err", err);
-    }
-  };
-  */
-
   const handleDownloadClick = () => {
     const link = document.createElement("a");
     link.href = imgUrl;
@@ -186,9 +113,9 @@ const CreateImage = () => {
   };
 
   return (
-    <>
+    <div className="flex gap-1">
       <Button isLoading={isLoading} color="warning" onPress={handleCreateImageClick} variant="flat">
-        Create Image
+        {isLoading ? "Creating" : "Create Image"}
       </Button>
       {imgUrl ? (
         <>
@@ -225,10 +152,10 @@ const CreateImage = () => {
                   </div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onPress={onClose}>
+                  <Button color="primary" variant="flat" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="success" onPress={handleDownloadClick}>
+                  <Button color="success" variant="flat" onPress={handleDownloadClick}>
                     Download
                   </Button>
                 </ModalFooter>
@@ -237,7 +164,7 @@ const CreateImage = () => {
           </Modal>
         </>
       ) : null}
-    </>
+    </div>
   );
 };
 
