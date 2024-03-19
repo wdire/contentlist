@@ -24,10 +24,7 @@ export const GET = async (_request: Request) => {
         const imageResponse = await fetch(requestedURL.href);
 
         if (imageResponse.ok) {
-          // If the fetch is successful, return the image
           const imageData = await imageResponse.arrayBuffer();
-
-          console.log(imageResponse.headers);
 
           return new Response(imageData, {
             status: 200,

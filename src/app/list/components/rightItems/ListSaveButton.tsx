@@ -37,7 +37,7 @@ const ListSaveButton = () => {
       }
 
       // Delete image if list's content count is less than 3
-      const deleteImage = list.contents.length < 3;
+      const deleteImage = listImagefile === null && list.contents.length < 3;
 
       if (deleteImage) {
         console.log("Delete thumbnail");

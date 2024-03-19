@@ -36,9 +36,8 @@ const ListLocalSaveButton = () => {
         LocalMode.setList(saveList);
         dispatch(listActions.setHasUnsavedChanges(false));
         console.log("Saved to local list");
-        setTimeout(() => {
-          setLoading(false);
-        }, 400);
+
+        setLoading(false);
 
         if (!list.isLocalMode) {
           router.push(`/list/${list.info.id}?local=true`);

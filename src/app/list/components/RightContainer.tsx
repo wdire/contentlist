@@ -78,7 +78,7 @@ const RightContainer = () => {
           </>
         ) : null}
 
-        {!fetchLoading && isLocalMode ? <ListLocalSaveButton /> : null}
+        {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
 
         {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
       </div>
