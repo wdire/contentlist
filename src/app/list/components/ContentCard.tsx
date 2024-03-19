@@ -62,7 +62,7 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
       data-contentcard="true"
     >
       <Image
-        src={content.data.image_url}
+        src={`/api/image-proxy?url=${content.data.image_url}`}
         width={80}
         height={120}
         sizes="80px"

@@ -93,7 +93,13 @@ const SelectedSearchResult = () => {
         />
       </label>
 
-      <Button color="primary" fullWidth className="mt-4" onClick={handleAddToListClick}>
+      <Button
+        color="primary"
+        variant="flat"
+        fullWidth
+        className="mt-4"
+        onClick={handleAddToListClick}
+      >
         Add to List
       </Button>
     </div>

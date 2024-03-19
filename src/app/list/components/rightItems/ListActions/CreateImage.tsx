@@ -1,4 +1,4 @@
-import {LIST_ROWS_ID} from "@/lib/constants";
+import {listPreviewGenerate} from "@/lib/utils/imageCreate.utils";
 import {useAppSelector} from "@/store";
 import {
   Button,
@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import {useState} from "react";
+import {toast} from "react-toastify";
 
 const CreateImage = () => {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
@@ -20,85 +21,17 @@ const CreateImage = () => {
   const listName = useAppSelector((state) => state.list.info.name);
 
   const handleCreateImageClick = async () => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
+    const thumbnailUrl = await listPreviewGenerate({listName: listName || ""});
+    setIsLoading(false);
 
-      const clonedElm = document.getElementById(LIST_ROWS_ID)?.cloneNode(true) as HTMLElement;
-
-      if (!clonedElm) {
-        return;
-      }
-
-      const html2canvas = (await import("html2canvas")).default;
-
-      // Fixes texts shifting down
-      const style = document.createElement("style");
-      document.body.prepend(style);
-      style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
-
-      // Images doesn't show in result image with having "srcset", need to remove it here.
-      Object.values(clonedElm.querySelectorAll("img")).forEach((img) => {
-        img.removeAttribute("srcset");
+    if (thumbnailUrl) {
+      setImgUrl(thumbnailUrl);
+      onOpen();
+    } else {
+      toast("Couldn't create list preview image", {
+        type: "error",
       });
-
-      clonedElm.style.width = "890px";
-      clonedElm.style.display = "none";
-
-      const bottomWrapper = document.createElement("div");
-      bottomWrapper.className =
-        "flex justify-between items-center font-bold px-3 py-2 bg-content1 text-lg";
-
-      const listNameDiv = document.createElement("div");
-      listNameDiv.innerText = listName || "";
-
-      const logoImg = document.createElement("img");
-      logoImg.src = "/assets/white-horizontal-logo.png";
-      logoImg.width = 175;
-      logoImg.height = 32;
-
-      logoImg.className = "block object-contain w-max h-8";
-
-      bottomWrapper.appendChild(listNameDiv);
-      bottomWrapper.appendChild(logoImg);
-
-      // Remove row options buttons
-      Object.values(clonedElm.querySelectorAll("& > div > div:nth-child(3)")).forEach((e) =>
-        e.remove(),
-      );
-
-      clonedElm.appendChild(bottomWrapper);
-
-      clonedElm.style.overflow = "hidden";
-
-      document.body.append(clonedElm);
-
-      await html2canvas(clonedElm, {
-        windowWidth: 1400,
-        windowHeight: 900,
-        scale: 1,
-        useCORS: true,
-        onclone: (_doc, element) => {
-          element.style.border = "1px solid black";
-          element.style.display = "flex";
-        },
-      }).then((canvas) => {
-        style.remove();
-        clonedElm.remove();
-        setIsLoading(false);
-
-        canvas.toBlob(function toBlob(blob) {
-          if (!blob) {
-            return;
-          }
-          const url = URL.createObjectURL(blob);
-
-          setImgUrl(url);
-
-          onOpen();
-        });
-      });
-    } catch (err) {
-      console.error("err", err);
     }
   };
 
