@@ -57,6 +57,9 @@ const UpdateThumbnail = () => {
       return;
     }
 
+    console.log("imageContents***", imageContents);
+    console.log("newImageContents", newImageContents);
+
     if (imageContents === newImageContents) {
       setThumbnailPreviewBlobUrl(
         getListCloudinaryImage({

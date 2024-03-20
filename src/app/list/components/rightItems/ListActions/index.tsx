@@ -9,10 +9,13 @@ import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
 import DeleteListButton from "./DeleteListButton";
 
+const ICON_SIZE = 18;
+
 const ListActions = () => {
   const dispatch = useAppDispatch();
 
   const showName = useAppSelector((state) => state.list.showName);
+  const showSources = useAppSelector((state) => state.list.showSources);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
@@ -34,6 +37,10 @@ const ListActions = () => {
     dispatch(listActions.setShowName(!showName));
   };
 
+  const handleShowSourcesToggle = () => {
+    dispatch(listActions.setShowSources(!showSources));
+  };
+
   const shareLinkButtonClick = () => {
     copyToClipboard(window.location.href);
     toast("List url copied to clipboard", {type: "info"});
@@ -47,21 +54,38 @@ const ListActions = () => {
         defaultValue={listName}
         maxLength={47}
       />
-      <Tooltip
-        showArrow
-        color="foreground"
-        placement="top"
-        content={<span className="text-center">Show/Hide content names</span>}
-      >
-        <Button
-          variant="flat"
-          color={showName ? "primary" : "secondary"}
-          className="mt-2"
-          onPress={handleShowNamesToggle}
+      <div className="flex gap-2 lg:gap-0 lg:justify-between">
+        <Tooltip
+          showArrow
+          color="foreground"
+          placement="top"
+          content={<span className="text-center">Show/Hide content names</span>}
         >
-          {showName ? <EyeIcon size={18} /> : <EyeOffIcon size={18} />} Names
-        </Button>
-      </Tooltip>
+          <Button
+            variant="flat"
+            color={showName ? "primary" : "secondary"}
+            className="mt-2"
+            onPress={handleShowNamesToggle}
+          >
+            {showName ? <EyeIcon size={ICON_SIZE} /> : <EyeOffIcon size={ICON_SIZE} />} Names
+          </Button>
+        </Tooltip>
+        <Tooltip
+          showArrow
+          color="foreground"
+          placement="top"
+          content={<span className="text-center">Show/Hide content names</span>}
+        >
+          <Button
+            variant="flat"
+            color={showSources ? "primary" : "secondary"}
+            className="mt-2"
+            onPress={handleShowSourcesToggle}
+          >
+            {showSources ? <EyeIcon size={ICON_SIZE} /> : <EyeOffIcon size={ICON_SIZE} />} Sources
+          </Button>
+        </Tooltip>
+      </div>
 
       <div className="text-base mb-1 mt-3">Actions</div>
       <div className="flex flex-col gap-2">
@@ -82,7 +106,7 @@ const ListActions = () => {
           >
             <Button
               variant="flat"
-              startContent={<LinkIcon size={18} />}
+              startContent={<LinkIcon size={ICON_SIZE} />}
               onPress={shareLinkButtonClick}
             >
               Share

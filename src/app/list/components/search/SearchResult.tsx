@@ -1,5 +1,5 @@
 import {ContentInfoType} from "@/lib/types/list.type";
-import {ContentMediaName} from "@/lib/utils/helper.utils";
+import {ContentMediaName, getContentMediaType} from "@/lib/utils/helper.utils";
 import Image from "next/image";
 
 type SearchResultProps = {
@@ -9,21 +9,7 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({info, onClick, notPoster = undefined}: SearchResultProps) => {
-  const getMediaName = () => {
-    if (info.source === "anilist") {
-      return info.anilist?.type as ContentMediaName;
-    }
-    if (info.source === "tmdb") {
-      return info.tmdb?.media_type as ContentMediaName;
-    }
-    if (info.source === "igdb") {
-      return "game" as ContentMediaName;
-    }
-
-    return null;
-  };
-
-  const mediaType = getMediaName();
+  const mediaType = getContentMediaType(info);
 
   return (
     <div className="flex justify-between items-center" aria-label={info.name} onClick={onClick}>

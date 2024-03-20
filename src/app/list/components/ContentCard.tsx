@@ -5,9 +5,10 @@ import {CSS} from "@dnd-kit/utilities";
 
 import Image from "next/image";
 import clsx from "clsx";
-import {memo} from "react";
+import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
-import {Content} from "../../../lib/types/list.type";
+import {ContentMediaName, getContentMediaType} from "@/lib/utils/helper.utils";
+import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 interface Props {
   content: Content;
@@ -39,7 +40,7 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
 
   const contentNameClassName = clsx(
     "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
-    "text-[10px] md:text-sm line-clamp-4 md:line-clamp-5 max-h-full pt-1.5 !leading-3 md:!leading-[18px]",
+    "text-[10px] md:text-sm line-clamp-4 md:line-clamp-5 max-h-full pt-2 !leading-3 md:!leading-[18px]",
   );
 
   const contentImageClassname = clsx(
@@ -51,6 +52,12 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
   );
 
   const showName = useAppSelector((state) => state.list.showName);
+  const showSources = useAppSelector((state) => state.list.showSources);
+
+  const mediaName = useMemo(() => {
+    const mediaType = getContentMediaType(content.data);
+    return mediaType && ContentMediaName[mediaType];
+  }, [content.data]);
 
   return (
     <div
@@ -70,7 +77,21 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
         className={contentImageClassname}
         unoptimized
       />
-      {showName && <div className={contentNameClassName}>{content.data.name}</div>}
+      {showName || showSources ? (
+        <div className={contentNameClassName}>
+          {showSources ? (
+            <>
+              <div className="md:text-xs leading-3 pb-1">
+                <div className="font-bold">{ContentSourceName[content.data.source]}</div>
+                <div>{mediaName ? ` ${mediaName}` : null}</div>
+              </div>
+              {showName ? <div className="w-10 h-[1px] mb-1 bg-white" /> : null}
+            </>
+          ) : null}
+
+          {showName ? content.data.name : null}
+        </div>
+      ) : null}
     </div>
   );
 });

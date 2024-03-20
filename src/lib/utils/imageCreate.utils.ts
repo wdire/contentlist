@@ -50,11 +50,6 @@ export const listThumbnailGenerate = async () => {
     document.body.prepend(style);
     style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
 
-    // Images doesn't show in result image with having "srcset", need to remove it here.
-    tmpContentCardsContainer.querySelectorAll("img").forEach((img) => {
-      img.removeAttribute("srcset");
-    });
-
     document.body.append(tmpContentCardsContainer);
 
     const canvas = await html2canvas(tmpContentCardsContainer, {
@@ -102,8 +97,6 @@ export const listThumbnailGenerate = async () => {
 
 export const listPreviewGenerate = async ({listName}: {listName: string}) => {
   try {
-    // setIsLoading(true);
-
     const clonedElm = document.getElementById(LIST_ROWS_ID)?.cloneNode(true) as HTMLElement;
 
     if (!clonedElm) {
@@ -118,6 +111,7 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
 
     clonedElm.style.width = "890px";
+    clonedElm.style.border = "1px solid black";
     clonedElm.style.display = "none";
 
     // Bottom line container
@@ -153,8 +147,9 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     const canvas = await html2canvas(clonedElm, {
       windowWidth: 1400,
       windowHeight: 900,
+      scale: 1,
+      backgroundColor: "#18181b",
       onclone: (_doc, element) => {
-        element.style.border = "1px solid black";
         element.style.display = "flex";
       },
     });

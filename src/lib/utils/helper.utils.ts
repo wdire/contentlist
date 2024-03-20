@@ -23,6 +23,20 @@ export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType | "game
 
 export type ContentMediaName = keyof typeof ContentMediaName;
 
+export const getContentMediaType = (content: Content["data"]): ContentMediaName | null => {
+  if (content.source === "anilist") {
+    return content.anilist?.type as ContentMediaName;
+  }
+  if (content.source === "tmdb") {
+    return content.tmdb?.media_type as ContentMediaName;
+  }
+  if (content.source === "igdb") {
+    return "game" as ContentMediaName;
+  }
+
+  return null;
+};
+
 export const isListFirst12ContentsChanged = (
   startContents: Content[],
   currentContents: Content[],
@@ -75,13 +89,17 @@ export const copyToClipboard = async (text: string) => {
 
 export const getListFirst12ContentsInfo = (contents: Content[]): string | Content => {
   let noIdContent: false | Content = false;
+  const test: string[] = [];
   const imageContents = contents.map((content) => {
+    test.push(content.data.name);
     const contentId = content.data[content.data.source]?.id;
     if (!contentId) {
       noIdContent = content;
     }
     return `${content.data.source}:${content.data[content.data.source]?.id}`;
   });
+
+  console.log("test", test.join(", "));
 
   if (noIdContent) {
     console.error("No content id", noIdContent);

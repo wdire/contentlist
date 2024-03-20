@@ -27,6 +27,7 @@ export type ListState = {
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
   showName: boolean;
+  showSources: boolean;
   startContents: Content[];
   isLocalMode: boolean;
   generatedThumbnailImageContents?: string;
@@ -56,6 +57,7 @@ const initialState: ListState = {
   fetchLoading: true,
   hasUnsavedChanges: false,
   showName: false,
+  showSources: false,
   startContents: [],
   isLocalMode: false,
 };
@@ -117,6 +119,9 @@ export const listSlice = createSlice({
     },
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
+    },
+    setShowSources: (state, action: PayloadAction<boolean>) => {
+      state.showSources = action.payload;
     },
     setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
       state.hasUnsavedChanges = action.payload;
