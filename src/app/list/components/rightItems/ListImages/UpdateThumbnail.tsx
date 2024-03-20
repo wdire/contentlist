@@ -77,6 +77,7 @@ const UpdateThumbnail = () => {
       setUpdateImageState("creating_image");
       const listImageFile = await listThumbnailGenerate();
       setUpdateImageState("created_image");
+      setMessage("Save to update the Thumbnail");
 
       if (listImageFile) {
         setThumbnailPreviewBlobUrl(URL.createObjectURL(listImageFile));
@@ -122,9 +123,7 @@ const UpdateThumbnail = () => {
         >
           {buttonText}
         </Button>
-        {updateImageState === "created_image" || message ? (
-          <div className="text-xs w-24">{message || "Save to update the Thumbnail"}</div>
-        ) : null}
+        {message ? <div className="text-xs w-24">{message}</div> : null}
       </div>
     </div>
   );

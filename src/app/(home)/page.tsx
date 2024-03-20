@@ -31,7 +31,7 @@ export default async function Home() {
           </span>
           Ranks of Anything
         </h1>
-
+        <div className="mt-4" />
         <HomeDescriptionContent />
       </SectionContainer>
 
