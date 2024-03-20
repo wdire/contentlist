@@ -1,5 +1,6 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
+import {orderContentsByRows} from "@/lib/utils/helper.utils";
 import {ListByIdResponse} from "@/services/actions/list.actions";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
@@ -158,6 +159,10 @@ export const listSlice = createSlice({
       const {activeType, activeId, overId} = action.payload;
       if (!overId) return;
 
+      if (activeType === "Content") {
+        state.contents = orderContentsByRows(state.contents, state.rows);
+      }
+
       if (activeId === overId) return;
 
       if (overId === TRASH_BOX_ID) {
@@ -166,14 +171,14 @@ export const listSlice = createSlice({
 
       if (activeType !== "Row") return;
 
-      console.log("DRAG END");
-
       const activeRowIndex = state.rows.findIndex((row) => row.id === activeId);
 
       const overRowIndex = state.rows.findIndex((row) => row.id === overId);
 
       state.rows = arrayMove(state.rows, activeRowIndex, overRowIndex);
       state.hasUnsavedChanges = true;
+
+      state.contents = orderContentsByRows(state.contents, state.rows);
     },
 
     onDragMove: (
@@ -185,8 +190,6 @@ export const listSlice = createSlice({
         overType: string;
       }>,
     ) => {
-      console.log("dispatch onDragMove run");
-
       const {activeId, activeType, overId, overType} = action.payload;
       if (!overId) return;
 
@@ -218,8 +221,6 @@ export const listSlice = createSlice({
         const activeIndex = state.contents.findIndex((t) => t.id === activeId);
 
         state.contents[activeIndex].rowId = overId;
-
-        // console.log("activeIndex overId", activeIndex, overId);
 
         state.hasUnsavedChanges = true;
 

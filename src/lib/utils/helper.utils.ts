@@ -1,6 +1,6 @@
 import {TmdbMediaType} from "@/api/lib/schemas/tmdb.schema";
 import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
-import {rowColors} from "../constants";
+import {rowColors, STORAGE_ROW_ID} from "../constants";
 import {Content, Row} from "../types/list.type";
 
 export const generateId = () => {
@@ -107,6 +107,63 @@ export const getListFirst12ContentsInfo = (contents: Content[]): string | Conten
   }
 
   return imageContents.join(",");
+};
+
+/**
+ * While drag and dropping contents, they are ordered by row id, but not ordered among themselves.
+ * Which is enough for drag and drop to work but for other use cases checking content order, its a mess.
+ *
+ * This returns contents ordered starting from top rows.
+ *
+ * Example:
+ *
+ * Rows: [S, A, B, C]
+ *
+ * Input wrong contents: [["C1", B], ["C2", S], ["C3", B], ["C4", S]], ["C5", A]
+ *
+ * Output correct contents: [["C2", S], ["C4", S]], ["C5", A], ["C1", B], ["C3", B]
+ */
+export const orderContentsByRows = (contents: Content[], rows: Row[]) => {
+  const orderedContents: Content[] = [];
+  const contentsByRowId: Record<string, Content[]> = {};
+
+  contents.forEach((content) => {
+    const {rowId} = content;
+    if (!contentsByRowId[rowId]) {
+      contentsByRowId[rowId] = [];
+    }
+    contentsByRowId[rowId].push(content);
+  });
+
+  rows.forEach((row) => {
+    const rowId = row.id;
+    if (contentsByRowId[rowId]) {
+      orderedContents.push(...contentsByRowId[rowId]);
+    }
+  });
+
+  if (contentsByRowId[STORAGE_ROW_ID]) {
+    orderedContents.push(...contentsByRowId[STORAGE_ROW_ID]);
+  }
+
+  // Test when wrongly placed content gets fixed
+
+  console.log(
+    "contents",
+    JSON.parse(JSON.stringify(contents)).map((c: Content) => c.data.name),
+  );
+  console.log(
+    "orderedContents",
+    orderedContents.map((c) => c.data.name),
+  );
+  console.log(
+    "-EQUAL:",
+    JSON.parse(JSON.stringify(contents))
+      .map((c: Content) => c.data.name)
+      .join("") === orderedContents.map((c) => c.data.name).join(""),
+  );
+
+  return orderedContents;
 };
 
 export const getListCloudinaryImage = ({
