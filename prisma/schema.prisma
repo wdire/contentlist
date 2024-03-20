@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id         String   @id @unique @default(cuid())
-  username   String   @unique
-  email      String   @unique
+  id         String    @id @unique @default(cuid())
+  username   String    @unique
+  email      String    @unique
   imageUrl   String?
   List       List[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 
   @@index([username], name: "idx_user_username")
 }
@@ -46,8 +46,8 @@ model List {
   // (source):(source_id),(source):(source_id),...
   imageContents String?
   //
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  created_at    DateTime  @default(now())
+  updated_at    DateTime? @updatedAt
 
   /// [ListData]
   contentsData Json
@@ -76,11 +76,11 @@ model ListInTopic {
 }
 
 model CloudinaryImage {
-  id         String   @id @default(cuid())
-  publicId   String   @unique
+  id         String    @id @default(cuid())
+  publicId   String    @unique
   format     String
   version    String
   List       List?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 }
