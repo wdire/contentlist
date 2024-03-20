@@ -46,9 +46,9 @@ const CreateImage = () => {
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex lg:justify-between gap-2">
       <Button isLoading={isLoading} color="warning" onPress={handleCreateImageClick} variant="flat">
-        {isLoading ? "Creating" : "Create Image"}
+        {isLoading ? "Creating Preview" : "Create Preview"}
       </Button>
       {imgUrl ? (
         <>

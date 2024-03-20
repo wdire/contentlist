@@ -4,7 +4,6 @@ import {useAppSelector} from "@/store";
 import {Skeleton} from "@nextui-org/react";
 import listSelectors from "@/store/features/list/listSelectors";
 import {LIST_ROWS_ID} from "@/lib/constants";
-import dynamic from "next/dynamic";
 import RowItem from "./RowItem";
 
 const RowsContainer = () => {

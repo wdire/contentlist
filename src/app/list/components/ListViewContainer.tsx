@@ -1,12 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import {useCallback, useRef} from "react";
 import {
   DndContext,
   DragEndEvent,
   DragMoveEvent,
-  DragOverlay,
   DragStartEvent,
   PointerSensor,
   TouchSensor,
@@ -15,25 +13,17 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {STORAGE_ROW_ID} from "@/lib/constants";
-import {useAppDispatch, useAppSelector} from "@/store";
+import {useAppDispatch} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {listActions} from "@/store/features/list/listSlice";
 import SectionContainer from "@/components/common/SectionContainer";
-import RowItem from "./RowItem";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
-
-const ContentCard = dynamic(() => import("./ContentCard"));
+import ContentRowDragOverlay from "./ContentRowDragOverlay";
 
 function ListViewContainer() {
   const dispatch = useAppDispatch();
-
-  const contents = useAppSelector((state) => state.list.contents);
-
-  const activeRow = useAppSelector((state) => state.list.activeRow);
-  const activeContent = useAppSelector((state) => state.list.activeContent);
 
   const lastOverId = useRef<UniqueIdentifier | null>(null);
 
@@ -121,23 +111,13 @@ function ListViewContainer() {
           <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full">
             <div className="flex flex-col gap-3 flex-1 lg:max-w-[900px]">
               <RowsContainer />
-              <StorageContainer
-                contents={contents.filter((content) => content.rowId === STORAGE_ROW_ID)}
-              />
+              <StorageContainer />
             </div>
 
             <RightContainer />
           </div>
 
-          <DragOverlay>
-            {activeRow && (
-              <RowItem
-                row={activeRow}
-                contents={contents.filter((content) => content.rowId === activeRow.id)}
-              />
-            )}
-            {activeContent && <ContentCard content={activeContent} dragOverlay />}
-          </DragOverlay>
+          <ContentRowDragOverlay />
         </DndContext>
       </div>
     </SectionContainer>

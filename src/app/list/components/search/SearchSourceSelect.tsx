@@ -17,7 +17,6 @@ const SearchSourceSelect = () => {
 
   return (
     <Select
-      size="sm"
       label="Source"
       disallowEmptySelection
       className="mb-3"

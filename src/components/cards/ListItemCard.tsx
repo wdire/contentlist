@@ -1,5 +1,6 @@
 "use client";
 
+import {getListCloudinaryImage} from "@/lib/utils/helper.utils";
 import {Skeleton} from "@nextui-org/react";
 import {Prisma} from "@prisma/client";
 import clsx from "clsx";
@@ -48,11 +49,10 @@ export const ListItemCard = ({
           height={266}
           alt={`${list.name} list image`}
           className="object-cover object-bottom w-full rounded-none pointer-events-none aspect-square"
-          src={
-            list.cloudinaryImage?.publicId
-              ? `https://res.cloudinary.com/dgib2iezn/image/upload/w_300/f_auto/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`
-              : "/assets/no-image.png"
-          }
+          src={getListCloudinaryImage({
+            publicId: list.cloudinaryImage?.publicId,
+            version: list.cloudinaryImage?.version,
+          })}
           priority
           unoptimized
         />

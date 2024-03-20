@@ -36,6 +36,7 @@ const ListItemPage = ({list, localId}: {list: ListByIdResponse | null; localId?:
                 name: localList.info.name,
                 isListOwner: undefined,
                 owner: undefined,
+                imageContents: undefined,
               },
               rows: localList.rows,
               startContents: localList.contents,

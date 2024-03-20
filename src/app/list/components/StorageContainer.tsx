@@ -7,16 +7,16 @@ import {STORAGE_ROW_ID} from "@/lib/constants";
 import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import {Skeleton} from "@nextui-org/react";
-import {Content} from "../../../lib/types/list.type";
+import {shallowEqual} from "react-redux";
 import ContentCard from "./ContentCard";
 import ContentTrashbox from "./ContentTrashbox";
 
-interface Props {
-  contents: Content[];
-}
-
-const StorageContainer = ({contents}: Props) => {
+const StorageContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
+  const storageContents = useAppSelector(
+    (state) => state.list.contents.filter((content) => content.rowId === STORAGE_ROW_ID),
+    shallowEqual,
+  );
 
   const {setNodeRef} = useSortable({
     id: STORAGE_ROW_ID,
@@ -26,8 +26,8 @@ const StorageContainer = ({contents}: Props) => {
   });
 
   const contentIds = useMemo(() => {
-    return contents.map((content) => content.id);
-  }, [contents]);
+    return storageContents.map((content) => content.id);
+  }, [storageContents]);
 
   return (
     <Skeleton isLoaded={!fetchLoading} className="rounded-b-medium">
@@ -37,7 +37,7 @@ const StorageContainer = ({contents}: Props) => {
         </div>
         <div className="flex flex-grow flex-wrap min-h-[90px] md:min-h-[120px]">
           <SortableContext id={STORAGE_ROW_ID} items={contentIds}>
-            {contents.map((content) => (
+            {storageContents.map((content) => (
               <ContentCard key={content.id} content={content} />
             ))}
           </SortableContext>

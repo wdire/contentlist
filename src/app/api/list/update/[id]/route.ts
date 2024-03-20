@@ -17,7 +17,7 @@ export const PUT = (_request: Request, _params: RequestParams) =>
       _params,
       paramsSchema: ApiSchemas["/list/update"].params,
     },
-    async ({body: {body, image, deleteImage: deleteImageValue}, params}) =>
+    async ({body: {body, image, deleteImage: deleteImageValue, imageContents}, params}) =>
       withMiddlewares({
         middlewares: [isListOwner(params.id)],
         handler: async () => {
@@ -76,13 +76,24 @@ export const PUT = (_request: Request, _params: RequestParams) =>
               id: params.id,
             },
             data: {
-              name: body.name,
-              contentsData: {
-                rows: body.rows,
-                storage: body.storage,
-              },
+              name: body?.name,
+              contentsData: body
+                ? {
+                    rows: body.rows,
+                    storage: body.storage,
+                  }
+                : undefined,
               edited: true,
               cloudinaryImage,
+              imageContents,
+            },
+            include: {
+              cloudinaryImage: {
+                select: {
+                  publicId: true,
+                  version: true,
+                },
+              },
             },
           });
 

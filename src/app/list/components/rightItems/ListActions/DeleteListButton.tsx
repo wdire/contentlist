@@ -55,8 +55,14 @@ const DeleteListButton = ({isLocalMode}: {isLocalMode?: boolean}) => {
 
   return (
     <>
-      <Button onPress={onOpen} isIconOnly color="danger" variant="flat">
-        <Trash />
+      <Button
+        onPress={onOpen}
+        startContent={<Trash size={18} />}
+        color="danger"
+        variant="flat"
+        className="w-max"
+      >
+        Delete List
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
@@ -73,7 +79,7 @@ const DeleteListButton = ({isLocalMode}: {isLocalMode?: boolean}) => {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="flat" onPress={onClose}>
-                Close
+                Cancel
               </Button>
               <Button
                 isLoading={isLoading}

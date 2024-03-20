@@ -8,10 +8,10 @@ import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
 import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
 import DeleteListButton from "./DeleteListButton";
-import CreateImage from "./CreateImage";
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
+
   const showName = useAppSelector((state) => state.list.showName);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const listName = useAppSelector((state) => state.list.info.name);
@@ -59,38 +59,45 @@ const ListActions = () => {
           className="mt-2"
           onPress={handleShowNamesToggle}
         >
-          {showName ? <EyeIcon /> : <EyeOffIcon />} Names
+          {showName ? <EyeIcon size={18} /> : <EyeOffIcon size={18} />} Names
         </Button>
       </Tooltip>
 
-      <div className="text-base mb-3 mt-4">Actions</div>
-      <div className="flex items-center justify-between">
-        <Button
-          color="primary"
-          isDisabled={maxLengthReached}
-          onPress={handleAddRowClick}
-          variant="flat"
-        >
-          {maxLengthReached ? "Max Row Length" : "Add Row"}
-        </Button>
-        {isListOwner || isLocalMode ? <DeleteListButton isLocalMode={isLocalMode} /> : null}
-      </div>
-
-      <div className="text-base mb-3 mt-4">Share</div>
-      <div className="flex items-center justify-between">
-        <Tooltip
-          showArrow
-          color="foreground"
-          placement="top"
-          content={<span className="text-center">Copy list url</span>}
-        >
-          <Button variant="flat" isIconOnly onPress={shareLinkButtonClick}>
-            <LinkIcon />
+      <div className="text-base mb-1 mt-3">Actions</div>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-1.5">
+          <Button
+            color="primary"
+            isDisabled={maxLengthReached}
+            onPress={handleAddRowClick}
+            variant="flat"
+          >
+            {maxLengthReached ? "Max Row Length" : "Add Row"}
           </Button>
-        </Tooltip>
+          <Tooltip
+            showArrow
+            color="foreground"
+            placement="top"
+            content={<span className="text-center">Copy list url</span>}
+          >
+            <Button
+              variant="flat"
+              startContent={<LinkIcon size={18} />}
+              onPress={shareLinkButtonClick}
+            >
+              Share
+            </Button>
+          </Tooltip>
+        </div>
 
-        <CreateImage />
+        {isListOwner || isLocalMode ? (
+          <div className="mt-3">
+            <DeleteListButton isLocalMode={isLocalMode} />
+          </div>
+        ) : null}
       </div>
+
+      <div className="mt-4"></div>
     </div>
   );
 };

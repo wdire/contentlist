@@ -96,7 +96,6 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
           <div>
             <label className="block mb-2">Title</label>
             <Input
-              size="sm"
               value={rowTitleInputValue}
               onValueChange={setRowTitleInputValue}
               onKeyDown={(key) =>

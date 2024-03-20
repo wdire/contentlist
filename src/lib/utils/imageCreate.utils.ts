@@ -1,6 +1,15 @@
 import {LIST_ROWS_ID} from "../constants";
 
 const THUMBNAIL_SIZE = 600;
+let thumbnail_image: File | null = null;
+
+export const getGeneratedThumbnailImage = () => {
+  return thumbnail_image;
+};
+
+export const setGeneratedThumbnailImage = (image: File | null) => {
+  thumbnail_image = image;
+};
 
 export const listThumbnailGenerate = async () => {
   try {
@@ -81,10 +90,10 @@ export const listThumbnailGenerate = async () => {
     */
 
     console.log("Create thumbnail");
-
-    return new File([imageBlob], "thumbnail.png", {
+    thumbnail_image = new File([imageBlob], "thumbnail.png", {
       type: "image/png",
     });
+    return thumbnail_image;
   } catch (err) {
     console.error("err", err);
     return null;

@@ -2,25 +2,32 @@ import {LocalModeListType} from "@/lib/types/localMode.type";
 import {LocalMode} from "@/lib/utils/localMode.utils";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
+import {AppStore} from "@/store/store";
 import {Button} from "@nextui-org/react";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useMemo, useState} from "react";
+import {useStore} from "react-redux";
 
 const ListLocalSaveButton = () => {
   const dispatch = useAppDispatch();
-  const list = useAppSelector((state) => state.list);
+  const listId = useAppSelector((state) => state.list.info.id);
+  const hasUnsavedChanges = useAppSelector((state) => state.list.hasUnsavedChanges);
+  const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
+  const store = useStore() as AppStore;
+
   const [hasLocalSave, setLocalSave] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (list.info.id) {
-      setLocalSave(Boolean(LocalMode.getList(list.info.id)));
+    if (listId) {
+      setLocalSave(Boolean(LocalMode.getList(listId)));
     }
-  }, [list.info.id]);
+  }, [listId]);
 
   const handleLocalSaveClick = async () => {
+    const {list} = store.getState();
     try {
       setLoading(true);
       if (!hasLocalSave || list.isLocalMode) {
@@ -45,7 +52,7 @@ const ListLocalSaveButton = () => {
       }
 
       if (hasLocalSave) {
-        router.push(`/list/${list.info.id}?local=true`);
+        router.push(`/list/${listId}?local=true`);
       }
     } catch (err) {
       setLoading(false);
@@ -54,8 +61,8 @@ const ListLocalSaveButton = () => {
   };
 
   const buttonText = useMemo(() => {
-    if (list.isLocalMode) {
-      return `${list.hasUnsavedChanges ? "Save" : "Saved"} to Local`;
+    if (isLocalMode) {
+      return `${hasUnsavedChanges ? "Save" : "Saved"} to Local`;
     }
 
     if (hasLocalSave) {
@@ -63,14 +70,14 @@ const ListLocalSaveButton = () => {
     }
 
     return "Create Local Save";
-  }, [list.isLocalMode, list.hasUnsavedChanges, hasLocalSave]);
+  }, [isLocalMode, hasUnsavedChanges, hasLocalSave]);
 
   return (
     <>
       <Button
         color="secondary"
         isLoading={loading}
-        isDisabled={list.isLocalMode && !list.hasUnsavedChanges}
+        isDisabled={isLocalMode && !hasUnsavedChanges}
         onPress={handleLocalSaveClick}
         className="mt-5"
         variant="flat"

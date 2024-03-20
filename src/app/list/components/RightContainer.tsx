@@ -10,6 +10,7 @@ import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
 import ListCopyButton from "./rightItems/ListCopyButton";
 import ListLocalSaveButton from "./rightItems/ListLocalSaveButton";
+import ListImages from "./rightItems/ListImages";
 
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
@@ -63,6 +64,9 @@ const RightContainer = () => {
             <AccordionItem key={"list"} title="List Options">
               <ListActions />
             </AccordionItem>
+            <AccordionItem key={"images"} title="List Images">
+              <ListImages />
+            </AccordionItem>
           </Accordion>
         </div>
 
@@ -70,8 +74,7 @@ const RightContainer = () => {
 
         {fetchLoading ? <Skeleton className="w-20 h-10 mt-5 rounded-medium" /> : null}
 
-        {!fetchLoading && isListOwner ? <ListSaveButton /> : null}
-
+        <div className="mt-5">{!fetchLoading && isListOwner ? <ListSaveButton /> : null}</div>
         {!fetchLoading && user === null && listName && !isLocalMode ? (
           <>
             <div className="mt-5 text-gray-400">Sign in to save changes online</div>
