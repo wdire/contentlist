@@ -26,14 +26,19 @@ export type ListState = {
   showSources: boolean;
   contentSize: REMEMBERED_STATES_TYPES["CONTENT_SIZE"];
   startContents: Content[];
+  startRows: Row[];
   isLocalMode: boolean;
   generatedThumbnailImageContents?: string;
 };
 
 export type InitListProps = Pick<
   ListState,
-  "rows" | "contents" | "info" | "startContents" | "isLocalMode"
->;
-export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents"> & {
+  "rows" | "contents" | "info" | "startContents" | "startRows" | "isLocalMode"
+> &
+  Partial<Pick<ListState, "hasUnsavedChanges" | "contentSize" | "showName">>;
+export type ListUpdateProps = Pick<
+  ListState,
+  "rows" | "contents" | "startContents" | "startRows"
+> & {
   info: Pick<ListState["info"], "cloudinaryImage" | "imageContents">;
 };

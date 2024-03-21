@@ -5,7 +5,13 @@ import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-import {getRememberedStates, setRememberedState} from "@/lib/utils/rememberStates.utils";
+import {
+  deleteRememberedState,
+  getRememberedStates,
+  rememberUnsavedChanges,
+  setRememberedState,
+} from "@/lib/utils/rememberStates.utils";
+import {toast} from "react-toastify";
 import {InitListProps, ListState, ListUpdateProps} from "./listSlice.type";
 
 const initialState: ListState = {
@@ -27,6 +33,7 @@ const initialState: ListState = {
   showSources: false,
   contentSize: "1x",
   startContents: [],
+  startRows: [],
   isLocalMode: false,
 };
 
@@ -38,19 +45,50 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
+      state.startRows = action.payload.startRows;
       state.info = action.payload.info;
-      state.fetchLoading = false;
+
       state.isLocalMode = action.payload.isLocalMode;
 
-      const {contentSize, showName} = getRememberedStates();
+      const {CONTENT_SIZE, SHOW_NAMES, UNSAVED_CHANGES} = getRememberedStates({
+        listId: state.info.id,
+      });
 
-      if (contentSize !== undefined) {
-        state.contentSize = contentSize;
+      if (CONTENT_SIZE !== undefined) {
+        state.contentSize = CONTENT_SIZE;
       }
 
-      if (showName !== undefined) {
-        state.showName = showName;
+      if (SHOW_NAMES !== undefined) {
+        state.showName = SHOW_NAMES;
       }
+
+      if (UNSAVED_CHANGES !== undefined) {
+        const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+        if (
+          UNSAVED_CHANGES?.last_update &&
+          new Date().getTime() - new Date(UNSAVED_CHANGES?.last_update).getTime() >= oneWeek
+        ) {
+          deleteRememberedState({key: "UNSAVED_CHANGES", listId: action.payload.info.id});
+        } else if (
+          UNSAVED_CHANGES.hasUnsavedChanges === true &&
+          UNSAVED_CHANGES.contents &&
+          UNSAVED_CHANGES.rows
+        ) {
+          state.hasUnsavedChanges = true;
+          state.contents = UNSAVED_CHANGES.contents;
+          state.rows = UNSAVED_CHANGES.rows;
+
+          toast("Applied not saved changes to list", {
+            type: "info",
+            autoClose: 10000,
+          });
+        }
+      } else {
+        deleteRememberedState({key: "UNSAVED_CHANGES", listId: action.payload.info.id});
+      }
+
+      state.fetchLoading = false;
     },
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
       state.rows = action.payload.rows;
@@ -66,11 +104,23 @@ export const listSlice = createSlice({
     addContent: (state, action: PayloadAction<Content>) => {
       state.contents.push(action.payload);
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     addRow: (state, action: PayloadAction<Row>) => {
       if (state.rows.length < 10) {
         state.rows.push(action.payload);
         state.hasUnsavedChanges = true;
+
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
     },
     editRowInfo: (state, action: PayloadAction<Row>) => {
@@ -94,19 +144,28 @@ export const listSlice = createSlice({
       });
       state.rows = state.rows.filter((r) => r.id !== action.payload.id);
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
-      setRememberedState("SHOW_NAMES", action.payload);
+      setRememberedState({key: "SHOW_NAMES", value: action.payload});
     },
     setShowSources: (state, action: PayloadAction<boolean>) => {
       state.showSources = action.payload;
     },
     setContentSize: (state, action: PayloadAction<ListState["contentSize"]>) => {
       state.contentSize = action.payload;
-      setRememberedState("CONTENT_SIZE", action.payload);
+      setRememberedState({key: "CONTENT_SIZE", value: action.payload});
     },
     setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
+      if (action.payload === false) {
+        deleteRememberedState({key: "UNSAVED_CHANGES", listId: state.info.id});
+      }
       state.hasUnsavedChanges = action.payload;
     },
     setGeneratedThumbnailImageContents: (state, action: PayloadAction<string>) => {
@@ -155,12 +214,23 @@ export const listSlice = createSlice({
 
       if (activeType === "Content") {
         state.contents = orderContentsByRows(state.contents, state.rows);
+
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
 
       if (activeId === overId) return;
 
       if (overId === TRASH_BOX_ID) {
         state.contents = state.contents.filter((c) => c.id !== activeId);
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
 
       if (activeType !== "Row") return;
@@ -173,6 +243,12 @@ export const listSlice = createSlice({
       state.hasUnsavedChanges = true;
 
       state.contents = orderContentsByRows(state.contents, state.rows);
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
 
     onDragMove: (

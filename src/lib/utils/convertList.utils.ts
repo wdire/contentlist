@@ -35,6 +35,7 @@ export const convertDBListToRedux = ({
       imageContents,
     },
     startContents: [],
+    startRows: [],
     isLocalMode: false,
   };
 
@@ -45,6 +46,7 @@ export const convertDBListToRedux = ({
   list.rows = rows;
   list.contents = contents;
   list.startContents = contents;
+  list.startRows = rows;
 
   return list;
 };

@@ -39,7 +39,6 @@ const StorageContainer = () => {
   const handleContentSizeChange = (size: ListState["contentSize"]) => {
     dispatch(listActions.setContentSize(size));
 
-    console.log("scroll into view", storageRef.current);
     setTimeout(() => {
       if (storageRef.current) {
         storageRef.current.scrollIntoView({
