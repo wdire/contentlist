@@ -3,7 +3,7 @@ import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input, Tooltip} from "@nextui-org/react";
 import debounce from "lodash.debounce";
 import React from "react";
-import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
+import {LIST_MAX_ROW_LENGTH, MAX_LENGTHS} from "@/lib/constants";
 import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
 import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
@@ -43,7 +43,7 @@ const ListActions = () => {
 
   const shareLinkButtonClick = () => {
     copyToClipboard(window.location.href);
-    toast("List url copied to clipboard", {type: "info"});
+    toast("List url copied to clipboard", {type: "info", toastId: "url_copied"});
   };
 
   return (
@@ -52,7 +52,7 @@ const ListActions = () => {
         label="Name"
         onValueChange={debounce(handleChangeListName, 500)}
         defaultValue={listName}
-        maxLength={47}
+        maxLength={MAX_LENGTHS.list_title}
       />
       <div className="flex gap-2 lg:gap-0 lg:justify-between">
         <Tooltip

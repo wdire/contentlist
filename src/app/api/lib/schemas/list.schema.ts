@@ -1,44 +1,72 @@
 import {Prisma} from "@prisma/client";
 import {ZodType, z} from "zod";
-import {rowColors} from "@/lib/constants";
+import {ALLOWED_HOSTNAMES, MAX_LENGTHS, rowColors} from "@/lib/constants";
 import {ContentSourceType} from "@/lib/types/list.type";
 import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {ResponseBodyType} from "../response.api";
 import {ZodDbId, ZodTypeOf} from "../index.type.api";
 import {TmdbMediaType} from "./tmdb.schema";
 
-const ListContentSchema = z.object({
-  name: z.string(),
-  image_url: z.string(),
-  source: z.enum(ContentSourceType),
-  notPoster: z.boolean().optional(),
-  tmdb: z
-    .object({
-      id: z.number(),
-      media_type: z.enum(TmdbMediaType),
-    })
-    .optional()
-    .nullable(),
-  anilist: z
-    .object({
-      id: z.number(),
-      type: z.enum(AnilistMediaType),
-    })
-    .optional()
-    .nullable(),
-  igdb: z
-    .object({
-      id: z.number(),
-    })
-    .optional()
-    .nullable(),
-  wikipedia: z
-    .object({
-      id: z.number(),
-    })
-    .optional()
-    .nullable(),
-}) satisfies ZodType<PrismaJson.ContentType>;
+const ListContentSchema = z
+  .object({
+    name: z.string(),
+    image_url: z.string(),
+    source: z.enum(ContentSourceType),
+    notPoster: z.boolean().optional(),
+    tmdb: z
+      .object({
+        id: z.number(),
+        media_type: z.enum(TmdbMediaType),
+      })
+      .optional()
+      .nullable(),
+    anilist: z
+      .object({
+        id: z.number(),
+        type: z.enum(AnilistMediaType),
+      })
+      .optional()
+      .nullable(),
+    igdb: z
+      .object({
+        id: z.number(),
+      })
+      .optional()
+      .nullable(),
+    wikipedia: z
+      .object({
+        id: z.number(),
+      })
+      .optional()
+      .nullable(),
+  })
+  .superRefine((data, ctx) => {
+    const isAllowed = ALLOWED_HOSTNAMES.some((allowedURL) => {
+      return data.image_url.startsWith(`https://${allowedURL}`);
+    });
+
+    if (!isAllowed) {
+      ctx.addIssue({
+        code: "custom",
+        message: `Incorrect content image_url source. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}`,
+      });
+    }
+
+    const presentSources = ContentSourceType.filter((source) => data[source] !== undefined);
+    if (presentSources.length !== 1) {
+      ctx.addIssue({
+        code: "custom",
+        message: `Only one source detail object is allowed. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}'`,
+      });
+    }
+
+    if (presentSources[0] !== data.source) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Given source detail object doesn't match with source value",
+      });
+    }
+  }) satisfies ZodType<PrismaJson.ContentType>;
 
 const ImageSchema = z
   .any()
@@ -51,18 +79,42 @@ const ImageSchema = z
     "Only .png format is supported.",
   );
 
-const ListObjectSchema = z.object({
-  name: z.string(),
-  rows: z.array(
-    z.object({
-      name: z.string(),
-      color: z.enum(rowColors),
-      row_id: z.string(),
-      contents: z.array(ListContentSchema),
-    }),
-  ),
-  storage: z.array(ListContentSchema),
-}) satisfies ZodType<{
+const ListObjectSchema = z
+  .object({
+    name: z.string(),
+    rows: z.array(
+      z.object({
+        name: z.string().max(MAX_LENGTHS.list_title),
+        color: z.enum(rowColors),
+        row_id: z.string().max(50),
+        contents: z.array(ListContentSchema),
+      }),
+    ),
+    storage: z.array(ListContentSchema),
+  })
+  .superRefine((data, ctx) => {
+    let totalContents = 0;
+
+    data.rows.forEach((row) => {
+      totalContents += row.contents.length;
+    });
+
+    totalContents += data.storage.length;
+
+    if (totalContents > MAX_LENGTHS.max_contents) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Max contents length reached",
+      });
+    }
+
+    if (data.rows.length > MAX_LENGTHS.max_rows) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Max rows length reached",
+      });
+    }
+  }) satisfies ZodType<{
   name: string;
   rows: PrismaJson.RowsType[];
   storage: PrismaJson.ContentType[];
@@ -72,7 +124,7 @@ const ListUpdateSchema = z.object({
   body: ListObjectSchema.optional(),
   image: ImageSchema.optional(),
   deleteImage: z.boolean().optional(),
-  imageContents: z.string().optional(),
+  imageContents: z.string().max(250).optional(),
 });
 
 export const ListSchemas = {
@@ -90,14 +142,14 @@ export const ListSchemas = {
   "/list/create": {
     formdata: z
       .object({
-        name: ListObjectSchema.shape.name,
+        name: ListObjectSchema._def.schema.shape.name,
       })
       .or(
         z.object({
-          copyListId: z.number(),
+          copyListId: ZodDbId,
           contentsData: z.object({
-            rows: ListObjectSchema.shape.rows,
-            storage: ListObjectSchema.shape.storage,
+            rows: ListObjectSchema._def.schema.shape.rows,
+            storage: ListObjectSchema._def.schema.shape.storage,
           }),
           image: ImageSchema,
         }),

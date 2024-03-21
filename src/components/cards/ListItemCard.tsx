@@ -60,12 +60,11 @@ export const ListItemCard = ({
 
       <Skeleton
         isLoaded={!isLoading}
-        className="absolute bottom-0 text-sm sm:text-base z-10 py-1 px-2.5 sm:px-3 sm:py-1 h-auto subpixel-antialiased rounded-b-xl border-b-1 border-white/20 !bg-content1 backdrop-blur backdrop-saturate-100 overflow-hidden shadow-small w-full"
-        classNames={{
-          content: "min-h-[24px] sm:min-h-[35px] flex items-center",
-        }}
+        className="absolute bottom-0 text-sm sm:text-base z-10 h-auto w-full"
       >
-        {list.name}
+        <div className="min-h-[33px] sm:min-h-11 flex items-center w-full py-1.5 px-2.5 sm:px-3 sm:py-2 subpixel-antialiased rounded-b-xl border-b-1 border-white/20 bg-content1/40 backdrop-blur backdrop-saturate-100 overflow-hidden shadow-small">
+          {list.name}
+        </div>
       </Skeleton>
     </Link>
   );

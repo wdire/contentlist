@@ -72,3 +72,16 @@ export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;
 
 export const USER_LIST_MAX_COPY_COUNT = 3;
+
+export const ALLOWED_HOSTNAMES = [
+  "image.tmdb.org",
+  "images.igdb.com",
+  "s4.anilist.co",
+  "upload.wikimedia.org",
+];
+
+export const MAX_LENGTHS = {
+  list_title: 65,
+  max_rows: 10,
+  max_contents: 500,
+};

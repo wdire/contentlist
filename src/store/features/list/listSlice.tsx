@@ -82,6 +82,7 @@ export const listSlice = createSlice({
           toast("Applied not saved changes to list", {
             type: "info",
             autoClose: 10000,
+            toastId: "applied_not_saved",
           });
         }
       } else {
