@@ -89,17 +89,14 @@ export const copyToClipboard = async (text: string) => {
 
 export const getListFirst12ContentsInfo = (contents: Content[]): string | Content => {
   let noIdContent: false | Content = false;
-  const test: string[] = [];
+
   const imageContents = contents.map((content) => {
-    test.push(content.data.name);
     const contentId = content.data[content.data.source]?.id;
     if (!contentId) {
       noIdContent = content;
     }
     return `${content.data.source}:${content.data[content.data.source]?.id}`;
   });
-
-  console.log("test", test.join(", "));
 
   if (noIdContent) {
     console.error("No content id", noIdContent);
@@ -148,6 +145,7 @@ export const orderContentsByRows = (contents: Content[], rows: Row[]) => {
 
   // Test when wrongly placed content gets fixed
 
+  /*
   console.log(
     "contents",
     JSON.parse(JSON.stringify(contents)).map((c: Content) => c.data.name),
@@ -162,6 +160,7 @@ export const orderContentsByRows = (contents: Content[], rows: Row[]) => {
       .map((c: Content) => c.data.name)
       .join("") === orderedContents.map((c) => c.data.name).join(""),
   );
+  */
 
   return orderedContents;
 };
