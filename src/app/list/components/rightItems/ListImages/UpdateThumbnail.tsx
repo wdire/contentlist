@@ -16,9 +16,7 @@ const UpdateThumbnail = () => {
   const dispatch = useAppDispatch();
   const store = useStore() as AppStore;
 
-  const [updateImageState, setUpdateImageState] = useState<
-    "default" | "creating_image" | "created_image"
-  >("default");
+  const [updateImageState, setUpdateImageState] = useState<"default" | "creating_image">("default");
 
   const [thumbnailPreviewUrl, setThumbnailPreviewBlobUrl] = useState(
     getListCloudinaryImage({
@@ -26,12 +24,20 @@ const UpdateThumbnail = () => {
       version: cloudinaryImage?.version,
     }),
   );
-
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setUpdateImageState("default");
-  }, [hasUnsavedChanges]);
+    if (hasUnsavedChanges === false) {
+      setUpdateImageState("default");
+      setThumbnailPreviewBlobUrl(
+        getListCloudinaryImage({
+          publicId: cloudinaryImage?.publicId,
+          version: cloudinaryImage?.version,
+        }),
+      );
+      setMessage("");
+    }
+  }, [hasUnsavedChanges, cloudinaryImage]);
 
   const handleCreateThumbnailClick = async () => {
     const {
@@ -79,7 +85,7 @@ const UpdateThumbnail = () => {
     if (contents.length >= 3) {
       setUpdateImageState("creating_image");
       const listImageFile = await listThumbnailGenerate();
-      setUpdateImageState("created_image");
+      setUpdateImageState("default");
       setMessage("Save to update the Thumbnail");
 
       if (listImageFile) {

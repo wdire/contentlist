@@ -94,8 +94,17 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
+      state.startRows = action.payload.startRows;
       state.info.cloudinaryImage = action.payload.info.cloudinaryImage;
       state.info.imageContents = action.payload.info.imageContents;
+    },
+    resetList: (state) => {
+      state.rows = state.startRows;
+      state.contents = state.startContents;
+      state.generatedThumbnailImageContents = undefined;
+      state.hasUnsavedChanges = false;
+
+      deleteRememberedState({key: "UNSAVED_CHANGES", listId: state.info.id});
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
