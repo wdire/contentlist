@@ -18,7 +18,7 @@ export const convertDBListToRedux = ({
     throw Error("No listGetData found");
   }
 
-  const {id, name, user, cloudinaryImage, contentsData} = listGetData;
+  const {id, name, user, cloudinaryImage, contentsData, imageContents} = listGetData;
 
   const list: InitListProps = {
     rows: [],
@@ -32,6 +32,7 @@ export const convertDBListToRedux = ({
         username: user.username,
       },
       cloudinaryImage,
+      imageContents,
     },
     startContents: [],
     isLocalMode: false,

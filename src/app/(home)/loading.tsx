@@ -1,7 +1,7 @@
-import {ListItemCard} from "@/components/cards/ListItemCard";
 import SectionContainer from "@/components/common/SectionContainer";
-import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
 import {Skeleton} from "@nextui-org/react";
+import {ListItemCard} from "@/components/cards/ListItemCard";
+import {HomeDescriptionContent} from "./components/HomeDescriptionContent";
 
 const Loading = () => {
   const listsWrapperClass =
@@ -13,7 +13,7 @@ const Loading = () => {
         <div>
           <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-[89px] sm:w-[124px] mr-2" />
           <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-48 sm:w-72" />
-          <Skeleton className="mt-4 text-sm rounded-lg text-default-500">
+          <Skeleton className="rounded-lg mt-4">
             <HomeDescriptionContent />
           </Skeleton>
         </div>

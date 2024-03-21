@@ -2,7 +2,7 @@
 
 import {useClerk, useUser} from "@clerk/nextjs";
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
-import {ListStart, LogOut, User as UserIcon} from "lucide-react";
+import {CloudOff, ListStart, LogOut, User as UserIcon} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -29,7 +29,7 @@ const UserButtonAndMenu = () => {
       >
         <DropdownTrigger>
           <Avatar
-            src={user.imageUrl}
+            src={`${user.imageUrl}?width=100`}
             isBordered
             classNames={{
               base: "ring-offset-content1",
@@ -48,12 +48,13 @@ const UserButtonAndMenu = () => {
           <DropdownItem key="info" className="h-16" isReadOnly textValue="Profile Info">
             <div className="flex gap-3 h-12 items-center pl-1">
               <Avatar
-                src={user.imageUrl}
+                src={`${user.imageUrl}?width=100`}
                 isBordered
                 classNames={{
                   base: "ring-offset-content1",
                 }}
                 className="flex-shrink-0"
+                as={"button"}
               />
               <div>
                 <div className="font-bold">@{user.username}</div>
@@ -65,16 +66,27 @@ const UserButtonAndMenu = () => {
             key="account"
             startContent={<UserIcon {...itemIconProps} />}
             onPress={() => openUserProfile()}
+            color="warning"
           >
             Account Settings
           </DropdownItem>
           <DropdownItem
             key="mylist"
             startContent={<ListStart {...itemIconProps} />}
+            color="primary"
             as={Link}
             href={`/user/${user.username}`}
           >
             My Lists
+          </DropdownItem>
+          <DropdownItem
+            key="locallists"
+            startContent={<CloudOff {...itemIconProps} />}
+            color="secondary"
+            as={Link}
+            href={`/local-lists`}
+          >
+            Local Lists
           </DropdownItem>
           <DropdownItem
             key="logout"

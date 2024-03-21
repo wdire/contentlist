@@ -1,7 +1,10 @@
-import {Image, Skeleton} from "@nextui-org/react";
+"use client";
+
+import {getListCloudinaryImage} from "@/lib/utils/helper.utils";
+import {Skeleton} from "@nextui-org/react";
 import {Prisma} from "@prisma/client";
 import clsx from "clsx";
-import NImage from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 export const ListItemCard = ({
@@ -38,23 +41,22 @@ export const ListItemCard = ({
         },
       )}
     >
-      <Image
-        as={NImage}
-        width={300}
-        height={300}
-        alt={`${list.name} image`}
-        className="object-cover object-bottom w-full rounded-none pointer-events-none aspect-square"
-        classNames={{
-          wrapper: "rounded-none",
-        }}
-        src={
-          list.cloudinaryImage?.publicId
-            ? `https://res.cloudinary.com/dgib2iezn/image/upload/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`
-            : "/assets/no-image.png"
-        }
-        priority
-        isLoading={isLoading || false}
-      />
+      {isLoading ? (
+        <Skeleton className="w-full h-full aspect-square" />
+      ) : (
+        <Image
+          width={222}
+          height={266}
+          alt={`${list.name} list image`}
+          className="object-cover object-bottom w-full rounded-none pointer-events-none aspect-square"
+          src={getListCloudinaryImage({
+            publicId: list.cloudinaryImage?.publicId,
+            version: list.cloudinaryImage?.version,
+          })}
+          priority
+          unoptimized
+        />
+      )}
 
       <Skeleton
         isLoaded={!isLoading}

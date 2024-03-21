@@ -1,4 +1,5 @@
-import ListItemPage from "@/components/listItemPage";
+import ListItemPage from "@/app/list/components";
+import {getListCloudinaryImage} from "@/lib/utils/helper.utils";
 import {getListById} from "@/services/actions/list.actions";
 import {Metadata} from "next";
 import {RedirectType, redirect} from "next/navigation";
@@ -11,7 +12,11 @@ export async function generateMetadata({params}: {params: {id: string}}): Promis
   };
 
   if (list?.cloudinaryImage?.publicId && list.cloudinaryImage.version) {
-    const image = `https://res.cloudinary.com/dgib2iezn/image/upload/v${list.cloudinaryImage.version}/${list.cloudinaryImage.publicId}`;
+    const image = getListCloudinaryImage({
+      publicId: list?.cloudinaryImage?.publicId,
+      version: list?.cloudinaryImage?.version,
+      original: true,
+    });
 
     metadata.twitter = {
       images: [image],

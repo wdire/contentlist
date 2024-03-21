@@ -1,7 +1,7 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
+import {orderContentsByRows} from "@/lib/utils/helper.utils";
 import {ListByIdResponse} from "@/services/actions/list.actions";
-import {listApi} from "@/services/listApi";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 import {createSlice} from "@reduxjs/toolkit";
@@ -19,6 +19,7 @@ export type ListState = {
           username: string;
         }
       | undefined;
+    imageContents: string | null | undefined;
   };
   contents: Content[];
   rows: Row[];
@@ -27,15 +28,19 @@ export type ListState = {
   fetchLoading: boolean;
   hasUnsavedChanges: boolean;
   showName: boolean;
+  showSources: boolean;
   startContents: Content[];
   isLocalMode: boolean;
+  generatedThumbnailImageContents?: string;
 };
 
 export type InitListProps = Pick<
   ListState,
   "rows" | "contents" | "info" | "startContents" | "isLocalMode"
 >;
-export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents">;
+export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents"> & {
+  info: Pick<ListState["info"], "cloudinaryImage" | "imageContents">;
+};
 
 const initialState: ListState = {
   info: {
@@ -44,6 +49,7 @@ const initialState: ListState = {
     isListOwner: undefined,
     owner: undefined,
     cloudinaryImage: undefined,
+    imageContents: undefined,
   },
   contents: [],
   rows: [],
@@ -52,6 +58,7 @@ const initialState: ListState = {
   fetchLoading: true,
   hasUnsavedChanges: false,
   showName: false,
+  showSources: false,
   startContents: [],
   isLocalMode: false,
 };
@@ -72,6 +79,8 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
+      state.info.cloudinaryImage = action.payload.info.cloudinaryImage;
+      state.info.imageContents = action.payload.info.imageContents;
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
@@ -112,8 +121,14 @@ export const listSlice = createSlice({
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
     },
+    setShowSources: (state, action: PayloadAction<boolean>) => {
+      state.showSources = action.payload;
+    },
     setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
       state.hasUnsavedChanges = action.payload;
+    },
+    setGeneratedThumbnailImageContents: (state, action: PayloadAction<string>) => {
+      state.generatedThumbnailImageContents = action.payload;
     },
     onDragStart: (
       state,
@@ -144,6 +159,10 @@ export const listSlice = createSlice({
       const {activeType, activeId, overId} = action.payload;
       if (!overId) return;
 
+      if (activeType === "Content") {
+        state.contents = orderContentsByRows(state.contents, state.rows);
+      }
+
       if (activeId === overId) return;
 
       if (overId === TRASH_BOX_ID) {
@@ -152,14 +171,14 @@ export const listSlice = createSlice({
 
       if (activeType !== "Row") return;
 
-      console.log("DRAG END");
-
       const activeRowIndex = state.rows.findIndex((row) => row.id === activeId);
 
       const overRowIndex = state.rows.findIndex((row) => row.id === overId);
 
       state.rows = arrayMove(state.rows, activeRowIndex, overRowIndex);
       state.hasUnsavedChanges = true;
+
+      state.contents = orderContentsByRows(state.contents, state.rows);
     },
 
     onDragMove: (
@@ -171,8 +190,6 @@ export const listSlice = createSlice({
         overType: string;
       }>,
     ) => {
-      console.log("dispatch onDragMove run");
-
       const {activeId, activeType, overId, overType} = action.payload;
       if (!overId) return;
 
@@ -205,24 +222,11 @@ export const listSlice = createSlice({
 
         state.contents[activeIndex].rowId = overId;
 
-        // console.log("activeIndex overId", activeIndex, overId);
-
         state.hasUnsavedChanges = true;
 
         state.contents = arrayMove(state.contents, activeIndex, activeIndex);
       }
     },
-  },
-  extraReducers: (builder) => {
-    builder.addMatcher(listApi.endpoints.get.matchPending, (state) => {
-      state.fetchLoading = true;
-    });
-    builder.addMatcher(listApi.endpoints.get.matchFulfilled, (state, action) => {
-      if (action.payload.data) state.fetchLoading = false;
-    });
-    builder.addMatcher(listApi.endpoints.update.matchFulfilled, (state) => {
-      state.hasUnsavedChanges = false;
-    });
   },
 });
 

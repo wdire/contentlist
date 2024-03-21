@@ -16,4 +16,11 @@ export const ContentSourceType = ["tmdb", "anilist", "igdb", "wikipedia"] as con
 
 export type ContentSourceType = (typeof ContentSourceType)[number];
 
+export const ContentSourceName: {[key in ContentSourceType]: string} = {
+  anilist: "AniList",
+  igdb: "IGDB",
+  tmdb: "TMDB",
+  wikipedia: "Wikipedia",
+};
+
 export type ContentInfoType = PrismaJson.ContentType;

@@ -14,34 +14,40 @@ datasource db {
 }
 
 model User {
-  id         String   @id @unique @default(cuid())
-  username   String   @unique
-  email      String   @unique
+  id         String    @id @unique @default(cuid())
+  username   String    @unique
+  email      String    @unique
   imageUrl   String?
   List       List[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 
   @@index([username], name: "idx_user_username")
 }
 
 model List {
-  id                Int              @id @unique @default(autoincrement())
-  name              String
-  user              User             @relation(fields: [userId], references: [id])
-  userId            String
+  id              Int           @id @unique @default(autoincrement())
+  name            String
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  private         Boolean       @default(false)
+  edited          Boolean       @default(false)
+  //
+  copiedFrom      List?         @relation("ListCopyHistory", fields: [copiedFromId], references: [id])
+  copiedFromId    Int?
+  listsCopiedThis List[]        @relation("ListCopyHistory")
+  //
+  ListInTopic     ListInTopic[]
+
   cloudinaryImage   CloudinaryImage? @relation(fields: [cloudinaryImageId], references: [id])
   cloudinaryImageId String?          @unique
-  private           Boolean          @default(false)
-  edited            Boolean          @default(false)
+
+  // Contents inside created image
+  // (source):(source_id),(source):(source_id),...
+  imageContents String?
   //
-  copiedFrom        List?            @relation("ListCopyHistory", fields: [copiedFromId], references: [id])
-  copiedFromId      Int?
-  listsCopiedThis   List[]           @relation("ListCopyHistory")
-  //
-  ListInTopic       ListInTopic[]
-  created_at        DateTime         @default(now())
-  updated_at        DateTime         @updatedAt
+  created_at    DateTime  @default(now())
+  updated_at    DateTime? @updatedAt
 
   /// [ListData]
   contentsData Json
@@ -70,9 +76,11 @@ model ListInTopic {
 }
 
 model CloudinaryImage {
-  id       String @id @default(cuid())
-  publicId String @unique
-  format   String
-  version  String
-  List     List?
+  id         String    @id @default(cuid())
+  publicId   String    @unique
+  format     String
+  version    String
+  List       List?
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 }

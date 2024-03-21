@@ -12,7 +12,7 @@ const Header = () => {
             src={"/assets/white-horizontal-logo.svg"}
             width={175}
             height={32}
-            alt="Content List Logo"
+            alt="ContentList Logo"
             className="max-h-full h-6 w-auto sm:h-[31px] pointer-events-none select-none"
             priority
           />

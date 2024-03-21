@@ -49,8 +49,7 @@ const ImageSchema = z
   .refine(
     (file) => file === null || ["image/png"].includes(file?.type),
     "Only .png format is supported.",
-  )
-  .optional();
+  );
 
 const ListObjectSchema = z.object({
   name: z.string(),
@@ -70,9 +69,10 @@ const ListObjectSchema = z.object({
 }>;
 
 const ListUpdateSchema = z.object({
-  body: ListObjectSchema,
-  image: ImageSchema,
+  body: ListObjectSchema.optional(),
+  image: ImageSchema.optional(),
   deleteImage: z.boolean().optional(),
+  imageContents: z.string().optional(),
 });
 
 export const ListSchemas = {
@@ -116,12 +116,12 @@ export const ListSchemas = {
 };
 
 export type ListRequestTypes = {
-  "/list/get": {
-    params: ZodTypeOf<(typeof ListSchemas)["/list/get"]["params"]>;
+  "/list/update": {
+    params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;
+    formdata: ZodTypeOf<(typeof ListSchemas)["/list/update"]["formdata"]>;
     response: ResponseBodyType<
       Prisma.ListGetPayload<{
         include: {
-          user: true;
           cloudinaryImage: {
             select: {
               publicId: true;
@@ -131,52 +131,6 @@ export type ListRequestTypes = {
         };
       }>
     >;
-  };
-  "/list/getHomeLists": {
-    response: ResponseBodyType<
-      Prisma.TopicGetPayload<{
-        select: {
-          id: true;
-          name: true;
-          ListInTopic: {
-            select: {
-              index: true;
-              list: {
-                select: {
-                  id: true;
-                  name: true;
-                  cloudinaryImage: {
-                    select: {
-                      publicId: true;
-                      version: true;
-                    };
-                  };
-                };
-              };
-            };
-          };
-        };
-      }>[]
-    >;
-    types: {
-      list: Prisma.ListGetPayload<{
-        select: {
-          id: true;
-          name: true;
-          cloudinaryImage: {
-            select: {
-              publicId: true;
-              version: true;
-            };
-          };
-        };
-      }>;
-    };
-  };
-  "/list/update": {
-    params: ZodTypeOf<(typeof ListSchemas)["/list/update"]["params"]>;
-    formdata: ZodTypeOf<(typeof ListSchemas)["/list/update"]["formdata"]>;
-    response: ResponseBodyType<Prisma.ListGetPayload<object>>;
   };
   "/list/create": {
     formdata: ZodTypeOf<(typeof ListSchemas)["/list/create"]["formdata"]>;
@@ -188,22 +142,5 @@ export type ListRequestTypes = {
   "/list/delete": {
     params: ZodTypeOf<(typeof ListSchemas)["/list/delete"]["params"]>;
     response: null;
-  };
-  "/list/getAllByUserId": {
-    params: ZodTypeOf<(typeof ListSchemas)["/list/getAllByUserId"]["params"]>;
-    response: ResponseBodyType<
-      Prisma.ListGetPayload<{
-        select: {
-          id: true;
-          name: true;
-          cloudinaryImage: {
-            select: {
-              publicId: true;
-              version: true;
-            };
-          };
-        };
-      }>[]
-    >;
   };
 };

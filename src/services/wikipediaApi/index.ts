@@ -21,7 +21,7 @@ export const wikipediaApi = createApi({
           generator: "prefixsearch",
           redirects: "1",
           piprop: "thumbnail",
-          pithumbsize: "500",
+          pithumbsize: "200",
           pilicense: "any",
           pssearch: query,
           psnamespace: "0",

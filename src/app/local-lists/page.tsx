@@ -1,5 +1,5 @@
-import LocalLists from "@/components/itemLists/LocalLists";
 import {Metadata} from "next";
+import LocalLists from "./components/LocalLists";
 
 export const metadata: Metadata = {
   title: "Local Lists",

@@ -1,7 +1,8 @@
 import SectionContainer from "@/components/common/SectionContainer";
-import {HomeDescriptionContent} from "@/components/home/HomeDescriptionContent";
-import TopicLists from "@/components/home/TopicLists";
 import {getHomeLists} from "@/services/actions/list.actions";
+
+import TopicLists from "./components/TopicLists";
+import {HomeDescriptionContent} from "./components/HomeDescriptionContent";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +31,8 @@ export default async function Home() {
           </span>
           Ranks of Anything
         </h1>
-
-        <div className="mt-4 text-sm text-default-500">
-          <HomeDescriptionContent />
-        </div>
+        <div className="mt-4" />
+        <HomeDescriptionContent />
       </SectionContainer>
 
       <TopicLists homeLists={homeLists} />
