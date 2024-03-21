@@ -1,46 +1,18 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
 import {orderContentsByRows} from "@/lib/utils/helper.utils";
-import {ListByIdResponse} from "@/services/actions/list.actions";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-
-export type ListState = {
-  info: {
-    id: number | undefined;
-    name: string | undefined;
-    cloudinaryImage: ListByIdResponse["cloudinaryImage"] | undefined;
-    isListOwner: boolean | undefined;
-    owner:
-      | {
-          id: string;
-          username: string;
-        }
-      | undefined;
-    imageContents: string | null | undefined;
-  };
-  contents: Content[];
-  rows: Row[];
-  activeRow: Row | null;
-  activeContent: Content | null;
-  fetchLoading: boolean;
-  hasUnsavedChanges: boolean;
-  showName: boolean;
-  showSources: boolean;
-  startContents: Content[];
-  isLocalMode: boolean;
-  generatedThumbnailImageContents?: string;
-};
-
-export type InitListProps = Pick<
-  ListState,
-  "rows" | "contents" | "info" | "startContents" | "isLocalMode"
->;
-export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents"> & {
-  info: Pick<ListState["info"], "cloudinaryImage" | "imageContents">;
-};
+import {
+  deleteRememberedState,
+  getRememberedStates,
+  rememberUnsavedChanges,
+  setRememberedState,
+} from "@/lib/utils/rememberStates.utils";
+import {toast} from "react-toastify";
+import {InitListProps, ListState, ListUpdateProps} from "./listSlice.type";
 
 const initialState: ListState = {
   info: {
@@ -59,7 +31,9 @@ const initialState: ListState = {
   hasUnsavedChanges: false,
   showName: false,
   showSources: false,
+  contentSize: "1x",
   startContents: [],
+  startRows: [],
   isLocalMode: false,
 };
 
@@ -71,16 +45,66 @@ export const listSlice = createSlice({
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
+      state.startRows = action.payload.startRows;
       state.info = action.payload.info;
-      state.fetchLoading = false;
+
       state.isLocalMode = action.payload.isLocalMode;
+
+      const {CONTENT_SIZE, SHOW_NAMES, UNSAVED_CHANGES} = getRememberedStates({
+        listId: state.info.id,
+      });
+
+      if (CONTENT_SIZE !== undefined) {
+        state.contentSize = CONTENT_SIZE;
+      }
+
+      if (SHOW_NAMES !== undefined) {
+        state.showName = SHOW_NAMES;
+      }
+
+      if (UNSAVED_CHANGES !== undefined) {
+        const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+        if (
+          UNSAVED_CHANGES?.last_update &&
+          new Date().getTime() - new Date(UNSAVED_CHANGES?.last_update).getTime() >= oneWeek
+        ) {
+          deleteRememberedState({key: "UNSAVED_CHANGES", listId: action.payload.info.id});
+        } else if (
+          UNSAVED_CHANGES.hasUnsavedChanges === true &&
+          UNSAVED_CHANGES.contents &&
+          UNSAVED_CHANGES.rows
+        ) {
+          state.hasUnsavedChanges = true;
+          state.contents = UNSAVED_CHANGES.contents;
+          state.rows = UNSAVED_CHANGES.rows;
+
+          toast("Applied not saved changes to list", {
+            type: "info",
+            autoClose: 10000,
+          });
+        }
+      } else {
+        deleteRememberedState({key: "UNSAVED_CHANGES", listId: action.payload.info.id});
+      }
+
+      state.fetchLoading = false;
     },
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
       state.startContents = action.payload.startContents;
+      state.startRows = action.payload.startRows;
       state.info.cloudinaryImage = action.payload.info.cloudinaryImage;
       state.info.imageContents = action.payload.info.imageContents;
+    },
+    resetList: (state) => {
+      state.rows = state.startRows;
+      state.contents = state.startContents;
+      state.generatedThumbnailImageContents = undefined;
+      state.hasUnsavedChanges = false;
+
+      deleteRememberedState({key: "UNSAVED_CHANGES", listId: state.info.id});
     },
     editListInfo: (state, action: PayloadAction<{name: string}>) => {
       state.info.name = action.payload.name;
@@ -89,11 +113,23 @@ export const listSlice = createSlice({
     addContent: (state, action: PayloadAction<Content>) => {
       state.contents.push(action.payload);
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     addRow: (state, action: PayloadAction<Row>) => {
       if (state.rows.length < 10) {
         state.rows.push(action.payload);
         state.hasUnsavedChanges = true;
+
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
     },
     editRowInfo: (state, action: PayloadAction<Row>) => {
@@ -117,18 +153,44 @@ export const listSlice = createSlice({
       });
       state.rows = state.rows.filter((r) => r.id !== action.payload.id);
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
+      setRememberedState({key: "SHOW_NAMES", value: action.payload});
     },
     setShowSources: (state, action: PayloadAction<boolean>) => {
       state.showSources = action.payload;
     },
+    setContentSize: (state, action: PayloadAction<ListState["contentSize"]>) => {
+      state.contentSize = action.payload;
+      setRememberedState({key: "CONTENT_SIZE", value: action.payload});
+    },
     setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
+      if (action.payload === false) {
+        deleteRememberedState({key: "UNSAVED_CHANGES", listId: state.info.id});
+      }
       state.hasUnsavedChanges = action.payload;
     },
     setGeneratedThumbnailImageContents: (state, action: PayloadAction<string>) => {
       state.generatedThumbnailImageContents = action.payload;
+    },
+    moveRowUpDown: (state, action: PayloadAction<{rowId: string | number; dir: "up" | "down"}>) => {
+      const rowIndex = state.rows.findIndex((row) => row.id === action.payload.rowId);
+      if (action.payload.dir === "down") {
+        if (rowIndex + 1 < state.rows.length) {
+          state.rows = arrayMove(state.rows, rowIndex, rowIndex + 1);
+        }
+      } else if (action.payload.dir === "up") {
+        if (rowIndex - 1 >= 0) {
+          state.rows = arrayMove(state.rows, rowIndex, rowIndex - 1);
+        }
+      }
     },
     onDragStart: (
       state,
@@ -161,12 +223,23 @@ export const listSlice = createSlice({
 
       if (activeType === "Content") {
         state.contents = orderContentsByRows(state.contents, state.rows);
+
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
 
       if (activeId === overId) return;
 
       if (overId === TRASH_BOX_ID) {
         state.contents = state.contents.filter((c) => c.id !== activeId);
+        rememberUnsavedChanges({
+          contents: state.contents,
+          rows: state.rows,
+          listId: state.info.id,
+        });
       }
 
       if (activeType !== "Row") return;
@@ -179,6 +252,12 @@ export const listSlice = createSlice({
       state.hasUnsavedChanges = true;
 
       state.contents = orderContentsByRows(state.contents, state.rows);
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
 
     onDragMove: (

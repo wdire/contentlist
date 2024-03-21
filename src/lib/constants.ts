@@ -1,3 +1,5 @@
+import {Content, Row} from "./types/list.type";
+
 export const STORAGE_ROW_ID = "__STORAGE_ROW__";
 export const TRASH_BOX_ID = "__TRASH_BOX__";
 
@@ -33,6 +35,25 @@ export const LEGAL_LINKS = {
 };
 
 export const LOCALMODE_KEY = "_local_lists_";
+
+export const REMEMBERED_STATES_KEYS = {
+  CONTENT_SIZE: "state_content_size",
+  SHOW_NAMES: "state_show_names",
+  UNSAVED_CHANGES: "state_unsaved",
+};
+
+export type REMEMBERED_STATES_TYPES = {
+  CONTENT_SIZE: "1x" | "2x" | "3x";
+  SHOW_NAMES: boolean | undefined;
+  UNSAVED_CHANGES?:
+    | {
+        last_update: Date;
+        hasUnsavedChanges: boolean;
+        contents: Content[] | undefined;
+        rows: Row[] | undefined;
+      }
+    | undefined;
+};
 
 export const APP_BASE_URL = (() => {
   if (process.env.VERCEL_ENV === "production") {

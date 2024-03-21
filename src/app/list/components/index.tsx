@@ -41,6 +41,7 @@ const ListItemPage = ({list, localId}: {list: ListByIdResponse | null; localId?:
               rows: localList.rows,
               startContents: localList.contents,
               isLocalMode: true,
+              startRows: localList.rows,
             }),
           );
         } else {

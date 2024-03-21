@@ -1,4 +1,4 @@
-import {InitListProps, ListState} from "@/store/features/list/listSlice";
+import {InitListProps, ListState} from "@/store/features/list/listSlice.type";
 import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {ListByIdResponse} from "@/services/actions/list.actions";
@@ -35,6 +35,7 @@ export const convertDBListToRedux = ({
       imageContents,
     },
     startContents: [],
+    startRows: [],
     isLocalMode: false,
   };
 
@@ -45,6 +46,7 @@ export const convertDBListToRedux = ({
   list.rows = rows;
   list.contents = contents;
   list.startContents = contents;
+  list.startRows = rows;
 
   return list;
 };

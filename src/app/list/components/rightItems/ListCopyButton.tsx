@@ -1,6 +1,7 @@
 import {USER_LIST_MAX_COPY_COUNT} from "@/lib/constants";
 import {convertReduxListForDBUpdate} from "@/lib/utils/convertList.utils";
 import {listThumbnailGenerate} from "@/lib/utils/imageCreate.utils";
+import {deleteRememberedState} from "@/lib/utils/rememberStates.utils";
 import {useCreateMutation} from "@/services/listApi";
 import {AppStore} from "@/store/store";
 import {Button} from "@nextui-org/react";
@@ -49,6 +50,7 @@ const ListCopyButton = () => {
         }
 
         if (response.data?.redirectListId) {
+          deleteRememberedState({key: "UNSAVED_CHANGES", listId: list.info.id});
           router.push(`/list/${response.data.redirectListId}`);
         } else {
           throw new Error("Couldn't get response data id");

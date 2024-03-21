@@ -43,8 +43,7 @@ const Loading = () => {
           </div>
           <div className="w-full lg:w-[260px] rounded-medium">
             <Skeleton className="w-full mb-5 h-[92px] rounded-medium" />
-            <Skeleton className="w-full h-[257px] rounded-medium" />
-            <Skeleton className="w-20 h-10 mt-5 rounded-medium" />
+            <Skeleton className="w-full h-[326px] rounded-medium" />
           </div>
         </div>
       </div>

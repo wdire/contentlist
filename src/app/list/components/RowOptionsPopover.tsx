@@ -80,11 +80,20 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
     setIsPopoverOpen(isOpen);
   };
 
+  const onMoveRowClick = (dir: "up" | "down") => {
+    dispatch(
+      listActions.moveRowUpDown({
+        rowId: row.id,
+        dir,
+      }),
+    );
+  };
+
   return (
     <Popover placement="left" backdrop="opaque" isOpen={isPopoverOpen} onOpenChange={onOpenChange}>
       <PopoverTrigger>
         <button
-          className="py-4 px-2 cursor-pointer text-default-500 transition-colors hover:text-default-700 select-none"
+          className="py-2 sm:py-4 px-2 cursor-pointer text-default-500 transition-colors hover:text-default-700 select-none"
           aria-label="Row Options"
         >
           <Settings />
@@ -92,7 +101,23 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
       </PopoverTrigger>
       <PopoverContent className="bg-content1">
         <div className="py-4 px-2 w-52">
-          <div className="text-lg mb-4">Row Options</div>
+          <div className="text-lg mb-3">Row Options</div>
+          <div className="flex items-center gap-4 mb-2">
+            <div>Move</div>
+            <div className="flex justify-between w-full">
+              <Button size="sm" variant="flat" color="primary" onClick={() => onMoveRowClick("up")}>
+                Up
+              </Button>
+              <Button
+                size="sm"
+                variant="flat"
+                color="secondary"
+                onClick={() => onMoveRowClick("down")}
+              >
+                Down
+              </Button>
+            </div>
+          </div>
           <div>
             <label className="block mb-2">Title</label>
             <Input
@@ -102,6 +127,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
                 (key.key === "Enter" || key.which === 13) && handleEditButtonClick()
               }
               maxLength={40}
+              size="sm"
             />
           </div>
 

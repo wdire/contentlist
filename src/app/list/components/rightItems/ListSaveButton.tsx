@@ -69,6 +69,7 @@ const ListSaveButton = () => {
             rows: rowsContents.rows,
             contents: rowsContents.contents,
             startContents: rowsContents.contents,
+            startRows: rowsContents.rows,
             info: {
               cloudinaryImage: saveResponse.data.cloudinaryImage,
               imageContents: saveResponse.data.imageContents,
