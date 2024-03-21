@@ -70,9 +70,7 @@ const RightContainer = () => {
           </Accordion>
         </div>
 
-        {fetchLoading ? <Skeleton className="w-full h-[257px] rounded-medium" /> : null}
-
-        {fetchLoading ? <Skeleton className="w-20 h-10 mt-5 rounded-medium" /> : null}
+        {fetchLoading ? <Skeleton className="w-full h-[326px] rounded-medium" /> : null}
 
         <div className="mt-5">{!fetchLoading && isListOwner ? <ListSaveButton /> : null}</div>
         {!fetchLoading && user === null && listName && !isLocalMode ? (

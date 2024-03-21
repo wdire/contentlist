@@ -1,4 +1,4 @@
-import {InitListProps, ListState} from "@/store/features/list/listSlice";
+import {InitListProps, ListState} from "@/store/features/list/listSlice.type";
 import {UserResource} from "@clerk/types";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {ListByIdResponse} from "@/services/actions/list.actions";

@@ -34,6 +34,16 @@ export const LEGAL_LINKS = {
 
 export const LOCALMODE_KEY = "_local_lists_";
 
+export const REMEMBERED_STATES_KEYS = {
+  CONTENT_SIZE: "state_content_size",
+  SHOW_NAMES: "state_show_names",
+};
+
+export type REMEMBERED_STATES_TYPES = {
+  CONTENT_SIZE: "1x" | "2x" | "3x";
+  SHOW_NAMES: boolean;
+};
+
 export const APP_BASE_URL = (() => {
   if (process.env.VERCEL_ENV === "production") {
     return "https://www.contentlist.space";

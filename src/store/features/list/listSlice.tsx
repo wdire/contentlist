@@ -1,46 +1,12 @@
 import {STORAGE_ROW_ID, TRASH_BOX_ID} from "@/lib/constants";
 import {Content, Row} from "@/lib/types/list.type";
 import {orderContentsByRows} from "@/lib/utils/helper.utils";
-import {ListByIdResponse} from "@/services/actions/list.actions";
 import {UniqueIdentifier} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-
-export type ListState = {
-  info: {
-    id: number | undefined;
-    name: string | undefined;
-    cloudinaryImage: ListByIdResponse["cloudinaryImage"] | undefined;
-    isListOwner: boolean | undefined;
-    owner:
-      | {
-          id: string;
-          username: string;
-        }
-      | undefined;
-    imageContents: string | null | undefined;
-  };
-  contents: Content[];
-  rows: Row[];
-  activeRow: Row | null;
-  activeContent: Content | null;
-  fetchLoading: boolean;
-  hasUnsavedChanges: boolean;
-  showName: boolean;
-  showSources: boolean;
-  startContents: Content[];
-  isLocalMode: boolean;
-  generatedThumbnailImageContents?: string;
-};
-
-export type InitListProps = Pick<
-  ListState,
-  "rows" | "contents" | "info" | "startContents" | "isLocalMode"
->;
-export type ListUpdateProps = Pick<ListState, "rows" | "contents" | "startContents"> & {
-  info: Pick<ListState["info"], "cloudinaryImage" | "imageContents">;
-};
+import {getRememberedStates, setRememberedState} from "@/lib/utils/rememberStates.utils";
+import {InitListProps, ListState, ListUpdateProps} from "./listSlice.type";
 
 const initialState: ListState = {
   info: {
@@ -59,6 +25,7 @@ const initialState: ListState = {
   hasUnsavedChanges: false,
   showName: false,
   showSources: false,
+  contentSize: "1x",
   startContents: [],
   isLocalMode: false,
 };
@@ -74,6 +41,16 @@ export const listSlice = createSlice({
       state.info = action.payload.info;
       state.fetchLoading = false;
       state.isLocalMode = action.payload.isLocalMode;
+
+      const {contentSize, showName} = getRememberedStates();
+
+      if (contentSize !== undefined) {
+        state.contentSize = contentSize;
+      }
+
+      if (showName !== undefined) {
+        state.showName = showName;
+      }
     },
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
       state.rows = action.payload.rows;
@@ -120,15 +97,32 @@ export const listSlice = createSlice({
     },
     setShowName: (state, action: PayloadAction<boolean>) => {
       state.showName = action.payload;
+      setRememberedState("SHOW_NAMES", action.payload);
     },
     setShowSources: (state, action: PayloadAction<boolean>) => {
       state.showSources = action.payload;
+    },
+    setContentSize: (state, action: PayloadAction<ListState["contentSize"]>) => {
+      state.contentSize = action.payload;
+      setRememberedState("CONTENT_SIZE", action.payload);
     },
     setHasUnsavedChanges: (state, action: PayloadAction<boolean>) => {
       state.hasUnsavedChanges = action.payload;
     },
     setGeneratedThumbnailImageContents: (state, action: PayloadAction<string>) => {
       state.generatedThumbnailImageContents = action.payload;
+    },
+    moveRowUpDown: (state, action: PayloadAction<{rowId: string | number; dir: "up" | "down"}>) => {
+      const rowIndex = state.rows.findIndex((row) => row.id === action.payload.rowId);
+      if (action.payload.dir === "down") {
+        if (rowIndex + 1 < state.rows.length) {
+          state.rows = arrayMove(state.rows, rowIndex, rowIndex + 1);
+        }
+      } else if (action.payload.dir === "up") {
+        if (rowIndex - 1 >= 0) {
+          state.rows = arrayMove(state.rows, rowIndex, rowIndex - 1);
+        }
+      }
     },
     onDragStart: (
       state,

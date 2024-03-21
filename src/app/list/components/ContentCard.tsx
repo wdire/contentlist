@@ -29,18 +29,30 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
     transform: CSS.Transform.toString(transform),
   };
 
+  const contentSize = useAppSelector((state) => state.list.contentSize);
+  const showName = useAppSelector((state) => state.list.showName);
+  const showSources = useAppSelector((state) => state.list.showSources);
+
   const wrapperClassName = clsx(
-    "w-[60px] max-h-[90px] md:w-[80px] md:max-h-[120px] overflow-hidden items-center select-none touch-none",
+    "overflow-hidden items-center select-none touch-none",
     "flex text-left cursor-grab relative content",
     {
       "opacity-50": isDragging,
       "h-full": dragOverlay,
+
+      "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
+      "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
+      "w-[102px] max-h-[153px] md:w-[120px] md:max-h-[180px]": contentSize === "3x",
     },
   );
 
   const contentNameClassName = clsx(
     "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
-    "text-[10px] md:text-sm line-clamp-4 md:line-clamp-5 max-h-full pt-2 !leading-3 md:!leading-[18px]",
+    "text-[10px] md:text-sm max-h-full pt-2 !leading-3 md:!leading-[18px]",
+    {
+      "line-clamp-4 md:line-clamp-5": contentSize === "1x" || contentSize === "2x",
+      "line-clamp-[8]": contentSize === "3x",
+    },
   );
 
   const contentImageClassname = clsx(
@@ -50,9 +62,6 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
       "h-full object-cover": !content?.data?.notPoster,
     },
   );
-
-  const showName = useAppSelector((state) => state.list.showName);
-  const showSources = useAppSelector((state) => state.list.showSources);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
@@ -70,9 +79,9 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
     >
       <Image
         src={`/api/image-proxy?url=${content.data.image_url}`}
-        width={80}
-        height={120}
-        sizes="80px"
+        width={84}
+        height={126}
+        sizes="84px"
         alt={content.data.name}
         className={contentImageClassname}
         unoptimized
