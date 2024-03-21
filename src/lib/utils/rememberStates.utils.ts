@@ -9,7 +9,7 @@ export const getRememberedStates = ({
   const CONTENT_SIZE: REMEMBERED_STATES_TYPES["CONTENT_SIZE"] | undefined =
     (localStorage.getItem(
       REMEMBERED_STATES_KEYS.CONTENT_SIZE,
-    ) as REMEMBERED_STATES_TYPES["CONTENT_SIZE"]) || "1px";
+    ) as REMEMBERED_STATES_TYPES["CONTENT_SIZE"]) || undefined;
 
   const SHOW_NAMES: REMEMBERED_STATES_TYPES["SHOW_NAMES"] | undefined =
     localStorage.getItem(REMEMBERED_STATES_KEYS.SHOW_NAMES) === "true" || undefined;
