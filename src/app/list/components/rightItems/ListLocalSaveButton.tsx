@@ -79,7 +79,6 @@ const ListLocalSaveButton = () => {
         isLoading={loading}
         isDisabled={isLocalMode && !hasUnsavedChanges}
         onPress={handleLocalSaveClick}
-        className="mt-5"
         variant="flat"
       >
         {buttonText}

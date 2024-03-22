@@ -1,3 +1,4 @@
+import {ResponseBodyType} from "@/api/lib/response.api";
 import {USER_LIST_MAX_COPY_COUNT} from "@/lib/constants";
 import {convertReduxListForDBUpdate} from "@/lib/utils/convertList.utils";
 import {listThumbnailGenerate} from "@/lib/utils/imageCreate.utils";
@@ -9,6 +10,7 @@ import {useRouter} from "next/navigation";
 import React from "react";
 import {useStore} from "react-redux";
 import {toast} from "react-toastify";
+import {ZodError} from "zod";
 
 const ListCopyButton = () => {
   const [trigger, {isLoading}] = useCreateMutation();
@@ -37,6 +39,7 @@ const ListCopyButton = () => {
           },
           copyListId: list.info.id,
           image: listImagefile,
+          imageContents: listImagefile ? list.generatedThumbnailImageContents : undefined,
         }).unwrap();
 
         if (response.data?.type === "copy_limit_exceeded") {
@@ -61,19 +64,24 @@ const ListCopyButton = () => {
         });
       }
     } catch (err) {
+      toast(
+        <>
+          <div>{"Couldn't create copy of this list. Message:"}</div>
+          {(err as ResponseBodyType<{error: ZodError["issues"]}>)?.data?.error?.[0]?.message}
+        </>,
+        {
+          type: "error",
+          toastId: "couldnt_create_copy",
+          autoClose: 10000,
+        },
+      );
       console.log(err);
     }
   };
 
   return (
     <>
-      <Button
-        className="mt-5"
-        color="warning"
-        variant="flat"
-        isLoading={isLoading}
-        onPress={handleCopyListClick}
-      >
+      <Button color="warning" variant="flat" isLoading={isLoading} onPress={handleCopyListClick}>
         Save Copy to Your Lists
       </Button>
     </>

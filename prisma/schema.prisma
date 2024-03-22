@@ -14,19 +14,17 @@ datasource db {
 }
 
 model User {
-  id         String    @id @unique @default(cuid())
+  id         String    @id @default(cuid())
   username   String    @unique
   email      String    @unique
   imageUrl   String?
   List       List[]
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
-
-  @@index([username], name: "idx_user_username")
 }
 
 model List {
-  id              Int           @id @unique @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   name            String
   user            User          @relation(fields: [userId], references: [id])
   userId          String
@@ -51,12 +49,10 @@ model List {
 
   /// [ListData]
   contentsData Json
-
-  @@index([userId], name: "idx_list_userId")
 }
 
 model Topic {
-  id          Int           @id @unique @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   name        String        @unique
   ListInTopic ListInTopic[]
 }
@@ -70,9 +66,6 @@ model ListInTopic {
 
   @@id(name: "id_listInTopic", [topicId, listId])
   @@unique([topicId, index])
-  @@unique([topicId, listId])
-  @@index([listId], name: "idx_listInTopic_listId")
-  @@index([topicId], name: "idx_listInTopic_topicId")
 }
 
 model CloudinaryImage {

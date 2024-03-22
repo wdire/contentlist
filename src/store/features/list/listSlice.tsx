@@ -54,11 +54,11 @@ export const listSlice = createSlice({
         listId: state.info.id,
       });
 
-      if (CONTENT_SIZE !== undefined) {
+      if (CONTENT_SIZE) {
         state.contentSize = CONTENT_SIZE;
       }
 
-      if (SHOW_NAMES !== undefined) {
+      if (SHOW_NAMES) {
         state.showName = SHOW_NAMES;
       }
 
@@ -81,7 +81,7 @@ export const listSlice = createSlice({
 
           toast("Applied not saved changes to list", {
             type: "info",
-            autoClose: 10000,
+            toastId: "applied_not_saved",
           });
         }
       } else {

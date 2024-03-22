@@ -3,6 +3,8 @@ import {LIST_ROWS_ID} from "../constants";
 const THUMBNAIL_SIZE = 600;
 let thumbnail_image: File | null = null;
 
+const PREVIEW_SIZE = 880;
+
 export const getGeneratedThumbnailImage = () => {
   return thumbnail_image;
 };
@@ -38,6 +40,7 @@ export const listThumbnailGenerate = async () => {
     contentCards.forEach((contentCard) => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
 
+      // Remove content names or sources if showing any
       clonedContentCard.querySelector("& > div")?.remove();
 
       tmpContentCardsContainer.append(clonedContentCard);
@@ -110,7 +113,7 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     document.body.prepend(style);
     style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
 
-    clonedElm.style.width = "890px";
+    clonedElm.style.width = `${PREVIEW_SIZE}px`;
     clonedElm.style.border = "1px solid black";
     clonedElm.style.display = "none";
 
@@ -145,10 +148,11 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     document.body.append(clonedElm);
 
     const canvas = await html2canvas(clonedElm, {
+      width: PREVIEW_SIZE,
       windowWidth: 1400,
       windowHeight: 900,
-      scale: 1,
-      backgroundColor: "#18181b",
+      backgroundColor: "#000",
+      scale: 2,
       onclone: (_doc, element) => {
         element.style.display = "flex";
       },

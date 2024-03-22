@@ -8,10 +8,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
-import ListCopyButton from "./rightItems/ListCopyButton";
-import ListLocalSaveButton from "./rightItems/ListLocalSaveButton";
 import ListImages from "./rightItems/ListImages";
-import ListResetButton from "./rightItems/ListResetButton";
 
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
@@ -73,20 +70,12 @@ const RightContainer = () => {
 
         {fetchLoading ? <Skeleton className="w-full h-[326px] rounded-medium" /> : null}
 
-        <div className="flex gap-2 mt-5">
-          {!fetchLoading && isListOwner ? <ListSaveButton /> : null}
-
-          <ListResetButton />
-        </div>
+        <div className="mt-5">{!fetchLoading && isListOwner ? <ListSaveButton /> : null}</div>
         {!fetchLoading && user === null && listName && !isLocalMode ? (
           <>
             <div className="mt-5 text-gray-400">Sign in to save changes online</div>
           </>
         ) : null}
-
-        {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
-
-        {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
       </div>
     </div>
   );

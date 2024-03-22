@@ -63,10 +63,7 @@ const UpdateThumbnail = () => {
       return;
     }
 
-    // console.log("imageContents***", imageContents);
-    // console.log("newImageContents", newImageContents);
-
-    if (imageContents === newImageContents) {
+    if (imageContents === newImageContents || (contents.length < 3 && !imageContents)) {
       setThumbnailPreviewBlobUrl(
         getListCloudinaryImage({
           publicId: cloudinaryImage?.publicId,
@@ -75,7 +72,11 @@ const UpdateThumbnail = () => {
       );
       setUpdateImageState("default");
       setGeneratedThumbnailImage(null);
-      setMessage("Same as the currently saved");
+      setMessage(
+        contents.length >= 3
+          ? "Same as the currently saved"
+          : "Less than three contents has no thumbnail",
+      );
 
       return;
     }
@@ -122,7 +123,7 @@ const UpdateThumbnail = () => {
           />
         )}
       </div>
-      <div className="flex gap-3 lg:gap-0 lg:justify-between items-center">
+      <div className="flex gap-3 lg:gap-0 lg:justify-between items-top">
         <Button
           color="warning"
           isDisabled={updateImageState === "creating_image"}
@@ -132,7 +133,7 @@ const UpdateThumbnail = () => {
         >
           {buttonText}
         </Button>
-        {message ? <div className="text-xs w-24">{message}</div> : null}
+        {message ? <div className="text-xs w-24 pt-1">{message}</div> : null}
       </div>
     </div>
   );

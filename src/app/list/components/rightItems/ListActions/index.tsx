@@ -3,17 +3,22 @@ import {listActions} from "@/store/features/list/listSlice";
 import {Button, Input, Tooltip} from "@nextui-org/react";
 import debounce from "lodash.debounce";
 import React from "react";
-import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
+import {LIST_MAX_ROW_LENGTH, MAX_LENGTHS} from "@/lib/constants";
 import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
 import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
+import {useUser} from "@clerk/nextjs";
 import DeleteListButton from "./DeleteListButton";
+import ListLocalSaveButton from "../ListLocalSaveButton";
+import ListCopyButton from "../ListCopyButton";
+import ListResetButton from "../ListResetButton";
 
 const ICON_SIZE = 18;
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
 
+  const fetchLoading = useAppSelector((state) => state.list.fetchLoading);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
@@ -22,6 +27,8 @@ const ListActions = () => {
   const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
 
   const maxLengthReached = rowsLength >= LIST_MAX_ROW_LENGTH;
+
+  const {user} = useUser();
 
   const handleAddRowClick = () => {
     dispatch(listActions.addRow(createNewRow()));
@@ -43,7 +50,7 @@ const ListActions = () => {
 
   const shareLinkButtonClick = () => {
     copyToClipboard(window.location.href);
-    toast("List url copied to clipboard", {type: "info"});
+    toast("List url copied to clipboard", {type: "info", toastId: "url_copied"});
   };
 
   return (
@@ -52,7 +59,7 @@ const ListActions = () => {
         label="Name"
         onValueChange={debounce(handleChangeListName, 500)}
         defaultValue={listName}
-        maxLength={47}
+        maxLength={MAX_LENGTHS.list_title}
       />
       <div className="flex gap-2 lg:gap-0 lg:justify-between">
         <Tooltip
@@ -119,9 +126,14 @@ const ListActions = () => {
             <DeleteListButton isLocalMode={isLocalMode} />
           </div>
         ) : null}
-      </div>
+        <div className="mt-3 flex flex-col gap-2">
+          {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
 
-      <div className="mt-4"></div>
+          {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
+
+          <ListResetButton />
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,11 +1,5 @@
 import {getUrlParams} from "@/api/lib/utils/main.util.api";
-
-const ALLOWED_HOSTNAMES = [
-  "image.tmdb.org",
-  "images.igdb.com",
-  "s4.anilist.co",
-  "upload.wikimedia.org",
-];
+import {ALLOWED_HOSTNAMES} from "@/lib/constants";
 
 export const GET = async (_request: Request) => {
   const params = getUrlParams(_request.url);

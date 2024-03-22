@@ -1,3 +1,4 @@
+import {ResponseBodyType} from "@/api/lib/response.api";
 import {
   convertDBContentsDataToRedux,
   convertReduxListForDBUpdate,
@@ -12,6 +13,7 @@ import {Button} from "@nextui-org/react";
 import React, {useEffect, useMemo, useState} from "react";
 import {useStore} from "react-redux";
 import {toast} from "react-toastify";
+import {ZodError} from "zod";
 
 const ListSaveButton = () => {
   const store = useStore() as AppStore;
@@ -23,7 +25,7 @@ const ListSaveButton = () => {
 
   const dispatch = useAppDispatch();
 
-  const [trigger, {isLoading, error}] = useUpdateMutation();
+  const [trigger, {isLoading}] = useUpdateMutation();
 
   const [savingState, setSavingState] = useState<
     "not_saved" | "saved" | "saving" | "saving_and_updating_image"
@@ -80,10 +82,18 @@ const ListSaveButton = () => {
         dispatch(listActions.setHasUnsavedChanges(false));
       }
       setSavingState("saved");
-    } catch (err) {
-      toast("Couldn't update list", {
-        type: "error",
-      });
+    } catch (err: unknown) {
+      toast(
+        <>
+          <div>{"Couldn't update list. Message:"}</div>
+          {(err as ResponseBodyType<{error: ZodError["issues"]}>)?.data?.error?.[0]?.message}
+        </>,
+        {
+          type: "error",
+          toastId: "couldnt_update_list",
+          autoClose: 10000,
+        },
+      );
       setSavingState("saved");
       console.error(err);
     }
@@ -115,7 +125,6 @@ const ListSaveButton = () => {
       >
         {buttonText}
       </Button>
-      {error ? <div className="text-red-500 mt-5">Error occured while saving</div> : null}
     </>
   );
 };
