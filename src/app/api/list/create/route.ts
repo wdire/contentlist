@@ -29,6 +29,7 @@ export const POST = (_request: Request) =>
             rows: [],
             storage: [],
           },
+          imageContents: undefined,
         },
         select: {
           id: true,
@@ -72,6 +73,7 @@ export const POST = (_request: Request) =>
         };
         listCreateArgs.data.name = `${listToCopy.name} Copy`;
         listCreateArgs.data.contentsData = body.contentsData;
+        listCreateArgs.data.imageContents = body.imageContents;
       } else {
         const hasUneditedList = await prisma.list.findFirst({
           where: {

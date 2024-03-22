@@ -79,9 +79,8 @@ const ImageSchema = z
     "Only .png format is supported.",
   );
 
-const ListObjectSchema = z
+const ListObjectRowsStorage = z
   .object({
-    name: z.string(),
     rows: z.array(
       z.object({
         name: z.string().max(MAX_LENGTHS.list_title),
@@ -114,7 +113,13 @@ const ListObjectSchema = z
         message: "Max rows length reached",
       });
     }
-  }) satisfies ZodType<{
+  });
+
+const ListObjectName = z.object({
+  name: z.string().max(MAX_LENGTHS.list_title),
+});
+
+const ListObjectSchema = ListObjectName.and(ListObjectRowsStorage) satisfies ZodType<{
   name: string;
   rows: PrismaJson.RowsType[];
   storage: PrismaJson.ContentType[];
@@ -124,7 +129,7 @@ const ListUpdateSchema = z.object({
   body: ListObjectSchema.optional(),
   image: ImageSchema.optional(),
   deleteImage: z.boolean().optional(),
-  imageContents: z.string().max(250).optional(),
+  imageContents: z.string().max(MAX_LENGTHS.image_contents).optional(),
 });
 
 export const ListSchemas = {
@@ -140,20 +145,14 @@ export const ListSchemas = {
     }),
   },
   "/list/create": {
-    formdata: z
-      .object({
-        name: ListObjectSchema._def.schema.shape.name,
-      })
-      .or(
-        z.object({
-          copyListId: ZodDbId,
-          contentsData: z.object({
-            rows: ListObjectSchema._def.schema.shape.rows,
-            storage: ListObjectSchema._def.schema.shape.storage,
-          }),
-          image: ImageSchema,
-        }),
-      ),
+    formdata: ListObjectName.or(
+      z.object({
+        copyListId: ZodDbId,
+        contentsData: ListObjectRowsStorage,
+        image: ImageSchema,
+        imageContents: z.string().max(MAX_LENGTHS.image_contents).optional(),
+      }),
+    ),
   },
   "/list/delete": {
     params: z.object({

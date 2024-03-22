@@ -8,8 +8,6 @@ import clsx from "clsx";
 import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
-import ListCopyButton from "./rightItems/ListCopyButton";
-import ListLocalSaveButton from "./rightItems/ListLocalSaveButton";
 import ListImages from "./rightItems/ListImages";
 import ListResetButton from "./rightItems/ListResetButton";
 
@@ -83,10 +81,6 @@ const RightContainer = () => {
             <div className="mt-5 text-gray-400">Sign in to save changes online</div>
           </>
         ) : null}
-
-        {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
-
-        {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
       </div>
     </div>
   );

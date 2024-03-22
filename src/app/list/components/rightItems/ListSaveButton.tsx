@@ -91,6 +91,7 @@ const ListSaveButton = () => {
         {
           type: "error",
           toastId: "couldnt_update_list",
+          autoClose: 10000,
         },
       );
       setSavingState("saved");

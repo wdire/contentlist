@@ -7,13 +7,17 @@ import {LIST_MAX_ROW_LENGTH, MAX_LENGTHS} from "@/lib/constants";
 import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
 import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
+import {useUser} from "@clerk/nextjs";
 import DeleteListButton from "./DeleteListButton";
+import ListLocalSaveButton from "../ListLocalSaveButton";
+import ListCopyButton from "../ListCopyButton";
 
 const ICON_SIZE = 18;
 
 const ListActions = () => {
   const dispatch = useAppDispatch();
 
+  const fetchLoading = useAppSelector((state) => state.list.fetchLoading);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
@@ -22,6 +26,8 @@ const ListActions = () => {
   const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
 
   const maxLengthReached = rowsLength >= LIST_MAX_ROW_LENGTH;
+
+  const {user} = useUser();
 
   const handleAddRowClick = () => {
     dispatch(listActions.addRow(createNewRow()));
@@ -119,6 +125,10 @@ const ListActions = () => {
             <DeleteListButton isLocalMode={isLocalMode} />
           </div>
         ) : null}
+
+        {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
+
+        {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
       </div>
 
       <div className="mt-4"></div>

@@ -84,4 +84,5 @@ export const MAX_LENGTHS = {
   list_title: 65,
   max_rows: 10,
   max_contents: 500,
+  image_contents: 250,
 };
