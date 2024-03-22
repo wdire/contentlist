@@ -65,7 +65,7 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
             ))}
           </SortableContext>
         </div>
-        <div className="flex justify-center items-center w-10 sm:w-14">
+        <div className="flex justify-center items-center w-10">
           <RowOptionsPopover row={row} />
         </div>
       </div>

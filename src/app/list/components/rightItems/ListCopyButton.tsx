@@ -81,13 +81,7 @@ const ListCopyButton = () => {
 
   return (
     <>
-      <Button
-        className="mt-5"
-        color="warning"
-        variant="flat"
-        isLoading={isLoading}
-        onPress={handleCopyListClick}
-      >
+      <Button color="warning" variant="flat" isLoading={isLoading} onPress={handleCopyListClick}>
         Save Copy to Your Lists
       </Button>
     </>

@@ -11,6 +11,7 @@ import {useUser} from "@clerk/nextjs";
 import DeleteListButton from "./DeleteListButton";
 import ListLocalSaveButton from "../ListLocalSaveButton";
 import ListCopyButton from "../ListCopyButton";
+import ListResetButton from "../ListResetButton";
 
 const ICON_SIZE = 18;
 
@@ -125,13 +126,14 @@ const ListActions = () => {
             <DeleteListButton isLocalMode={isLocalMode} />
           </div>
         ) : null}
+        <div className="mt-3 flex flex-col gap-2">
+          {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
 
-        {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
+          {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
 
-        {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
+          <ListResetButton />
+        </div>
       </div>
-
-      <div className="mt-4"></div>
     </div>
   );
 };
