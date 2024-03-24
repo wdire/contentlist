@@ -10,7 +10,7 @@ const ContentRowDragOverlay = () => {
   return (
     <DragOverlay>
       {activeRow && <RowItem row={activeRow} />}
-      {activeContent && <ContentCard content={activeContent} dragOverlay />}
+      {activeContent && <ContentCard content={activeContent} />}
     </DragOverlay>
   );
 };

@@ -144,7 +144,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
-          <ToastContainer theme="dark" position="bottom-center" hideProgressBar />
+          <ToastContainer theme="dark" position="bottom-center" closeOnClick hideProgressBar />
         </Providers>
       </body>
     </html>

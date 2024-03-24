@@ -12,12 +12,10 @@ import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 interface Props {
   content: Content;
-  dragOverlay?: boolean;
 }
 
 const ContentCardMemo = memo(function ContentCardMemo({
   content,
-  dragOverlay,
   isDragging,
 }: Props & {isDragging: boolean}) {
   const contentSize = useAppSelector((state) => state.list.contentSize);
@@ -27,7 +25,6 @@ const ContentCardMemo = memo(function ContentCardMemo({
   const classNames = useMemo(() => {
     const wrapper = clsx("content", {
       "opacity-50": isDragging,
-      "h-full": dragOverlay,
 
       "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
       "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
@@ -44,7 +41,7 @@ const ContentCardMemo = memo(function ContentCardMemo({
     );
 
     const contentImage = clsx(
-      "w-full min-h-[50px] pointer-events-none block select-none max-h-full",
+      "w-full min-h-[60px] pointer-events-none block select-none max-h-full",
       {
         "h-auto object-contain": content?.data?.notPoster,
         "h-full object-cover": !content?.data?.notPoster,
@@ -56,7 +53,7 @@ const ContentCardMemo = memo(function ContentCardMemo({
       contentName,
       contentImage,
     };
-  }, [content?.data?.notPoster, dragOverlay, contentSize, isDragging]);
+  }, [content?.data?.notPoster, contentSize, isDragging]);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
@@ -93,7 +90,7 @@ const ContentCardMemo = memo(function ContentCardMemo({
   );
 });
 
-const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
+const ContentCard = memo(function ContentCard({content}: Props) {
   const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
     id: content.id,
     data: {
@@ -112,8 +109,9 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
       {...attributes}
       {...listeners}
       data-contentcard="true"
+      className="self-center"
     >
-      <ContentCardMemo content={content} isDragging={isDragging} dragOverlay={dragOverlay} />
+      <ContentCardMemo content={content} isDragging={isDragging} />
     </div>
   );
 });
