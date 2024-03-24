@@ -94,8 +94,8 @@ const StorageContainer = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full relative overflow-x-scroll hide-scrollbar sm:overflow-auto sm:pt-6">
-              <div className="sm:hidden flex items-end justify-center w-full pb-3 h-12 text-xs text-default-800 left-0 top-0">
+            <div className="w-full relative overflow-x-scroll hide-scrollbar sm:overflow-auto sm:pt-6 pb-safe">
+              <div className="sm:hidden flex select-none items-end justify-center w-full pb-3 h-12 text-xs text-default-800 left-0 top-0">
                 {"< Touch here to swipe >"}
               </div>
               <div className="flex flex-grow sm:flex-wrap min-h-[90px] md:min-h-[120px] w-full">

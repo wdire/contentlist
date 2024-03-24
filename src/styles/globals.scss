@@ -68,8 +68,9 @@ body::-webkit-scrollbar {
 
 .hide-scrollbar {
   &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
   }
 }
 
@@ -92,6 +93,12 @@ body::-webkit-scrollbar {
 
   h2 {
     @apply text-xl font-bold mb-2 mt-6;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 

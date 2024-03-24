@@ -95,7 +95,7 @@ export default function RootLayout({
         <Script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" async />
         <meta
           name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
+          content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
         />
 
         <script
