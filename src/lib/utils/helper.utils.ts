@@ -90,13 +90,19 @@ export const copyToClipboard = async (text: string) => {
 export const getListFirst12ContentsInfo = (contents: Content[]): string | Content => {
   let noIdContent: false | Content = false;
 
-  const imageContents = contents.map((content) => {
+  const lengthToCheck = Math.min(12, contents.length);
+
+  const imageContents: string[] = [];
+
+  for (let i = 0; i < lengthToCheck; i += 1) {
+    const content = contents[i];
     const contentId = content.data[content.data.source]?.id;
     if (!contentId) {
       noIdContent = content;
+    } else {
+      imageContents.push(`${content.data.source}:${content.data[content.data.source]?.id}`);
     }
-    return `${content.data.source}:${content.data[content.data.source]?.id}`;
-  });
+  }
 
   if (noIdContent) {
     console.error("No content id", noIdContent);

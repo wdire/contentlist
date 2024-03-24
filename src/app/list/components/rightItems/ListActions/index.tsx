@@ -1,9 +1,8 @@
 import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
-import {Button, Input, Tooltip} from "@nextui-org/react";
-import debounce from "lodash.debounce";
+import {Button, Tooltip} from "@nextui-org/react";
 import React from "react";
-import {LIST_MAX_ROW_LENGTH, MAX_LENGTHS} from "@/lib/constants";
+import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
 import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
 import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
@@ -12,6 +11,7 @@ import DeleteListButton from "./DeleteListButton";
 import ListLocalSaveButton from "../ListLocalSaveButton";
 import ListCopyButton from "../ListCopyButton";
 import ListResetButton from "../ListResetButton";
+import ListNameInput from "./ListNameInput";
 
 const ICON_SIZE = 18;
 
@@ -22,7 +22,6 @@ const ListActions = () => {
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
-  const listName = useAppSelector((state) => state.list.info.name);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
   const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
 
@@ -32,12 +31,6 @@ const ListActions = () => {
 
   const handleAddRowClick = () => {
     dispatch(listActions.addRow(createNewRow()));
-  };
-
-  const handleChangeListName = (value: string) => {
-    if (value) {
-      dispatch(listActions.editListInfo({name: value}));
-    }
   };
 
   const handleShowNamesToggle = () => {
@@ -55,23 +48,20 @@ const ListActions = () => {
 
   return (
     <div className="pb-2.5">
-      <Input
-        label="Name"
-        onValueChange={debounce(handleChangeListName, 500)}
-        defaultValue={listName}
-        maxLength={MAX_LENGTHS.list_title}
-      />
+      {isListOwner || isLocalMode ? <ListNameInput /> : null}
       <div className="flex gap-2 lg:gap-0 lg:justify-between">
         <Tooltip
           showArrow
           color="foreground"
-          placement="top"
+          placement="bottom"
           content={<span className="text-center">Show/Hide content names</span>}
+          classNames={{
+            base: "pointer-events-none",
+          }}
         >
           <Button
             variant="flat"
             color={showName ? "primary" : "secondary"}
-            className="mt-2"
             onPress={handleShowNamesToggle}
           >
             {showName ? <EyeIcon size={ICON_SIZE} /> : <EyeOffIcon size={ICON_SIZE} />} Names
@@ -80,13 +70,15 @@ const ListActions = () => {
         <Tooltip
           showArrow
           color="foreground"
-          placement="top"
-          content={<span className="text-center">Show/Hide content names</span>}
+          placement="bottom"
+          content={<span className="text-center">Show/Hide sources</span>}
+          classNames={{
+            base: "pointer-events-none",
+          }}
         >
           <Button
             variant="flat"
             color={showSources ? "primary" : "secondary"}
-            className="mt-2"
             onPress={handleShowSourcesToggle}
           >
             {showSources ? <EyeIcon size={ICON_SIZE} /> : <EyeOffIcon size={ICON_SIZE} />} Sources
@@ -108,8 +100,11 @@ const ListActions = () => {
           <Tooltip
             showArrow
             color="foreground"
-            placement="top"
+            placement="bottom"
             content={<span className="text-center">Copy list url</span>}
+            classNames={{
+              base: "pointer-events-none",
+            }}
           >
             <Button
               variant="flat"
@@ -127,7 +122,7 @@ const ListActions = () => {
           </div>
         ) : null}
         <div className="mt-3 flex flex-col gap-2">
-          {!fetchLoading && !user ? <ListLocalSaveButton /> : null}
+          {!fetchLoading ? <ListLocalSaveButton /> : null}
 
           {user && !fetchLoading && !isListOwner && !isLocalMode ? <ListCopyButton /> : null}
 

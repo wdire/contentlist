@@ -39,7 +39,8 @@ const ListCopyButton = () => {
           },
           copyListId: list.info.id,
           image: listImagefile,
-          imageContents: listImagefile ? list.generatedThumbnailImageContents : undefined,
+          imageContents:
+            listImagefile && list.info.imageContents ? list.info.imageContents : undefined,
         }).unwrap();
 
         if (response.data?.type === "copy_limit_exceeded") {

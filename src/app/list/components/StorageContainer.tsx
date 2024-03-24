@@ -1,6 +1,6 @@
 "use client";
 
-import {useMemo, useRef} from "react";
+import {useMemo} from "react";
 import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {STORAGE_ROW_ID} from "@/lib/constants";
 
@@ -26,8 +26,6 @@ const StorageContainer = () => {
     },
   });
 
-  const storageRef = useRef<HTMLDivElement | null>(null);
-
   const contentIds = useMemo(() => {
     return storageContents.map((content) => content.id);
   }, [storageContents]);
@@ -38,15 +36,6 @@ const StorageContainer = () => {
 
   const handleContentSizeChange = (size: ListState["contentSize"]) => {
     dispatch(listActions.setContentSize(size));
-
-    setTimeout(() => {
-      if (storageRef.current) {
-        storageRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-    }, 400);
   };
 
   return (
@@ -61,7 +50,7 @@ const StorageContainer = () => {
       ) : (
         <div className="rounded-b-medium sticky sm:relative bottom-0 z-20">
           <div ref={setNodeRef} className="bg-content1 w-full flex flex-col sm:p-5">
-            <div className="absolute -top-16 pointer-events-none" ref={storageRef}></div>
+            <div className="absolute -top-16 pointer-events-none"></div>
             <div className="flex gap-8 justify-between pt-5 px-5 pb-2 sm:p-0">
               <h2 className="text-2xl">Box</h2>
               <div className="flex items-center gap-3">

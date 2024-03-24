@@ -42,7 +42,7 @@ const UpdateThumbnail = () => {
   const handleCreateThumbnailClick = async () => {
     const {
       contents,
-      info: {imageContents},
+      startData: {imageContents: startImageContents},
     } = store.getState().list;
 
     setMessage("");
@@ -63,7 +63,7 @@ const UpdateThumbnail = () => {
       return;
     }
 
-    if (imageContents === newImageContents || (contents.length < 3 && !imageContents)) {
+    if (startImageContents === newImageContents || (contents.length < 3 && !startImageContents)) {
       setThumbnailPreviewBlobUrl(
         getListCloudinaryImage({
           publicId: cloudinaryImage?.publicId,
@@ -81,7 +81,9 @@ const UpdateThumbnail = () => {
       return;
     }
 
-    dispatch(listActions.setGeneratedThumbnailImageContents(newImageContents));
+    console.log("newImageContents", newImageContents);
+
+    dispatch(listActions.setImageContents(newImageContents));
 
     if (contents.length >= 3) {
       setUpdateImageState("creating_image");
