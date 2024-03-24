@@ -13,8 +13,6 @@ import ListImages from "./rightItems/ListImages";
 const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
-// TODO: Add "Source details" button to show source(tmdb, igdb, ...) and type(movie, game, ...)
-
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
   const listName = useAppSelector((state) => state.list.info.name);

@@ -41,7 +41,7 @@ export const listThumbnailGenerate = async () => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
 
       // Remove content names or sources if showing any
-      clonedContentCard.querySelector("& > div")?.remove();
+      clonedContentCard.querySelector("& > div > div")?.remove();
 
       tmpContentCardsContainer.append(clonedContentCard);
     });
@@ -137,9 +137,9 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     bottomWrapper.appendChild(logoImg);
 
     // Remove row options buttons
-    Object.values(clonedElm.querySelectorAll("& > div > div:nth-child(3)")).forEach((e) =>
-      e.remove(),
-    );
+    Object.values(
+      clonedElm.querySelectorAll("& > div > div:nth-child(2) > div:nth-child(2)"),
+    ).forEach((e) => e.remove());
 
     clonedElm.appendChild(bottomWrapper);
 
