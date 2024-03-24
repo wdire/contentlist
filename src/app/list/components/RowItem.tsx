@@ -1,29 +1,24 @@
 "use client";
 
-import {
-  AnimateLayoutChanges,
-  SortableContext,
-  defaultAnimateLayoutChanges,
-  rectSortingStrategy,
-  useSortable,
-} from "@dnd-kit/sortable";
+import {SortableContext, rectSortingStrategy, useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
 import dynamic from "next/dynamic";
-import {Row, Content} from "../../../lib/types/list.type";
+import {useAppSelector} from "@/store";
+
+import {selectContentsByRowId} from "@/store/features/list/listSelectors";
+import {Row} from "../../../lib/types/list.type";
 import RowOptionsPopover from "./RowOptionsPopover";
 
 const ContentCard = dynamic(() => import("./ContentCard"));
 
-const animateLayoutChanges: AnimateLayoutChanges = (args) =>
-  defaultAnimateLayoutChanges({...args, wasDragging: true});
-
 interface Props {
   row: Row;
-  contents: Content[];
 }
 
-const RowItem = memo(function RowItem({row, contents}: Props) {
+const RowItem = memo(function RowItem({row}: Props) {
+  const contents = useAppSelector((state) => selectContentsByRowId(state, row.id));
+
   const contentIds = useMemo(() => {
     return contents.map((content) => content.id);
   }, [contents]);
@@ -34,7 +29,6 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
       type: "Row",
       row,
     },
-    animateLayoutChanges,
   });
 
   const style = {
@@ -42,6 +36,10 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
     transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.5 : 1,
   };
+
+  const contentsMemo = useMemo(() => {
+    return contents.map((content) => <ContentCard key={content.id} content={content} />);
+  }, [contents]);
 
   return (
     <div ref={setNodeRef} style={style} className={"w-full flex bg-content1 relative"}>
@@ -60,12 +58,10 @@ const RowItem = memo(function RowItem({row, contents}: Props) {
       <div className="flex w-full">
         <div className="flex flex-grow flex-wrap min-h-[60px] md:min-h-[80px] pl-0.5">
           <SortableContext items={contentIds} strategy={rectSortingStrategy}>
-            {contents.map((content) => (
-              <ContentCard key={content.id} content={content} />
-            ))}
+            {contentsMemo}
           </SortableContext>
         </div>
-        <div className="flex justify-center items-center w-10">
+        <div className="flex justify-center items-center w-10 sm:w-14">
           <RowOptionsPopover row={row} />
         </div>
       </div>

@@ -17,6 +17,7 @@ import {useAppDispatch} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {listActions} from "@/store/features/list/listSlice";
 import SectionContainer from "@/components/common/SectionContainer";
+import useIsMobile from "@/lib/hooks/useIsMobile";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
@@ -26,6 +27,8 @@ function ListViewContainer() {
   const dispatch = useAppDispatch();
 
   const lastOverId = useRef<UniqueIdentifier | null>(null);
+
+  const isMobile = useIsMobile();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -96,7 +99,7 @@ function ListViewContainer() {
 
   return (
     <SectionContainer>
-      <div className="m-auto flex min-h-screen w-full items-start overflow-x-auto overflow-y-hidden py-page-top-space">
+      <div className="m-auto flex min-h-screen w-full items-start sm:overflow-x-auto sm:overflow-y-hidden py-page-top-space">
         <DndContext
           id="main-dnd"
           sensors={sensors}
@@ -104,11 +107,11 @@ function ListViewContainer() {
           onDragEnd={handleDragEnd}
           onDragMove={handleDragMove}
           onDragCancel={() => console.log("onDragCancel")}
-          autoScroll={true}
+          autoScroll={!isMobile}
           modifiers={[restrictToWindowEdges]}
           collisionDetection={pointerWithin}
         >
-          <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full">
+          <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full relative">
             <div className="flex flex-col gap-3 flex-1 lg:max-w-[900px]">
               <RowsContainer />
               <StorageContainer />

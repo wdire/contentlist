@@ -1,3 +1,5 @@
+"use client";
+
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import React, {useMemo} from "react";
 import {useAppSelector} from "@/store";
@@ -8,7 +10,6 @@ import RowItem from "./RowItem";
 
 const RowsContainer = () => {
   const rows = useAppSelector((state) => state.list.rows);
-  const contents = useAppSelector((state) => state.list.contents);
   const contentsId = useMemo(() => rows.map((col) => col.id), [rows]);
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
 
@@ -20,13 +21,7 @@ const RowsContainer = () => {
       >
         <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
           {!fetchLoading ? (
-            rows.map((row) => (
-              <RowItem
-                key={row.id}
-                row={row}
-                contents={contents.filter((content) => content.rowId === row.id)}
-              />
-            ))
+            rows.map((row) => <RowItem key={row.id} row={row} />)
           ) : (
             <RowsContainerSkeleton />
           )}
