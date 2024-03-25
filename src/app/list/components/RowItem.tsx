@@ -51,7 +51,7 @@ const RowItem = memo(function RowItem({row}: Props) {
           "bg-opacity-50 w-[80px] md:w-[120px] flex-shrink-0 text-md p-3 font-bold flex items-center justify-center relative"
         }
       >
-        <div className="flex gap-2 text-zinc-900 font-normal text-xs md:text-base break-words text-center">
+        <div className="flex gap-2 text-zinc-900 font-normal text-xs md:text-base break-all text-center">
           {row.title}
         </div>
       </div>

@@ -195,6 +195,8 @@ export const listSlice = createSlice({
           state.rows = arrayMove(state.rows, rowIndex, rowIndex - 1);
         }
       }
+
+      state.hasUnsavedChanges = true;
     },
     onDragStart: (
       state,

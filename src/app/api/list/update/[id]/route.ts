@@ -3,6 +3,10 @@ import {CreateResponse} from "@/api/lib/response.api";
 import {withMiddlewares} from "@/api/lib/runMiddlewares.api";
 import {ApiRequestTypes, ApiSchemas} from "@/api/lib/schemas/index.schema";
 import {deleteImage, uploadImage} from "@/api/lib/utils/cloudinary.util.api";
+import {
+  addCuttedContentImageUrlAll,
+  cutContentImageUrlBaseAll,
+} from "@/api/lib/utils/main.util.api";
 import {RequestParams, withValidation} from "@/api/lib/withValidation.api";
 import prisma from "@/lib/prisma";
 
@@ -71,6 +75,14 @@ export const PUT = (_request: Request, _params: RequestParams) =>
             };
           }
 
+          if (body) {
+            body.rows.forEach((row) => {
+              cutContentImageUrlBaseAll(row.contents);
+            });
+
+            cutContentImageUrlBaseAll(body.storage);
+          }
+
           const response = await prisma.list.update({
             where: {
               id: params.id,
@@ -96,6 +108,14 @@ export const PUT = (_request: Request, _params: RequestParams) =>
               },
             },
           });
+
+          if (response) {
+            response.contentsData.rows.forEach((row) => {
+              addCuttedContentImageUrlAll(row.contents);
+            });
+
+            addCuttedContentImageUrlAll(response.contentsData.storage);
+          }
 
           return CreateResponse<ApiRequestTypes["/list/update"]["response"]["data"]>({
             status: 200,

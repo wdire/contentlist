@@ -7,7 +7,7 @@ import {
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {WikipediaRequestTypes} from "@/services/wikipediaApi/wikipediaApi.schema";
 import {ContentInfoType} from "../types/list.type";
-import {IGDB_IMAGE_URL_BASE} from "../constants";
+import {CONTENT_IMAGE_BASES} from "../constants";
 
 export const getContentInfoFromTmdb = ({
   data,
@@ -37,7 +37,7 @@ export const getContentInfoFromTmdb = ({
     }
 
     if (returnData.image_url) {
-      returnData.image_url = `https://image.tmdb.org/t/p/w300${returnData.image_url}`;
+      returnData.image_url = `${CONTENT_IMAGE_BASES.tmdb}${returnData.image_url}`;
     }
 
     return returnData;
@@ -106,7 +106,7 @@ export const getContentInfoFromIgdbGame = ({
       if (item?.id && item?.name && item?.cover?.image_id) {
         const returnData: ContentInfoType = {
           name: item.name,
-          image_url: `${IGDB_IMAGE_URL_BASE + item.cover.image_id}.png`,
+          image_url: `${CONTENT_IMAGE_BASES.igdb + item.cover.image_id}.png`,
           source: "igdb",
           igdb: {
             id: item.id,

@@ -6,6 +6,7 @@ import {currentUser} from "@clerk/nextjs";
 import {Prisma} from "@prisma/client";
 import {uploadImage} from "@/api/lib/utils/cloudinary.util.api";
 import {MAX_LENGTHS} from "@/lib/constants";
+import {cutContentImageUrlBaseAll} from "@/api/lib/utils/main.util.api";
 
 export const POST = (_request: Request) =>
   withValidation<ApiRequestTypes["/list/create"]["formdata"], never>(
@@ -74,6 +75,12 @@ export const POST = (_request: Request) =>
         listCreateArgs.data.name = `${listToCopy.name} Copy`;
         listCreateArgs.data.contentsData = body.contentsData;
         listCreateArgs.data.imageContents = body.imageContents;
+
+        listCreateArgs.data.contentsData.rows.forEach((row) => {
+          cutContentImageUrlBaseAll(row.contents);
+        });
+
+        cutContentImageUrlBaseAll(listCreateArgs.data.contentsData.storage);
       } else {
         const hasUneditedList = await prisma.list.findFirst({
           where: {
