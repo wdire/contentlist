@@ -8,7 +8,8 @@
   //gap: 1px;
   //border: 1px solid black;
 
-  & > div {
+  & > div,
+  .content {
     position: relative;
     width: 100%;
     height: 100%;

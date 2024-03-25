@@ -5,7 +5,7 @@ import {CreateResponse} from "@/api/lib/response.api";
 import {currentUser} from "@clerk/nextjs";
 import {Prisma} from "@prisma/client";
 import {uploadImage} from "@/api/lib/utils/cloudinary.util.api";
-import {USER_LIST_MAX_COPY_COUNT} from "@/lib/constants";
+import {MAX_LENGTHS} from "@/lib/constants";
 
 export const POST = (_request: Request) =>
   withValidation<ApiRequestTypes["/list/create"]["formdata"], never>(
@@ -44,7 +44,7 @@ export const POST = (_request: Request) =>
           },
         });
 
-        if (countAlreadyCopied >= USER_LIST_MAX_COPY_COUNT) {
+        if (countAlreadyCopied >= MAX_LENGTHS.user_list_max_copy) {
           return CreateResponse<ApiRequestTypes["/list/create"]["response"]["data"]>({
             status: 200,
             data: {

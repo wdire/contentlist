@@ -12,35 +12,24 @@ import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 interface Props {
   content: Content;
-  dragOverlay?: boolean;
 }
 
-const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
-  const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
-    id: content.id,
-    data: {
-      type: "Content",
-      content,
-    },
-  });
-
+const ContentCardMemo = memo(function ContentCardMemo({
+  content,
+  isDragging,
+}: Props & {isDragging: boolean}) {
   const contentSize = useAppSelector((state) => state.list.contentSize);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
 
   const classNames = useMemo(() => {
-    const wrapper = clsx(
-      "overflow-hidden items-center select-none touch-none",
-      "flex text-left cursor-grab relative content",
-      {
-        "opacity-50": isDragging,
-        "h-full": dragOverlay,
+    const wrapper = clsx("content", {
+      "opacity-50": isDragging,
 
-        "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
-        "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
-        "w-[102px] max-h-[153px] md:w-[120px] md:max-h-[180px]": contentSize === "3x",
-      },
-    );
+      "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
+      "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
+      "w-[102px] max-h-[153px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
+    });
 
     const contentName = clsx(
       "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
@@ -52,7 +41,7 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
     );
 
     const contentImage = clsx(
-      "w-full min-h-[50px] pointer-events-none block select-none max-h-full",
+      "w-full min-h-[60px] pointer-events-none block select-none max-h-full",
       {
         "h-auto object-contain": content?.data?.notPoster,
         "h-full object-cover": !content?.data?.notPoster,
@@ -64,27 +53,15 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
       contentName,
       contentImage,
     };
-  }, [content?.data?.notPoster, dragOverlay, contentSize, isDragging]);
+  }, [content?.data?.notPoster, contentSize, isDragging]);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
     return mediaType && ContentMediaName[mediaType];
   }, [content.data]);
 
-  const wrapperStyle = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={wrapperStyle}
-      {...attributes}
-      {...listeners}
-      className={classNames.wrapper}
-      data-contentcard="true"
-    >
+    <div className={classNames.wrapper}>
       <Image
         src={`/api/image-proxy?url=${content.data.image_url}`}
         width={84}
@@ -109,6 +86,32 @@ const ContentCard = memo(function ContentCard({content, dragOverlay}: Props) {
           {showName ? content.data.name : null}
         </div>
       ) : null}
+    </div>
+  );
+});
+
+const ContentCard = memo(function ContentCard({content}: Props) {
+  const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
+    id: content.id,
+    data: {
+      type: "Content",
+      content,
+    },
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        transition,
+        transform: CSS.Transform.toString(transform),
+      }}
+      {...attributes}
+      {...listeners}
+      data-contentcard="true"
+      className="self-center"
+    >
+      <ContentCardMemo content={content} isDragging={isDragging} />
     </div>
   );
 });

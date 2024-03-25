@@ -9,6 +9,8 @@ export type SearchState = {
   selectedResult?: ContentInfoType | null;
   searchResults: ContentInfoType[];
   loading: boolean;
+  showResults: boolean;
+  resultsExistingContentIndexes: string[];
 };
 
 const initialState: SearchState = {
@@ -17,6 +19,8 @@ const initialState: SearchState = {
   selectedResult: null,
   searchResults: [],
   loading: false,
+  showResults: false,
+  resultsExistingContentIndexes: [],
 };
 
 export const searchSlice = createSlice({
@@ -30,6 +34,10 @@ export const searchSlice = createSlice({
       state.searchQuery = action.payload;
     },
     setSelectedResult: (state, action: PayloadAction<ContentInfoType | null>) => {
+      if (!action.payload) {
+        state.showResults = true;
+      }
+
       state.selectedResult = action.payload;
     },
     setSearchResults: (state, action: PayloadAction<ContentInfoType[]>) => {
@@ -37,6 +45,12 @@ export const searchSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+    },
+    setShowResults: (state, action: PayloadAction<boolean>) => {
+      state.showResults = action.payload;
+    },
+    setResultsExistingContentIndexes: (state, action: PayloadAction<string[]>) => {
+      state.resultsExistingContentIndexes = action.payload;
     },
   },
 });

@@ -7,6 +7,7 @@ import {listActions} from "@/store/features/list/listSlice";
 import {STORAGE_ROW_ID} from "@/lib/constants";
 import {generateId} from "@/lib/utils/helper.utils";
 import {Content} from "@/lib/types/list.type";
+import {toast} from "react-toastify";
 import SearchResult from "./SearchResult";
 
 const SelectedSearchResult = () => {
@@ -45,6 +46,10 @@ const SelectedSearchResult = () => {
     dispatch(listActions.addContent(newContent));
     dispatch(searchActions.setSelectedResult(null));
     dispatch(searchActions.setSearchQuery(""));
+
+    toast("Added new content to the box", {
+      type: "success",
+    });
   };
 
   const handleCloseClick = () => {

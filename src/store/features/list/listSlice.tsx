@@ -32,8 +32,12 @@ const initialState: ListState = {
   showName: false,
   showSources: false,
   contentSize: "1x",
-  startContents: [],
-  startRows: [],
+  startData: {
+    name: undefined,
+    imageContents: undefined,
+    contents: [],
+    rows: [],
+  },
   isLocalMode: false,
 };
 
@@ -44,8 +48,8 @@ export const listSlice = createSlice({
     initList: (state, action: PayloadAction<InitListProps>) => {
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
-      state.startContents = action.payload.startContents;
-      state.startRows = action.payload.startRows;
+
+      state.startData = action.payload.startData;
       state.info = action.payload.info;
 
       state.isLocalMode = action.payload.isLocalMode;
@@ -93,15 +97,15 @@ export const listSlice = createSlice({
     updateList: (state, action: PayloadAction<ListUpdateProps>) => {
       state.rows = action.payload.rows;
       state.contents = action.payload.contents;
-      state.startContents = action.payload.startContents;
-      state.startRows = action.payload.startRows;
+      state.startData = action.payload.startData;
       state.info.cloudinaryImage = action.payload.info.cloudinaryImage;
       state.info.imageContents = action.payload.info.imageContents;
     },
     resetList: (state) => {
-      state.rows = state.startRows;
-      state.contents = state.startContents;
-      state.generatedThumbnailImageContents = undefined;
+      state.info.name = state.startData.name;
+      state.rows = state.startData.rows;
+      state.contents = state.startData.contents;
+      state.info.imageContents = state.startData.imageContents;
       state.hasUnsavedChanges = false;
 
       deleteRememberedState({key: "UNSAVED_CHANGES", listId: state.info.id});
@@ -177,8 +181,8 @@ export const listSlice = createSlice({
       }
       state.hasUnsavedChanges = action.payload;
     },
-    setGeneratedThumbnailImageContents: (state, action: PayloadAction<string>) => {
-      state.generatedThumbnailImageContents = action.payload;
+    setImageContents: (state, action: PayloadAction<string>) => {
+      state.info.imageContents = action.payload;
     },
     moveRowUpDown: (state, action: PayloadAction<{rowId: string | number; dir: "up" | "down"}>) => {
       const rowIndex = state.rows.findIndex((row) => row.id === action.payload.rowId);

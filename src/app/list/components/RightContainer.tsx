@@ -9,11 +9,9 @@ import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
 import ListImages from "./rightItems/ListImages";
+import ListActions from "./rightItems/ListActions";
 
-const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
-
-// TODO: Add "Source details" button to show source(tmdb, igdb, ...) and type(movie, game, ...)
 
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);

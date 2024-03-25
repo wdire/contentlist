@@ -19,9 +19,7 @@ const ListSaveButton = () => {
   const store = useStore() as AppStore;
 
   const hasUnsavedChanges = useAppSelector((state) => state.list.hasUnsavedChanges);
-  const generatedThumbnailImageContents = useAppSelector(
-    (state) => state.list.generatedThumbnailImageContents,
-  );
+  const imageContents = useAppSelector((state) => state.list.info.imageContents);
 
   const dispatch = useAppDispatch();
 
@@ -33,7 +31,7 @@ const ListSaveButton = () => {
 
   useEffect(() => {
     setSavingState("not_saved");
-  }, [generatedThumbnailImageContents]);
+  }, [imageContents]);
 
   const handleSaveClick = async () => {
     try {
@@ -56,7 +54,8 @@ const ListSaveButton = () => {
           body: createdList.formdata.body,
           image: listImagefile,
           deleteImage,
-          imageContents: listImagefile ? list.generatedThumbnailImageContents : undefined,
+          imageContents:
+            listImagefile && list.info.imageContents ? list.info.imageContents : undefined,
         },
         params: createdList.params,
       }).unwrap();
@@ -70,8 +69,12 @@ const ListSaveButton = () => {
           listActions.updateList({
             rows: rowsContents.rows,
             contents: rowsContents.contents,
-            startContents: rowsContents.contents,
-            startRows: rowsContents.rows,
+            startData: {
+              name: saveResponse.data.name,
+              imageContents: saveResponse.data.imageContents,
+              contents: rowsContents.contents,
+              rows: rowsContents.rows,
+            },
             info: {
               cloudinaryImage: saveResponse.data.cloudinaryImage,
               imageContents: saveResponse.data.imageContents,

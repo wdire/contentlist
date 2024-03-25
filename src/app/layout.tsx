@@ -1,4 +1,4 @@
-import type {Metadata} from "next";
+import type {Metadata, Viewport} from "next";
 import {Poppins} from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.scss";
@@ -63,6 +63,15 @@ export const metadata: Metadata = {
   manifest: "/assets/favicons/manifest.json",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  height: "device-height",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -93,10 +102,6 @@ export default function RootLayout({
         <Script src="https://cs.iubenda.com/autoblocking/3553985.js" strategy="afterInteractive" />
         <Script type="text/javascript" src="//cdn.iubenda.com/cs/gpp/stub.js" />
         <Script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" async />
-        <meta
-          name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
-        />
 
         <script
           type="application/ld+json"
@@ -144,7 +149,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
-          <ToastContainer theme="dark" position="bottom-center" hideProgressBar />
+          <ToastContainer theme="dark" position="bottom-center" closeOnClick hideProgressBar />
         </Providers>
       </body>
     </html>

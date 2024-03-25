@@ -16,12 +16,17 @@ import {
   getContentInfoFromWikipedia,
 } from "@/lib/utils/search.utils";
 import {wikipediaSearchInitiate} from "@/services/wikipediaApi";
+import {getExistingSearchResultIndexes} from "@/lib/utils/helper.utils";
+import {useStore} from "react-redux";
+import {AppStore} from "@/store/store";
 
 const SearchInput = () => {
   const dispatch = useAppDispatch();
 
   const searchQuery = useAppSelector((state) => state.search.searchQuery);
   const searchSource = useAppSelector((state) => state.search.searchSource);
+
+  const store = useStore() as AppStore;
 
   const debouncedApiCall = useMemo(
     () =>
@@ -30,6 +35,8 @@ const SearchInput = () => {
 
         dispatch(searchActions.setLoading(true));
 
+        let searchResults: PrismaJson.ContentType[] = [];
+
         if (searchSource === "tmdb") {
           const result = await dispatch(
             tmdbSearchMultiInitiate({
@@ -37,11 +44,7 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(
-            searchActions.setSearchResults(
-              getContentInfoFromTmdb({data: result.data?.results || []}),
-            ),
-          );
+          searchResults = getContentInfoFromTmdb({data: result.data?.results || []});
         } else if (searchSource === "anilist_anime" || searchSource === "anilist_manga") {
           const result = await dispatch(
             AnilistGetMediaListInitiate({
@@ -51,7 +54,7 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(searchActions.setSearchResults(getContentInfoFromAnilistMedia({data: result})));
+          searchResults = getContentInfoFromAnilistMedia({data: result});
         } else if (searchSource === "anilist_character") {
           const result = await dispatch(
             AnilistGetCharacterListInitiate({
@@ -59,9 +62,7 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(
-            searchActions.setSearchResults(getContentInfoFromAnilistCharacter({data: result})),
-          );
+          searchResults = getContentInfoFromAnilistCharacter({data: result});
         } else if (searchSource === "igdb") {
           const result = await dispatch(
             igdbSearchGamesInitiate({
@@ -69,9 +70,7 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(
-            searchActions.setSearchResults(getContentInfoFromIgdbGame({data: result.data || []})),
-          );
+          searchResults = getContentInfoFromIgdbGame({data: result.data || []});
         } else if (searchSource === "wikipedia") {
           const result = await dispatch(
             wikipediaSearchInitiate({
@@ -79,17 +78,28 @@ const SearchInput = () => {
             }),
           ).unwrap();
 
-          dispatch(
-            searchActions.setSearchResults(
-              getContentInfoFromWikipedia({data: result.query.pages || []}),
-            ),
-          );
+          searchResults = getContentInfoFromWikipedia({data: result.query.pages || []});
         } else {
           console.error("Unkown search source, how did you do that?");
         }
 
+        if (searchResults.length > 0) {
+          const {
+            list: {contents},
+          } = store.getState();
+
+          dispatch(searchActions.setSearchResults(searchResults));
+
+          dispatch(
+            searchActions.setResultsExistingContentIndexes(
+              getExistingSearchResultIndexes({contents, findContents: searchResults}),
+            ),
+          );
+        }
+
         dispatch(searchActions.setLoading(false));
       }, 400),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchSource, dispatch],
   );
 
@@ -103,6 +113,10 @@ const SearchInput = () => {
     dispatch(searchActions.setSearchQuery(query));
   };
 
+  const setSearchInputFocus = (focus: boolean) => {
+    dispatch(searchActions.setShowResults(focus));
+  };
+
   return (
     <Input
       classNames={{
@@ -110,6 +124,7 @@ const SearchInput = () => {
         input: "ml-1",
         inputWrapper: "h-[48px]",
       }}
+      onFocus={() => setSearchInputFocus(true)}
       aria-label="Search Content"
       placeholder="Search Content"
       startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}

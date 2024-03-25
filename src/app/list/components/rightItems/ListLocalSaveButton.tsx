@@ -16,7 +16,6 @@ const ListLocalSaveButton = () => {
   const store = useStore() as AppStore;
 
   const [hasLocalSave, setLocalSave] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -29,7 +28,6 @@ const ListLocalSaveButton = () => {
   const handleLocalSaveClick = async () => {
     const {list} = store.getState();
     try {
-      setLoading(true);
       if (!hasLocalSave || list.isLocalMode) {
         const saveList: LocalModeListType = {
           rows: list.rows,
@@ -44,8 +42,6 @@ const ListLocalSaveButton = () => {
         dispatch(listActions.setHasUnsavedChanges(false));
         console.log("Saved to local list");
 
-        setLoading(false);
-
         if (!list.isLocalMode) {
           router.push(`/list/${list.info.id}?local=true`);
         }
@@ -55,7 +51,6 @@ const ListLocalSaveButton = () => {
         router.push(`/list/${listId}?local=true`);
       }
     } catch (err) {
-      setLoading(false);
       console.error(err);
     }
   };
@@ -76,7 +71,6 @@ const ListLocalSaveButton = () => {
     <>
       <Button
         color="secondary"
-        isLoading={loading}
         isDisabled={isLocalMode && !hasUnsavedChanges}
         onPress={handleLocalSaveClick}
         variant="flat"

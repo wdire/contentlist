@@ -4,11 +4,16 @@
 
 html {
   height: 100%;
+  font-size: 16px;
 }
 
 html,
 body {
   @apply bg-background text-foreground-700;
+}
+
+body {
+  @apply antialiased;
 }
 
 body,
@@ -68,9 +73,14 @@ body::-webkit-scrollbar {
 
 .hide-scrollbar {
   &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
   }
+}
+
+.content {
+  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left cursor-grab relative;
 }
 
 .terms-container {
@@ -88,6 +98,12 @@ body::-webkit-scrollbar {
 
   h2 {
     @apply text-xl font-bold mb-2 mt-6;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 

@@ -90,13 +90,19 @@ export const copyToClipboard = async (text: string) => {
 export const getListFirst12ContentsInfo = (contents: Content[]): string | Content => {
   let noIdContent: false | Content = false;
 
-  const imageContents = contents.map((content) => {
+  const lengthToCheck = Math.min(12, contents.length);
+
+  const imageContents: string[] = [];
+
+  for (let i = 0; i < lengthToCheck; i += 1) {
+    const content = contents[i];
     const contentId = content.data[content.data.source]?.id;
     if (!contentId) {
       noIdContent = content;
+    } else {
+      imageContents.push(`${content.data.source}:${content.data[content.data.source]?.id}`);
     }
-    return `${content.data.source}:${content.data[content.data.source]?.id}`;
-  });
+  }
 
   if (noIdContent) {
     console.error("No content id", noIdContent);
@@ -177,4 +183,28 @@ export const getListCloudinaryImage = ({
   return publicId && version
     ? `https://res.cloudinary.com/dgib2iezn/image/upload/${original ? "" : "w_300/f_auto/"}v${version}/${publicId}`
     : "/assets/no-image.png";
+};
+
+export const getExistingSearchResultIndexes = ({
+  contents,
+  findContents,
+}: {
+  contents: Content[];
+  findContents: PrismaJson.ContentType[];
+}): string[] => {
+  const indexes: string[] = [];
+
+  contents.forEach((content) => {
+    findContents.forEach((findContent, index) => {
+      if (
+        content.data.name === findContent.name &&
+        content.data.source === findContent.source &&
+        content.data[content.data.source]?.id === findContent[findContent.source]?.id
+      ) {
+        indexes.push(`search_${index}`);
+      }
+    });
+  });
+
+  return indexes;
 };

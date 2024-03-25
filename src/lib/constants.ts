@@ -71,8 +71,6 @@ export const APP_BASE_URL = (() => {
 export const CLOUDINARY_PUBLIC_ID_SUFFIX = "list_thumb_";
 export const CLOUDINARY_LIST_THUMBS_FOLDER_NAME = `${process.env.VERCEL_ENV !== "production" ? "dev_" : ""}list_thumbnails`;
 
-export const USER_LIST_MAX_COPY_COUNT = 3;
-
 export const ALLOWED_HOSTNAMES = [
   "image.tmdb.org",
   "images.igdb.com",
@@ -85,4 +83,5 @@ export const MAX_LENGTHS = {
   max_rows: 10,
   max_contents: 500,
   image_contents: 250,
+  user_list_max_copy: 2,
 };

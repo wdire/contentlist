@@ -34,8 +34,12 @@ export const convertDBListToRedux = ({
       cloudinaryImage,
       imageContents,
     },
-    startContents: [],
-    startRows: [],
+    startData: {
+      name,
+      imageContents,
+      rows: [],
+      contents: [],
+    },
     isLocalMode: false,
   };
 
@@ -45,8 +49,8 @@ export const convertDBListToRedux = ({
 
   list.rows = rows;
   list.contents = contents;
-  list.startContents = contents;
-  list.startRows = rows;
+  list.startData.contents = contents;
+  list.startData.rows = rows;
 
   return list;
 };
