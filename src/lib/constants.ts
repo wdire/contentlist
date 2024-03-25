@@ -83,5 +83,15 @@ export const MAX_LENGTHS = {
   max_rows: 10,
   max_contents: 500,
   image_contents: 250,
-  user_list_max_copy: 2,
+  user_list_max_copy: 1,
 };
+
+export const CONTENT_IMAGE_BASES = {
+  tmdb: "https://image.tmdb.org/t/p/w300/",
+  igdb: "https://images.igdb.com/igdb/image/upload/t_cover_big/",
+  anilist: {
+    anime: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/",
+    manga: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/",
+    character: "https://s4.anilist.co/file/anilistcdn/character/large/",
+  },
+} as const;

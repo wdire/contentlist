@@ -12,10 +12,6 @@ body {
   @apply bg-background text-foreground-700;
 }
 
-body {
-  @apply antialiased;
-}
-
 body,
 body > [data-overlay-container],
 body main {

@@ -1,3 +1,4 @@
+import {addCuttedContentImageUrlAll} from "@/api/lib/utils/main.util.api";
 import prisma from "@/lib/prisma";
 import {Prisma} from "@prisma/client";
 import {cache} from "react";
@@ -30,11 +31,21 @@ export const getListById = cache(async (id: string | number) => {
     },
   });
 
+  if (response) {
+    response.contentsData.rows.forEach((row) => {
+      addCuttedContentImageUrlAll(row.contents);
+    });
+
+    addCuttedContentImageUrlAll(response.contentsData.storage);
+  }
+
   return response;
 });
 
 export type ListsByUserIdResponse = Prisma.ListGetPayload<{
-  include: {
+  select: {
+    id: true;
+    name: true;
     cloudinaryImage: {
       select: {
         publicId: true;
@@ -49,7 +60,9 @@ export const getListsByUserId = cache(async (userId: string) => {
     where: {
       userId,
     },
-    include: {
+    select: {
+      id: true,
+      name: true,
       cloudinaryImage: {
         select: {
           publicId: true,
