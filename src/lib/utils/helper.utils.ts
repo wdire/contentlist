@@ -184,3 +184,27 @@ export const getListCloudinaryImage = ({
     ? `https://res.cloudinary.com/dgib2iezn/image/upload/${original ? "" : "w_300/f_auto/"}v${version}/${publicId}`
     : "/assets/no-image.png";
 };
+
+export const getExistingSearchResultIndexes = ({
+  contents,
+  findContents,
+}: {
+  contents: Content[];
+  findContents: PrismaJson.ContentType[];
+}): string[] => {
+  const indexes: string[] = [];
+
+  contents.forEach((content) => {
+    findContents.forEach((findContent, index) => {
+      if (
+        content.data.name === findContent.name &&
+        content.data.source === findContent.source &&
+        content.data[content.data.source]?.id === findContent[findContent.source]?.id
+      ) {
+        indexes.push(`search_${index}`);
+      }
+    });
+  });
+
+  return indexes;
+};

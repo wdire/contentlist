@@ -5,7 +5,7 @@ import HeaderRight from "./HeaderRight";
 
 const Header = () => {
   return (
-    <header className="fixed w-full h-header-height bg-content1 z-[100]">
+    <header className="fixed w-full h-header-height bg-content1 z-[100] px-3 sm:px-0">
       <SectionContainer className="relative flex justify-between h-full py-4">
         <Link href={"/"} className="cursor-pointer flex items-center">
           <Image

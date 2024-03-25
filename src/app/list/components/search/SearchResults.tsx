@@ -11,22 +11,28 @@ const SearchResults = memo(function SearchResults() {
   const searchQuery = useAppSelector((state) => state.search.searchQuery);
   const stateSearchResults = useAppSelector((state) => state.search.searchResults);
   const searchLoading = useAppSelector((state) => state.search.loading);
+  const showResults = useAppSelector((state) => state.search.showResults);
+  const resultsExistingContentIndexes = useAppSelector(
+    (state) => state.search.resultsExistingContentIndexes,
+  );
   const dispatch = useAppDispatch();
+
+  const onSearchResultClick = (info: ContentInfoType) => {
+    dispatch(searchActions.setSelectedResult(info));
+    dispatch(searchActions.setShowResults(false));
+  };
 
   if (searchLoading) {
     return <Spinner className="text-center w-full mt-5" color="default" />;
   }
 
-  const onSearchResultClick = (info: ContentInfoType) => {
-    dispatch(searchActions.setSelectedResult(info));
-    dispatch(searchActions.setSearchQuery(""));
-  };
+  let itemIndex = -1;
 
   return (
     <Listbox
       hideSelectedIcon={true}
       emptyContent={"No content found"}
-      hideEmptyContent={searchQuery ? !stateSearchResults : true}
+      hideEmptyContent={searchQuery && showResults ? !stateSearchResults : true}
       itemClasses={{
         base: [
           "rounded-md",
@@ -38,18 +44,23 @@ const SearchResults = memo(function SearchResults() {
           "data-[hover=true]:bg-default-200",
         ],
       }}
-      className="max-h-[320px] overflow-y-auto pt-2"
-      items={searchQuery ? stateSearchResults || [] : []}
+      className="max-h-60 sm:max-h-80 overflow-y-auto pt-2"
+      items={searchQuery && showResults ? stateSearchResults || [] : []}
       aria-label="Search Results"
+      disabledKeys={resultsExistingContentIndexes}
     >
       {(item) => {
+        itemIndex += 1;
+
+        const existingContent = resultsExistingContentIndexes.includes(`search_${itemIndex}`);
+
         return (
           <ListboxItem
-            key={`${Math.random()}`}
+            key={`search_${itemIndex}`}
             textValue={item?.name}
             onClick={() => onSearchResultClick(item)}
           >
-            <SearchResult info={item} notPoster />
+            <SearchResult info={item} notPoster existingContent={existingContent} />
           </ListboxItem>
         );
       }}

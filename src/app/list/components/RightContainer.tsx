@@ -9,8 +9,8 @@ import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
 import ListImages from "./rightItems/ListImages";
+import ListActions from "./rightItems/ListActions";
 
-const ListActions = dynamic(() => import("./rightItems/ListActions"));
 const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
 
 const RightContainer = () => {

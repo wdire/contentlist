@@ -6,9 +6,15 @@ type SearchResultProps = {
   info: ContentInfoType;
   onClick?: () => void;
   notPoster?: PrismaJson.ContentType["notPoster"];
+  existingContent?: boolean;
 };
 
-const SearchResult = ({info, onClick, notPoster = undefined}: SearchResultProps) => {
+const SearchResult = ({
+  info,
+  onClick,
+  notPoster = undefined,
+  existingContent = false,
+}: SearchResultProps) => {
   const mediaType = getContentMediaType(info);
 
   return (
@@ -28,6 +34,7 @@ const SearchResult = ({info, onClick, notPoster = undefined}: SearchResultProps)
           <span className="text-tiny text-default-400 capitalize">
             {mediaType && ContentMediaName[mediaType]}
           </span>
+          {existingContent ? <div className="italic">Already in List</div> : null}
         </div>
       </div>
     </div>
