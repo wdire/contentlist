@@ -61,6 +61,7 @@ export const listThumbnailGenerate = async () => {
       windowWidth: 800,
       windowHeight: 800,
       scale: 1,
+      proxy: "/api/image-proxy",
       onclone: (_doc, element) => {
         element.style.display = "grid";
       },
@@ -153,6 +154,7 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
       windowHeight: 900,
       backgroundColor: "#000",
       scale: 2,
+      proxy: "/api/image-proxy",
       onclone: (_doc, element) => {
         element.style.display = "flex";
       },

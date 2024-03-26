@@ -63,7 +63,7 @@ const ContentCardMemo = memo(function ContentCardMemo({
   return (
     <div className={classNames.wrapper}>
       <Image
-        src={`/api/image-proxy?url=${content.data.image_url}`}
+        src={content.data.image_url}
         width={84}
         height={126}
         sizes="84px"
