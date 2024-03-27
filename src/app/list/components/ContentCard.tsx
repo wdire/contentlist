@@ -26,13 +26,13 @@ const ContentCardMemo = memo(function ContentCardMemo({
     const wrapper = clsx("content", {
       "opacity-50": isDragging,
 
-      "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
-      "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
-      "w-[102px] max-h-[153px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
+      "w-[60px] max-h-[90px] md:w-[87px] md:max-h-[131px]": contentSize === "1x",
+      "w-[83px] max-h-[125px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
+      "w-[125px] max-h-[188px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
     });
 
     const contentName = clsx(
-      "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
+      "absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
       "text-[10px] md:text-sm max-h-full pt-2 !leading-3 md:!leading-[18px]",
       {
         "line-clamp-4 md:line-clamp-5": contentSize === "1x" || contentSize === "2x",

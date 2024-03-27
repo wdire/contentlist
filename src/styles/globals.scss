@@ -51,12 +51,13 @@ body main {
 }
 
 body::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  @apply bg-content1/70 p-2;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
-  @apply bg-content2 p-2;
+  width: 6px;
+  @apply p-2;
 }
 
 ::-webkit-scrollbar:horizontal {

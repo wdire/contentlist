@@ -35,17 +35,14 @@ const StorageSearchInput = memo(function StorageSearchInput({
       ref={inputRef}
       isClearable
       classNames={{
-        mainWrapper: clsx({
-          "!cursor-pointer": !inputActive,
-        }),
         inputWrapper: clsx(
-          "h-8 py-1 p-1 absolute top-5 z-10 max-w-[250px] !transition-width duration-500",
+          "h-8 py-1 p-1 absolute top-5 z-10 max-w-[250px] !transition-[width] !duration-400",
           {
-            "p-0 w-[calc(100%-210px)]": inputActive,
-            "w-8": !inputActive,
+            "p-0 w-[calc(100%-210px)] sm:w-[250px] ": inputActive,
+            "w-8 !cursor-pointer": !inputActive,
           },
         ),
-        innerWrapper: clsx("p-0"),
+        innerWrapper: clsx("p-0 !cursor-pointer"),
         input: clsx("", {
           "!ps-8 h-full": inputActive,
           "opacity-0 flex-shrink !ps-0 !cursor-pointer w-8": !inputActive,

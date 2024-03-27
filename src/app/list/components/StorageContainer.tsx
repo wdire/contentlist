@@ -1,6 +1,6 @@
 "use client";
 
-import {useMemo, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {STORAGE_ROW_ID} from "@/lib/constants";
 
@@ -9,6 +9,7 @@ import listSelectors, {selectContentsByRowId} from "@/store/features/list/listSe
 import {Button, Skeleton} from "@nextui-org/react";
 import {ListState} from "@/store/features/list/listSlice.type";
 import {listActions} from "@/store/features/list/listSlice";
+import useIsMobile from "@/lib/hooks/useIsMobile";
 import ContentCard from "./ContentCard";
 import ContentTrashbox from "./ContentTrashbox";
 import StorageSearchInput from "./StorageSearchInput";
@@ -19,6 +20,10 @@ const StorageContainer = () => {
   const contentSize = useAppSelector((state) => state.list.contentSize);
 
   const [searchValue, setSearchValue] = useState("");
+
+  const isMobile = useIsMobile();
+
+  const boxRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -51,6 +56,14 @@ const StorageContainer = () => {
 
   const handleContentSizeChange = (size: ListState["contentSize"]) => {
     dispatch(listActions.setContentSize(size));
+    if (!isMobile) {
+      setTimeout(() => {
+        boxRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }, 250);
+    }
   };
 
   return (
@@ -63,16 +76,19 @@ const StorageContainer = () => {
           </div>
         </Skeleton>
       ) : (
-        <div className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20">
+        <div
+          ref={boxRef}
+          className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20 "
+        >
           <div ref={setNodeRef} className="bg-content1 w-full flex flex-col sm:p-5">
             <div className="absolute -top-16 pointer-events-none"></div>
-            <div className="flex gap-8 justify-between pt-5 px-3 sm:px-0 pb-2 sm:p-0">
+            <div className="flex gap-8 justify-between pt-5 px-3 pb-2 sm:p-0">
               <div className="flex items-center gap-5">
                 <h2 className="text-2xl">Box</h2>
                 <StorageSearchInput setSearchValue={setSearchValue} />
               </div>
               <div className="flex items-center gap-3">
-                <div className="text-sm">Content Size</div>
+                <div className="max-[330px]:text-xs text-sm break-keep">Content Size</div>
                 <div className="flex gap-2">
                   <Button
                     size="sm"
@@ -110,7 +126,7 @@ const StorageContainer = () => {
                 <div className="pl-4 pt-4 h-12">No matching contents</div>
               )}
 
-              <div className="flex flex-grow sm:flex-wrap min-h-[90px] md:min-h-[120px] w-full">
+              <div className="flex flex-grow sm:flex-wrap min-h-[90px] md:min-h-[120px] w-full max-h-[440px] sm:overflow-y-auto pt-0">
                 <SortableContext id={STORAGE_ROW_ID} items={contentIds}>
                   {storageContentsMemo}
                 </SortableContext>

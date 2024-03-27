@@ -17,7 +17,6 @@ import {useAppDispatch} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {listActions} from "@/store/features/list/listSlice";
 import SectionContainer from "@/components/common/SectionContainer";
-import useIsMobile from "@/lib/hooks/useIsMobile";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
@@ -27,8 +26,6 @@ function ListViewContainer() {
   const dispatch = useAppDispatch();
 
   const lastOverId = useRef<UniqueIdentifier | null>(null);
-
-  const isMobile = useIsMobile();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -103,7 +100,7 @@ function ListViewContainer() {
           onDragEnd={handleDragEnd}
           onDragMove={handleDragMove}
           onDragCancel={() => console.log("onDragCancel")}
-          autoScroll={!isMobile}
+          autoScroll={false}
           modifiers={[restrictToWindowEdges]}
           collisionDetection={pointerWithin}
         >
