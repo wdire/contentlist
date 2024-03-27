@@ -75,8 +75,6 @@ function ListViewContainer() {
         return;
       }
 
-      console.log("drag move");
-
       if (lastOverId.current === event.over.id) {
         return;
       }
