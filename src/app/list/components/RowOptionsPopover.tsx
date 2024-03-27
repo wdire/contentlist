@@ -96,7 +96,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
           className="py-2 sm:py-4 px-2 cursor-pointer text-default-500 transition-colors hover:text-default-700 select-none"
           aria-label="Row Options"
         >
-          <Settings />
+          <Settings className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </PopoverTrigger>
       <PopoverContent className="bg-content1">
@@ -105,14 +105,14 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
           <div className="flex items-center gap-4 mb-2">
             <div>Move</div>
             <div className="flex justify-between w-full">
-              <Button size="sm" variant="flat" color="primary" onClick={() => onMoveRowClick("up")}>
+              <Button size="sm" variant="flat" color="primary" onPress={() => onMoveRowClick("up")}>
                 Up
               </Button>
               <Button
                 size="sm"
                 variant="flat"
                 color="secondary"
-                onClick={() => onMoveRowClick("down")}
+                onPress={() => onMoveRowClick("down")}
               >
                 Down
               </Button>

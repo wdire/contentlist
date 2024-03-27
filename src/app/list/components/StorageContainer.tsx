@@ -48,18 +48,18 @@ const StorageContainer = () => {
           </div>
         </Skeleton>
       ) : (
-        <div className="rounded-b-medium sticky sm:relative bottom-0 z-20">
+        <div className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20">
           <div ref={setNodeRef} className="bg-content1 w-full flex flex-col sm:p-5">
             <div className="absolute -top-16 pointer-events-none"></div>
-            <div className="flex gap-8 justify-between pt-5 px-5 pb-2 sm:p-0">
-              <h2 className="text-2xl">Box</h2>
+            <div className="flex gap-8 justify-between pt-5 px-3 sm:px-0 pb-2 sm:p-0">
+              <h2 className="text-xl sm:text-2xl">Box</h2>
               <div className="flex items-center gap-3">
                 <div className="text-sm">Content Size</div>
                 <div className="flex gap-2">
                   <Button
                     size="sm"
                     variant={contentSize === "1x" ? "solid" : "flat"}
-                    onClick={() => handleContentSizeChange("1x")}
+                    onPress={() => handleContentSizeChange("1x")}
                     className="min-w-0 w-8 text-sm"
                   >
                     1x
@@ -67,7 +67,7 @@ const StorageContainer = () => {
                   <Button
                     size="sm"
                     variant={contentSize === "2x" ? "solid" : "flat"}
-                    onClick={() => handleContentSizeChange("2x")}
+                    onPress={() => handleContentSizeChange("2x")}
                     className="min-w-0 w-8 text-sm"
                   >
                     2x
@@ -75,7 +75,7 @@ const StorageContainer = () => {
                   <Button
                     size="sm"
                     variant={contentSize === "3x" ? "solid" : "flat"}
-                    onClick={() => handleContentSizeChange("3x")}
+                    onPress={() => handleContentSizeChange("3x")}
                     className="min-w-0 w-8 text-sm"
                   >
                     3x

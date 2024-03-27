@@ -143,6 +143,12 @@ export const listSlice = createSlice({
       state.rows[rowIndex].title = action.payload.title;
 
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     deleteRow: (state, action: PayloadAction<Row>) => {
       state.contents = state.contents.map((c) => {
@@ -197,6 +203,12 @@ export const listSlice = createSlice({
       }
 
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     onDragStart: (
       state,

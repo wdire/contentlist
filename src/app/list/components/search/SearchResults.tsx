@@ -58,7 +58,7 @@ const SearchResults = memo(function SearchResults() {
           <ListboxItem
             key={`search_${itemIndex}`}
             textValue={item?.name}
-            onClick={() => onSearchResultClick(item)}
+            onPress={() => onSearchResultClick(item)}
           >
             <SearchResult info={item} notPoster existingContent={existingContent} />
           </ListboxItem>

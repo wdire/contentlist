@@ -32,7 +32,7 @@ const ContentSources = () => {
           <SourceTitle count="1" name="TMDB" link="https://www.themoviedb.org" />
 
           <p>Using TMDB API for adding Movie, Tv and People contents to lists.</p>
-          <Image src={"/assets/sources/tmdb-logo.svg"} width={150} height={150} alt="TMDB Logo" />
+          <Image src={"/assets/sources/tmdb-logo.svg"} width={100} height={100} alt="TMDB Logo" />
           <p className="italic max-w-[420px]">
             ContentList uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise
             approved by TMDB.

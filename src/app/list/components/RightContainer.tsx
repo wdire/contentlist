@@ -3,15 +3,13 @@
 import {Accordion, AccordionItem, Skeleton} from "@nextui-org/react";
 import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
-import dynamic from "next/dynamic";
 import clsx from "clsx";
 import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
 import SearchContainer from "./search/SearchContainer";
 import ListImages from "./rightItems/ListImages";
 import ListActions from "./rightItems/ListActions";
-
-const ListSaveButton = dynamic(() => import("./rightItems/ListSaveButton"));
+import ListSaveButton from "./rightItems/ListSaveButton";
 
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
@@ -23,7 +21,7 @@ const RightContainer = () => {
   const {user} = useUser();
 
   return (
-    <div className="w-full lg:w-[260px] rounded-medium">
+    <div className="w-full lg:w-[260px] rounded-medium px-3 lg:px-0">
       <div className="w-full h-max relative">
         {!fetchLoading ? (
           <div className="mb-5 px-4 py-4 bg-content1 rounded-medium">
@@ -53,7 +51,15 @@ const RightContainer = () => {
             hidden: fetchLoading,
           })}
         >
-          <Accordion defaultSelectedKeys={["search"]} variant="shadow">
+          <Accordion
+            defaultSelectedKeys={["search"]}
+            variant="shadow"
+            itemClasses={{
+              trigger: "px-2 rounded-medium",
+              content: "px-2",
+            }}
+            className="px-2"
+          >
             <AccordionItem key={"search"} title="Seach">
               <SearchContainer />
             </AccordionItem>

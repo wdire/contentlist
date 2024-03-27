@@ -3,14 +3,11 @@
 import {SortableContext, rectSortingStrategy, useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
-import dynamic from "next/dynamic";
 import {useAppSelector} from "@/store";
-
 import {selectContentsByRowId} from "@/store/features/list/listSelectors";
 import {Row} from "../../../lib/types/list.type";
 import RowOptionsPopover from "./RowOptionsPopover";
-
-const ContentCard = dynamic(() => import("./ContentCard"));
+import ContentCard from "./ContentCard";
 
 interface Props {
   row: Row;
@@ -48,10 +45,10 @@ const RowItem = memo(function RowItem({row}: Props) {
           backgroundColor: `var(--rowColor-${row.color})`,
         }}
         className={
-          "bg-opacity-50 w-[80px] md:w-[120px] flex-shrink-0 text-md p-3 font-bold flex items-center justify-center relative"
+          "bg-opacity-50 w-[80px] md:w-[120px] flex-shrink-0 text-md py-3 sm:px-1.5 px-0.5 font-bold flex items-center justify-center relative"
         }
       >
-        <div className="flex gap-2 text-zinc-900 font-normal text-xs md:text-base break-all text-center">
+        <div className="flex gap-2 text-zinc-900 font-normal text-xs md:text-base wordb-break-word text-center">
           {row.title}
         </div>
       </div>

@@ -58,10 +58,6 @@ function ListViewContainer() {
 
   const handleDragEnd = useCallback(
     async (event: DragEndEvent) => {
-      if (!event?.over?.id) {
-        return;
-      }
-
       dispatch(
         listActions.onDragEnd({
           activeId: event.active.id,
@@ -78,6 +74,8 @@ function ListViewContainer() {
       if (!event?.over?.id) {
         return;
       }
+
+      console.log("drag move");
 
       if (lastOverId.current === event.over.id) {
         return;
@@ -98,7 +96,7 @@ function ListViewContainer() {
   );
 
   return (
-    <SectionContainer>
+    <SectionContainer paddingClass="px-0 sm:px-5">
       <div className="m-auto flex min-h-screen w-full items-start sm:overflow-x-auto sm:overflow-y-hidden py-page-top-space">
         <DndContext
           id="main-dnd"
