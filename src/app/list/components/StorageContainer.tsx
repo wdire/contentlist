@@ -6,13 +6,14 @@ import {STORAGE_ROW_ID} from "@/lib/constants";
 
 import {useAppDispatch, useAppSelector} from "@/store";
 import listSelectors, {selectContentsByRowId} from "@/store/features/list/listSelectors";
-import {Button, Skeleton} from "@nextui-org/react";
+import {Button} from "@nextui-org/react";
 import {ListState} from "@/store/features/list/listSlice.type";
 import {listActions} from "@/store/features/list/listSlice";
 import useIsMobile from "@/lib/hooks/useIsMobile";
 import ContentCard from "./ContentCard";
 import ContentTrashbox from "./ContentTrashbox";
 import StorageSearchInput from "./StorageSearchInput";
+import ListSkeletons from "../list.skeletons";
 
 const StorageContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
@@ -69,16 +70,11 @@ const StorageContainer = () => {
   return (
     <>
       {fetchLoading ? (
-        <Skeleton className="rounded-b-medium bg-content1 w-full flex flex-col gap-3 md:gap-5 p-5">
-          <div className="flex flex-col gap-3 md:gap-5">
-            <h2 className="text-2xl">Box</h2>
-            <div className="flex flex-grow flex-wrap min-h-[90px] md:min-h-[120px]" />
-          </div>
-        </Skeleton>
+        <ListSkeletons.Box />
       ) : (
         <div
           ref={boxRef}
-          className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20 "
+          className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20"
         >
           <div ref={setNodeRef} className="bg-content1 w-full flex flex-col sm:p-5">
             <div className="absolute -top-16 pointer-events-none"></div>

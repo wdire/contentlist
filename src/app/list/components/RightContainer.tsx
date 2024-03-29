@@ -1,6 +1,6 @@
 "use client";
 
-import {Accordion, AccordionItem, Skeleton} from "@nextui-org/react";
+import {Accordion, AccordionItem} from "@nextui-org/react";
 import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import SearchContainer from "./search/SearchContainer";
 import ListImages from "./rightItems/ListImages";
 import ListActions from "./rightItems/ListActions";
 import ListSaveButton from "./rightItems/ListSaveButton";
+import ListSkeletons from "../list.skeletons";
 
 const RightContainer = () => {
   const fetchLoading = useAppSelector(listSelectors.selectFetchLoading);
@@ -20,7 +21,9 @@ const RightContainer = () => {
 
   const {user} = useUser();
 
-  return (
+  return fetchLoading ? (
+    <ListSkeletons.RightContainer />
+  ) : (
     <div className="w-full lg:w-[260px] rounded-medium px-3 lg:px-0">
       <div className="w-full h-max relative">
         {!fetchLoading ? (
@@ -42,9 +45,7 @@ const RightContainer = () => {
               )}
             </div>
           </div>
-        ) : (
-          <Skeleton isLoaded={!fetchLoading} className="w-full mb-5 h-[92px] rounded-medium" />
-        )}
+        ) : null}
 
         <div
           className={clsx({
@@ -71,8 +72,6 @@ const RightContainer = () => {
             </AccordionItem>
           </Accordion>
         </div>
-
-        {fetchLoading ? <Skeleton className="w-full h-[326px] rounded-medium" /> : null}
 
         <div className="mt-5">{!fetchLoading && isListOwner ? <ListSaveButton /> : null}</div>
         {!fetchLoading && user === null && listName && !isLocalMode ? (
