@@ -6,6 +6,7 @@ import listSelectors from "@/store/features/list/listSelectors";
 import clsx from "clsx";
 import Link from "next/link";
 import {useUser} from "@clerk/nextjs";
+import useIsMobile from "@/lib/hooks/useIsMobile";
 import SearchContainer from "./search/SearchContainer";
 import ListImages from "./rightItems/ListImages";
 import ListActions from "./rightItems/ListActions";
@@ -18,6 +19,8 @@ const RightContainer = () => {
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
   const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
   const listOwnerUsername = useAppSelector((state) => state.list.info.owner?.username);
+
+  const isMobile = useIsMobile();
 
   const {user} = useUser();
 
@@ -53,13 +56,16 @@ const RightContainer = () => {
           })}
         >
           <Accordion
-            defaultSelectedKeys={["search"]}
+            defaultSelectedKeys={isMobile ? [] : ["search"]}
             variant="shadow"
             itemClasses={{
               trigger: "px-2 rounded-medium",
               content: "px-2",
             }}
-            className="px-2"
+            className="px-2 list-accordion"
+            dividerProps={{
+              className: "px-4",
+            }}
           >
             <AccordionItem key={"search"} title="Seach">
               <SearchContainer />

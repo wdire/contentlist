@@ -111,7 +111,7 @@ const ListActions = () => {
             className="lg:w-full"
           >
             {<ExternalLinkIcon size={ICON_SIZE} />}
-            Click Opens Source
+            Clicking Opens Source
           </Button>
         </Tooltip>
       </div>

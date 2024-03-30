@@ -113,6 +113,11 @@ body::-webkit-scrollbar {
   @apply bg-content1;
 }
 
+.list-accordion hr.h-divider {
+  width: calc(100% - 16px);
+  margin: auto;
+}
+
 @media (max-width: 640px) {
   :root {
     --page-top-space: 1.5rem;

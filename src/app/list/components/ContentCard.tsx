@@ -27,6 +27,8 @@ const ContentCardMemo = memo(function ContentCardMemo({
     const wrapper = clsx("content", {
       "opacity-50": isDragging,
 
+      "h-full": !content?.data?.notPoster,
+
       "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
       "cursor-grab": !redirectSourcePage,
 
@@ -36,11 +38,12 @@ const ContentCardMemo = memo(function ContentCardMemo({
     });
 
     const contentName = clsx(
-      "absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
-      "text-[10px] md:text-sm max-h-full pt-2 !leading-3 md:!leading-[18px]",
+      "absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50 pt-2",
+      "max-h-full !leading-3 md:text-sm md:!leading-4",
       {
-        "line-clamp-4 md:line-clamp-5": contentSize === "1x" || contentSize === "2x",
-        "line-clamp-[8]": contentSize === "3x",
+        "text-[10px] line-clamp-5": contentSize === "1x",
+        "text-xs line-clamp-6": contentSize === "2x",
+        "text-sm !leading-4 line-clamp-[8]": contentSize === "3x",
       },
     );
 
@@ -98,7 +101,6 @@ const ContentCardMemo = memo(function ContentCardMemo({
               {showName ? <div className="w-10 h-[1px] mb-1 bg-white" /> : null}
             </>
           ) : null}
-
           {showName ? content.data.name : null}
         </div>
       ) : null}
@@ -127,6 +129,7 @@ const ContentCard = memo(function ContentCard({content}: Props) {
       }}
       {...attributes}
       {...listeners}
+      className={content.data.notPoster ? "self-center" : ""}
       data-contentcard="true"
     >
       <ContentCardMemo

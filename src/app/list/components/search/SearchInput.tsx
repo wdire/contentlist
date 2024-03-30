@@ -95,6 +95,8 @@ const SearchInput = () => {
               getExistingSearchResultIndexes({contents, findContents: searchResults}),
             ),
           );
+        } else {
+          dispatch(searchActions.setSearchResults([]));
         }
 
         dispatch(searchActions.setLoading(false));
