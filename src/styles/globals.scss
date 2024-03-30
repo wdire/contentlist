@@ -77,7 +77,7 @@ body::-webkit-scrollbar {
 }
 
 .content {
-  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left cursor-grab relative;
+  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left relative;
 }
 
 .terms-container {

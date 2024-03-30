@@ -31,6 +31,7 @@ const initialState: ListState = {
   hasUnsavedChanges: false,
   showName: false,
   showSources: false,
+  redirectSourcePage: false,
   contentSize: "1x",
   startData: {
     name: undefined,
@@ -176,6 +177,9 @@ export const listSlice = createSlice({
     },
     setShowSources: (state, action: PayloadAction<boolean>) => {
       state.showSources = action.payload;
+    },
+    setRedirectSourcePage: (state, action: PayloadAction<boolean>) => {
+      state.redirectSourcePage = action.payload;
     },
     setContentSize: (state, action: PayloadAction<ListState["contentSize"]>) => {
       state.contentSize = action.payload;

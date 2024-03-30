@@ -23,18 +23,49 @@ export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType | "game
 
 export type ContentMediaName = keyof typeof ContentMediaName;
 
-export const getContentMediaType = (content: Content["data"]): ContentMediaName | null => {
-  if (content.source === "anilist") {
-    return content.anilist?.type as ContentMediaName;
-  }
+export const getContentMediaType = (content: PrismaJson.ContentType): ContentMediaName | null => {
   if (content.source === "tmdb") {
     return content.tmdb?.media_type as ContentMediaName;
+  }
+  if (content.source === "anilist") {
+    return content.anilist?.type as ContentMediaName;
   }
   if (content.source === "igdb") {
     return "game" as ContentMediaName;
   }
 
   return null;
+};
+
+export const getContentSourceUrl = (content: PrismaJson.ContentType): string => {
+  try {
+    const sourceId = content[content.source]?.id;
+
+    if (!sourceId) {
+      throw new Error("No source id");
+    }
+
+    if (content.source === "tmdb") {
+      if (content.tmdb?.media_type) {
+        return `https://www.themoviedb.org/${content.tmdb?.media_type}/${sourceId}`;
+      }
+      throw new Error("Tmdb no media type");
+    } else if (content.source === "anilist") {
+      if (content.anilist?.type) {
+        return `https://anilist.co/${content.anilist.type}/${sourceId}`;
+      }
+      throw new Error("Anilist no type");
+    } else if (content.source === "igdb") {
+      return `https://www.igdb.com/search?utf8=%E2%9C%93&q=${content.name}`;
+    } else if (content.source === "wikipedia") {
+      return `https://en.wikipedia.org/wiki?curid=${sourceId}`;
+    }
+
+    throw new Error("No source type matched");
+  } catch (err) {
+    console.error(err);
+    return "#error";
+  }
 };
 
 export const isListFirst12ContentsChanged = (

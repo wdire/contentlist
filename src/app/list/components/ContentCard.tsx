@@ -7,7 +7,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
-import {ContentMediaName, getContentMediaType} from "@/lib/utils/helper.utils";
+import {ContentMediaName, getContentMediaType, getContentSourceUrl} from "@/lib/utils/helper.utils";
 import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 interface Props {
@@ -17,7 +17,8 @@ interface Props {
 const ContentCardMemo = memo(function ContentCardMemo({
   content,
   isDragging,
-}: Props & {isDragging: boolean}) {
+  redirectSourcePage,
+}: Props & {isDragging: boolean; redirectSourcePage: boolean}) {
   const contentSize = useAppSelector((state) => state.list.contentSize);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
@@ -25,6 +26,9 @@ const ContentCardMemo = memo(function ContentCardMemo({
   const classNames = useMemo(() => {
     const wrapper = clsx("content", {
       "opacity-50": isDragging,
+
+      "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
+      "cursor-grab": !redirectSourcePage,
 
       "w-[60px] max-h-[90px] md:w-[87px] md:max-h-[131px]": contentSize === "1x",
       "w-[83px] max-h-[125px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
@@ -53,15 +57,27 @@ const ContentCardMemo = memo(function ContentCardMemo({
       contentName,
       contentImage,
     };
-  }, [content?.data?.notPoster, contentSize, isDragging]);
+  }, [content?.data?.notPoster, contentSize, isDragging, redirectSourcePage]);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
     return mediaType && ContentMediaName[mediaType];
   }, [content.data]);
 
+  const sourceUrl = useMemo(() => {
+    if (redirectSourcePage) {
+      return getContentSourceUrl(content.data);
+    }
+    return null;
+  }, [content.data, redirectSourcePage]);
+
+  const Component = redirectSourcePage ? "a" : "div";
+
   return (
-    <div className={classNames.wrapper}>
+    <Component
+      className={classNames.wrapper}
+      {...(redirectSourcePage && sourceUrl ? {href: sourceUrl, target: "_blank"} : {})}
+    >
       <Image
         src={content.data.image_url}
         width={84}
@@ -86,17 +102,20 @@ const ContentCardMemo = memo(function ContentCardMemo({
           {showName ? content.data.name : null}
         </div>
       ) : null}
-    </div>
+    </Component>
   );
 });
 
 const ContentCard = memo(function ContentCard({content}: Props) {
+  const redirectSourcePage = useAppSelector((state) => state.list.redirectSourcePage);
+
   const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
     id: content.id,
     data: {
       type: "Content",
       content,
     },
+    disabled: redirectSourcePage,
   });
 
   return (
@@ -109,9 +128,12 @@ const ContentCard = memo(function ContentCard({content}: Props) {
       {...attributes}
       {...listeners}
       data-contentcard="true"
-      className="self-center"
     >
-      <ContentCardMemo content={content} isDragging={isDragging} />
+      <ContentCardMemo
+        content={content}
+        redirectSourcePage={redirectSourcePage}
+        isDragging={isDragging}
+      />
     </div>
   );
 });
