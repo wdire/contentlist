@@ -31,6 +31,7 @@ const initialState: ListState = {
   hasUnsavedChanges: false,
   showName: false,
   showSources: false,
+  redirectSourcePage: false,
   contentSize: "1x",
   startData: {
     name: undefined,
@@ -143,6 +144,12 @@ export const listSlice = createSlice({
       state.rows[rowIndex].title = action.payload.title;
 
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     deleteRow: (state, action: PayloadAction<Row>) => {
       state.contents = state.contents.map((c) => {
@@ -171,6 +178,9 @@ export const listSlice = createSlice({
     setShowSources: (state, action: PayloadAction<boolean>) => {
       state.showSources = action.payload;
     },
+    setRedirectSourcePage: (state, action: PayloadAction<boolean>) => {
+      state.redirectSourcePage = action.payload;
+    },
     setContentSize: (state, action: PayloadAction<ListState["contentSize"]>) => {
       state.contentSize = action.payload;
       setRememberedState({key: "CONTENT_SIZE", value: action.payload});
@@ -197,6 +207,12 @@ export const listSlice = createSlice({
       }
 
       state.hasUnsavedChanges = true;
+
+      rememberUnsavedChanges({
+        contents: state.contents,
+        rows: state.rows,
+        listId: state.info.id,
+      });
     },
     onDragStart: (
       state,

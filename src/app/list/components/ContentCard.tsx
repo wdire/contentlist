@@ -7,7 +7,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
-import {ContentMediaName, getContentMediaType} from "@/lib/utils/helper.utils";
+import {ContentMediaName, getContentMediaType, getContentSourceUrl} from "@/lib/utils/helper.utils";
 import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 interface Props {
@@ -17,7 +17,8 @@ interface Props {
 const ContentCardMemo = memo(function ContentCardMemo({
   content,
   isDragging,
-}: Props & {isDragging: boolean}) {
+  redirectSourcePage,
+}: Props & {isDragging: boolean; redirectSourcePage: boolean}) {
   const contentSize = useAppSelector((state) => state.list.contentSize);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
@@ -26,17 +27,23 @@ const ContentCardMemo = memo(function ContentCardMemo({
     const wrapper = clsx("content", {
       "opacity-50": isDragging,
 
-      "w-[60px] max-h-[90px] md:w-[84px] md:max-h-[126px]": contentSize === "1x",
-      "w-[75px] max-h-[113px] md:w-[93px] md:max-h-[140px]": contentSize === "2x",
-      "w-[102px] max-h-[153px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
+      "h-full": !content?.data?.notPoster,
+
+      "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
+      "cursor-grab": !redirectSourcePage,
+
+      "w-[60px] max-h-[90px] md:w-[87px] md:max-h-[131px]": contentSize === "1x",
+      "w-[83px] max-h-[125px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
+      "w-[125px] max-h-[188px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
     });
 
     const contentName = clsx(
-      "absolute left-0 bottom-0 break-words w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50",
-      "text-[10px] md:text-sm max-h-full pt-2 !leading-3 md:!leading-[18px]",
+      "absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50 pt-2",
+      "max-h-full !leading-3 md:text-sm md:!leading-4",
       {
-        "line-clamp-4 md:line-clamp-5": contentSize === "1x" || contentSize === "2x",
-        "line-clamp-[8]": contentSize === "3x",
+        "text-[10px] line-clamp-5": contentSize === "1x",
+        "text-xs line-clamp-6": contentSize === "2x",
+        "text-sm !leading-4 line-clamp-[8]": contentSize === "3x",
       },
     );
 
@@ -53,17 +60,29 @@ const ContentCardMemo = memo(function ContentCardMemo({
       contentName,
       contentImage,
     };
-  }, [content?.data?.notPoster, contentSize, isDragging]);
+  }, [content?.data?.notPoster, contentSize, isDragging, redirectSourcePage]);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
     return mediaType && ContentMediaName[mediaType];
   }, [content.data]);
 
+  const sourceUrl = useMemo(() => {
+    if (redirectSourcePage) {
+      return getContentSourceUrl(content.data);
+    }
+    return null;
+  }, [content.data, redirectSourcePage]);
+
+  const Component = redirectSourcePage ? "a" : "div";
+
   return (
-    <div className={classNames.wrapper}>
+    <Component
+      className={classNames.wrapper}
+      {...(redirectSourcePage && sourceUrl ? {href: sourceUrl, target: "_blank"} : {})}
+    >
       <Image
-        src={`/api/image-proxy?url=${content.data.image_url}`}
+        src={content.data.image_url}
         width={84}
         height={126}
         sizes="84px"
@@ -82,21 +101,23 @@ const ContentCardMemo = memo(function ContentCardMemo({
               {showName ? <div className="w-10 h-[1px] mb-1 bg-white" /> : null}
             </>
           ) : null}
-
           {showName ? content.data.name : null}
         </div>
       ) : null}
-    </div>
+    </Component>
   );
 });
 
 const ContentCard = memo(function ContentCard({content}: Props) {
+  const redirectSourcePage = useAppSelector((state) => state.list.redirectSourcePage);
+
   const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
     id: content.id,
     data: {
       type: "Content",
       content,
     },
+    disabled: redirectSourcePage,
   });
 
   return (
@@ -108,10 +129,14 @@ const ContentCard = memo(function ContentCard({content}: Props) {
       }}
       {...attributes}
       {...listeners}
+      className={content.data.notPoster ? "self-center" : ""}
       data-contentcard="true"
-      className="self-center"
     >
-      <ContentCardMemo content={content} isDragging={isDragging} />
+      <ContentCardMemo
+        content={content}
+        redirectSourcePage={redirectSourcePage}
+        isDragging={isDragging}
+      />
     </div>
   );
 });

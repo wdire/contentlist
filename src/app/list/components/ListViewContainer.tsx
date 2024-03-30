@@ -17,7 +17,6 @@ import {useAppDispatch} from "@/store";
 import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {listActions} from "@/store/features/list/listSlice";
 import SectionContainer from "@/components/common/SectionContainer";
-import useIsMobile from "@/lib/hooks/useIsMobile";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
@@ -27,8 +26,6 @@ function ListViewContainer() {
   const dispatch = useAppDispatch();
 
   const lastOverId = useRef<UniqueIdentifier | null>(null);
-
-  const isMobile = useIsMobile();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -58,10 +55,6 @@ function ListViewContainer() {
 
   const handleDragEnd = useCallback(
     async (event: DragEndEvent) => {
-      if (!event?.over?.id) {
-        return;
-      }
-
       dispatch(
         listActions.onDragEnd({
           activeId: event.active.id,
@@ -98,7 +91,7 @@ function ListViewContainer() {
   );
 
   return (
-    <SectionContainer>
+    <SectionContainer paddingClass="px-0 sm:px-5">
       <div className="m-auto flex min-h-screen w-full items-start sm:overflow-x-auto sm:overflow-y-hidden py-page-top-space">
         <DndContext
           id="main-dnd"
@@ -107,7 +100,7 @@ function ListViewContainer() {
           onDragEnd={handleDragEnd}
           onDragMove={handleDragMove}
           onDragCancel={() => console.log("onDragCancel")}
-          autoScroll={!isMobile}
+          autoScroll={false}
           modifiers={[restrictToWindowEdges]}
           collisionDetection={pointerWithin}
         >

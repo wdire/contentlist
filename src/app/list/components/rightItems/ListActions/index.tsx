@@ -4,7 +4,7 @@ import {Button, Tooltip} from "@nextui-org/react";
 import React from "react";
 import {LIST_MAX_ROW_LENGTH} from "@/lib/constants";
 import {copyToClipboard, createNewRow} from "@/lib/utils/helper.utils";
-import {EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
+import {ExternalLinkIcon, EyeIcon, EyeOffIcon, LinkIcon} from "lucide-react";
 import {toast} from "react-toastify";
 import {useUser} from "@clerk/nextjs";
 import DeleteListButton from "./DeleteListButton";
@@ -21,6 +21,7 @@ const ListActions = () => {
   const fetchLoading = useAppSelector((state) => state.list.fetchLoading);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
+  const redirectSourcePage = useAppSelector((state) => state.list.redirectSourcePage);
   const rowsLength = useAppSelector((state) => state.list.rows.length);
   const isListOwner = useAppSelector((state) => state.list.info.isListOwner);
   const isLocalMode = useAppSelector((state) => state.list.isLocalMode);
@@ -41,6 +42,10 @@ const ListActions = () => {
     dispatch(listActions.setShowSources(!showSources));
   };
 
+  const handleRedirectSourcePageToggle = () => {
+    dispatch(listActions.setRedirectSourcePage(!redirectSourcePage));
+  };
+
   const shareLinkButtonClick = () => {
     copyToClipboard(window.location.href);
     toast("List url copied to clipboard", {type: "info", toastId: "url_copied"});
@@ -54,7 +59,7 @@ const ListActions = () => {
           showArrow
           color="foreground"
           placement="bottom"
-          content={<span className="text-center">Show/Hide content names</span>}
+          content={<span className="text-center">Toggle content names</span>}
           classNames={{
             base: "pointer-events-none",
           }}
@@ -71,7 +76,7 @@ const ListActions = () => {
           showArrow
           color="foreground"
           placement="bottom"
-          content={<span className="text-center">Show/Hide sources</span>}
+          content={<span className="text-center">Toggle content sources</span>}
           classNames={{
             base: "pointer-events-none",
           }}
@@ -82,6 +87,31 @@ const ListActions = () => {
             onPress={handleShowSourcesToggle}
           >
             {showSources ? <EyeIcon size={ICON_SIZE} /> : <EyeOffIcon size={ICON_SIZE} />} Sources
+          </Button>
+        </Tooltip>
+      </div>
+      <div className="mt-2 flex">
+        <Tooltip
+          showArrow
+          color="foreground"
+          placement="bottom"
+          content={
+            <span className="text-center w-48">
+              Disables drag and drop, clicking content opens content source page
+            </span>
+          }
+          classNames={{
+            base: "pointer-events-none",
+          }}
+        >
+          <Button
+            variant="flat"
+            color={redirectSourcePage ? "primary" : "secondary"}
+            onPress={handleRedirectSourcePageToggle}
+            className="lg:w-full"
+          >
+            {<ExternalLinkIcon size={ICON_SIZE} />}
+            Clicking Opens Source
           </Button>
         </Tooltip>
       </div>

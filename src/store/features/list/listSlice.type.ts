@@ -24,6 +24,7 @@ export type ListState = {
   hasUnsavedChanges: boolean;
   showName: boolean;
   showSources: boolean;
+  redirectSourcePage: boolean;
   contentSize: REMEMBERED_STATES_TYPES["CONTENT_SIZE"];
   startData: {
     name: string | undefined;

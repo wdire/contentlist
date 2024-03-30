@@ -51,12 +51,13 @@ body main {
 }
 
 body::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  @apply bg-content1/70 p-2;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
-  @apply bg-content2 p-2;
+  width: 6px;
+  @apply p-2;
 }
 
 ::-webkit-scrollbar:horizontal {
@@ -76,7 +77,7 @@ body::-webkit-scrollbar {
 }
 
 .content {
-  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left cursor-grab relative;
+  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left relative;
 }
 
 .terms-container {
@@ -101,11 +102,20 @@ body::-webkit-scrollbar {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+
+  .wordb-break-word {
+    word-break: break-word;
+  }
 }
 
 // Bottom privacy choices
 .iub__us-widget {
   @apply bg-content1;
+}
+
+.list-accordion hr.h-divider {
+  width: calc(100% - 16px);
+  margin: auto;
 }
 
 @media (max-width: 640px) {
