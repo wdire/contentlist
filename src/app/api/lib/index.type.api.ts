@@ -15,3 +15,8 @@ export type ApiSchemaType = {
 export const ZodDbId = z.number({
   coerce: true,
 });
+
+export type IsTypesEqual<T, U> =
+  (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2 ? true : false;
+
+export type IsTrue<T extends true> = T;

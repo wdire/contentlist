@@ -32,9 +32,9 @@ const ContentCardMemo = memo(function ContentCardMemo({
       "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
       "cursor-grab": !redirectSourcePage,
 
-      "w-[60px] max-h-[90px] md:w-[87px] md:max-h-[131px]": contentSize === "1x",
-      "w-[83px] max-h-[125px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
-      "w-[125px] max-h-[188px] md:w-[117px] md:max-h-[176px]": contentSize === "3x",
+      "w-[60px] max-h-[90px] md:w-[86px] md:max-h-[129px]": contentSize === "1x",
+      "w-[84px] max-h-[126px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
+      "w-[126px] max-h-[189px] md:w-[116px] md:max-h-[174px]": contentSize === "3x",
     });
 
     const contentName = clsx(
@@ -52,6 +52,9 @@ const ContentCardMemo = memo(function ContentCardMemo({
       {
         "h-auto object-contain": content?.data?.notPoster,
         "h-full object-cover": !content?.data?.notPoster,
+
+        "aspect-square": content?.data?.square,
+        "aspect-[2/3]": !content?.data?.square,
       },
     );
 
@@ -60,7 +63,13 @@ const ContentCardMemo = memo(function ContentCardMemo({
       contentName,
       contentImage,
     };
-  }, [content?.data?.notPoster, contentSize, isDragging, redirectSourcePage]);
+  }, [
+    content?.data?.notPoster,
+    content?.data?.square,
+    contentSize,
+    isDragging,
+    redirectSourcePage,
+  ]);
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);

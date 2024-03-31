@@ -79,6 +79,10 @@ export const convertReduxListForDBUpdate = (
                 newC.notPoster = c.data.notPoster;
               }
 
+              if (c.data.square) {
+                newC.square = c.data.square;
+              }
+
               if (c.data.source === "tmdb") {
                 newC.tmdb = c.data.tmdb;
               } else if (c.data.source === "anilist") {
@@ -106,6 +110,10 @@ export const convertReduxListForDBUpdate = (
 
         if (c.data.notPoster) {
           newC.notPoster = c.data.notPoster;
+        }
+
+        if (c.data.square) {
+          newC.square = c.data.square;
         }
 
         if (c.data.source === "tmdb") {

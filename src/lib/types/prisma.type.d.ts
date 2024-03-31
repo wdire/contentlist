@@ -36,6 +36,7 @@ declare global {
       image_url: string;
       source: ContentSourceType;
       notPoster?: boolean;
+      square?: boolean;
       tmdb?: TmdbDetailsType | null;
       anilist?: AnilistDetailsType | null;
       igdb?: IgdbDetailsType | null;
