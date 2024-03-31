@@ -6,6 +6,7 @@ type SearchResultProps = {
   info: ContentInfoType;
   onClick?: () => void;
   notPoster?: PrismaJson.ContentType["notPoster"];
+  square?: PrismaJson.ContentType["square"];
   existingContent?: boolean;
 };
 
@@ -13,6 +14,7 @@ const SearchResult = ({
   info,
   onClick,
   notPoster = undefined,
+  square = undefined,
   existingContent = false,
 }: SearchResultProps) => {
   const mediaType = getContentMediaType(info);
@@ -22,7 +24,7 @@ const SearchResult = ({
       <div className="flex gap-2 max-w-full items-center">
         <Image
           alt={info.name}
-          className={`flex-shrink-0 max-h-[84px] ${notPoster ? "object-contain" : "object-cover h-[84px]"}`}
+          className={`flex-shrink-0 max-h-[84px] ${notPoster ? "object-contain" : "object-cover h-[84px]"} ${square ? "aspect-square" : ""}`}
           width={56}
           height={84}
           src={info.image_url}

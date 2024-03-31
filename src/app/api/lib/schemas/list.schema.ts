@@ -4,15 +4,16 @@ import {ALLOWED_HOSTNAMES, MAX_LENGTHS, rowColors} from "@/lib/constants";
 import {ContentSourceType} from "@/lib/types/list.type";
 import {AnilistMediaType} from "@/services/anilistApi/anilist.type";
 import {ResponseBodyType} from "../response.api";
-import {ZodDbId, ZodTypeOf} from "../index.type.api";
+import {IsTrue, IsTypesEqual, ZodDbId, ZodTypeOf} from "../index.type.api";
 import {TmdbMediaType} from "./tmdb.schema";
 
-const ListContentSchema = z
+const ListContentSchemaBase = z
   .object({
     name: z.string(),
     image_url: z.string(),
     source: z.enum(ContentSourceType),
     notPoster: z.boolean().optional(),
+    square: z.boolean().optional(),
     tmdb: z
       .object({
         id: z.number(),
@@ -40,33 +41,40 @@ const ListContentSchema = z
       .optional()
       .nullable(),
   })
-  .superRefine((data, ctx) => {
-    const isAllowed = ALLOWED_HOSTNAMES.some((allowedURL) => {
-      return data.image_url.startsWith(`https://${allowedURL}`);
+  .strict();
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type _ZodContentEqualsPrisma_ = IsTrue<
+  IsTypesEqual<z.infer<typeof ListContentSchemaBase>, PrismaJson.ContentType>
+>;
+
+const ListContentSchema = ListContentSchemaBase.superRefine((data, ctx) => {
+  const isAllowed = ALLOWED_HOSTNAMES.some((allowedURL) => {
+    return data.image_url.startsWith(`https://${allowedURL}`);
+  });
+
+  if (!isAllowed) {
+    ctx.addIssue({
+      code: "custom",
+      message: `Incorrect content image_url source. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}`,
     });
+  }
 
-    if (!isAllowed) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Incorrect content image_url source. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}`,
-      });
-    }
+  const presentSources = ContentSourceType.filter((source) => data[source] !== undefined);
+  if (presentSources.length !== 1) {
+    ctx.addIssue({
+      code: "custom",
+      message: `Only one source detail object is allowed. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}'`,
+    });
+  }
 
-    const presentSources = ContentSourceType.filter((source) => data[source] !== undefined);
-    if (presentSources.length !== 1) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Only one source detail object is allowed. Name: '${data.name.slice(0, 10)}${data.name.length > 10 ? "..." : ""}'`,
-      });
-    }
-
-    if (presentSources[0] !== data.source) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Given source detail object doesn't match with source value",
-      });
-    }
-  }) satisfies ZodType<PrismaJson.ContentType>;
+  if (presentSources[0] !== data.source) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Given source detail object doesn't match with source value",
+    });
+  }
+});
 
 const ImageSchema = z
   .any()

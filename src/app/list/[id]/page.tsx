@@ -4,7 +4,19 @@ import {getListById} from "@/services/actions/list.actions";
 import {Metadata} from "next";
 import {RedirectType, redirect} from "next/navigation";
 
-export async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: {id: string};
+  searchParams: {local?: string};
+}): Promise<Metadata> {
+  if (searchParams?.local === "true") {
+    return {
+      title: `Local List ${Math.abs(Number(params.id)) || ""}`,
+    };
+  }
+
   const list = await getListById(params.id);
 
   const metadata: Metadata = {
