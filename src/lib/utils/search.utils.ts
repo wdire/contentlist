@@ -6,6 +6,7 @@ import {
 } from "@/services/anilistApi/anilist.generated";
 import {ApiRequestTypes} from "@/api/lib/schemas/index.schema";
 import {WikipediaRequestTypes} from "@/services/wikipediaApi/wikipediaApi.schema";
+import {ClearbitRequestTypes} from "@/services/clearbitApi/clerbitApi.schema";
 import {ContentInfoType} from "../types/list.type";
 import {CONTENT_IMAGE_BASES} from "../constants";
 
@@ -135,6 +136,31 @@ export const getContentInfoFromWikipedia = ({
           source: "wikipedia",
           wikipedia: {
             id: item.pageid,
+          },
+        };
+
+        return returnData;
+      }
+
+      return null;
+    }) || []
+  ).filter((item): item is ContentInfoType => item !== null);
+};
+
+export const getContentInfoFromClearbit = ({
+  data,
+}: {
+  data: ClearbitRequestTypes["autocomplete"]["response"];
+}): ContentInfoType[] => {
+  return (
+    data?.map((item) => {
+      if (item?.domain && item?.logo && item?.name) {
+        const returnData: ContentInfoType = {
+          name: item.name,
+          image_url: item.logo,
+          source: "clearbit",
+          clearbit: {
+            id: item.domain,
           },
         };
 

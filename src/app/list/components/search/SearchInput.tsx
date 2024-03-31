@@ -14,11 +14,13 @@ import {
   getContentInfoFromAnilistMedia,
   getContentInfoFromIgdbGame,
   getContentInfoFromWikipedia,
+  getContentInfoFromClearbit,
 } from "@/lib/utils/search.utils";
 import {wikipediaSearchInitiate} from "@/services/wikipediaApi";
 import {getExistingSearchResultIndexes} from "@/lib/utils/helper.utils";
 import {useStore} from "react-redux";
 import {AppStore} from "@/store/store";
+import {clearbitAutocompleteInitiate} from "@/services/clearbitApi";
 
 const SearchInput = () => {
   const dispatch = useAppDispatch();
@@ -79,6 +81,16 @@ const SearchInput = () => {
           ).unwrap();
 
           searchResults = getContentInfoFromWikipedia({data: result.query.pages || []});
+        } else if (searchSource === "clearbit") {
+          const result = await dispatch(
+            clearbitAutocompleteInitiate({
+              query,
+            }),
+          ).unwrap();
+
+          console.log("result", result);
+
+          searchResults = getContentInfoFromClearbit({data: result || []});
         } else {
           console.error("Unkown search source, how did you do that?");
         }

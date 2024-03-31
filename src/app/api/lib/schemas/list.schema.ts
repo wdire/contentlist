@@ -40,6 +40,12 @@ const ListContentSchemaBase = z
       })
       .optional()
       .nullable(),
+    clearbit: z
+      .object({
+        id: z.string(),
+      })
+      .optional()
+      .nullable(),
   })
   .strict();
 

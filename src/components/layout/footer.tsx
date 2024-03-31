@@ -23,11 +23,15 @@ const Footer = () => {
             <a className={linkClass} href="https://www.igdb.com" target="_blank">
               IGDB
             </a>
-            {" and "}
+            {", "}
             <a className={linkClass} href="https://www.wikipedia.org" target="_blank">
-              Wikipedia.
-            </a>{" "}
-            <a className={`${linkClass} pl-1`} href="/content-sources">
+              Wikipedia
+            </a>
+            {" and "}
+            <a className={linkClass} href="https://clearbit.com" target="_blank">
+              Clearbit.
+            </a>
+            <a className={`${linkClass} pl-2`} href="/content-sources">
               See more details.
             </a>
           </div>

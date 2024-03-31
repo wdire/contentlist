@@ -91,6 +91,8 @@ export const convertReduxListForDBUpdate = (
                 newC.igdb = c.data.igdb;
               } else if (c.data.source === "wikipedia") {
                 newC.wikipedia = c.data.wikipedia;
+              } else if (c.data.source === "clearbit") {
+                newC.clearbit = c.data.clearbit;
               } else {
                 console.error("Content source not found");
               }
@@ -124,6 +126,8 @@ export const convertReduxListForDBUpdate = (
           newC.igdb = c.data.igdb;
         } else if (c.data.source === "wikipedia") {
           newC.wikipedia = c.data.wikipedia;
+        } else if (c.data.source === "clearbit") {
+          newC.clearbit = c.data.clearbit;
         } else {
           console.error("Content source not found");
         }

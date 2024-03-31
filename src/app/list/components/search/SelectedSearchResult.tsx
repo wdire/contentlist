@@ -46,6 +46,8 @@ const SelectedSearchResult = () => {
       newContent.data.igdb = selectedResult.igdb;
     } else if (selectedResult.source === "wikipedia") {
       newContent.data.wikipedia = selectedResult.wikipedia;
+    } else if (selectedResult.source === "clearbit") {
+      newContent.data.clearbit = selectedResult.clearbit;
     }
 
     dispatch(listActions.addContent(newContent));

@@ -40,6 +40,7 @@ export const searchSources: {
   {value: "tmdb", label: "Movie/TV/Person - TMDB"},
   {value: "igdb", label: "Game - IGDB"},
   {value: "wikipedia", label: "General - Wikipedia"},
+  {value: "clearbit", label: "Companies - Clearbit"},
 
   {value: "anilist_anime", label: "Anime - AniList"},
   {value: "anilist_manga", label: "Manga - AniList"},
