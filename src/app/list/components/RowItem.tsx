@@ -1,6 +1,6 @@
 "use client";
 
-import {SortableContext, rectSortingStrategy, useSortable} from "@dnd-kit/sortable";
+import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
@@ -26,11 +26,15 @@ const RowItem = memo(function RowItem({row}: Props) {
       type: "Row",
       row,
     },
+    transition: {
+      duration: 1000,
+      easing: "ease",
+    },
   });
 
   const style = {
     transition,
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
   };
 
@@ -53,10 +57,8 @@ const RowItem = memo(function RowItem({row}: Props) {
         </div>
       </div>
       <div className="flex w-full">
-        <div className="flex flex-grow flex-wrap min-h-[60px] md:min-h-[80px] pl-0.5">
-          <SortableContext items={contentIds} strategy={rectSortingStrategy}>
-            {contentsMemo}
-          </SortableContext>
+        <div className="row-items flex flex-grow flex-wrap min-h-[60px] md:min-h-[86px] pl-0.5">
+          <SortableContext items={contentIds}>{contentsMemo}</SortableContext>
         </div>
         <div className="flex justify-center items-center w-10 sm:w-14">
           <RowOptionsPopover row={row} />

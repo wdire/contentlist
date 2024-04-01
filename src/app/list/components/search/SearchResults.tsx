@@ -29,42 +29,45 @@ const SearchResults = memo(function SearchResults() {
   let itemIndex = -1;
 
   return (
-    <Listbox
-      hideSelectedIcon={true}
-      emptyContent={"No content found"}
-      hideEmptyContent={searchQuery && showResults ? !stateSearchResults : true}
-      itemClasses={{
-        base: [
-          "rounded-md",
-          "text-default-500",
-          "transition-opacity",
-          "data-[hover=true]:text-foreground",
-          "dark:data-[hover=true]:bg-default-50",
-          "data-[pressed=true]:opacity-70",
-          "data-[hover=true]:bg-default-200",
-        ],
-      }}
-      className="max-h-60 sm:max-h-80 overflow-y-auto pt-2"
-      items={searchQuery && showResults ? stateSearchResults || [] : []}
-      aria-label="Search Results"
-      disabledKeys={resultsExistingContentIndexes}
-    >
-      {(item) => {
-        itemIndex += 1;
+    <>
+      <div className={searchQuery && showResults ? "mt-2" : ""} />
+      <Listbox
+        hideSelectedIcon={true}
+        emptyContent={"No content found"}
+        hideEmptyContent={searchQuery && showResults ? !stateSearchResults : true}
+        itemClasses={{
+          base: [
+            "rounded-md",
+            "text-default-500",
+            "transition-opacity",
+            "data-[hover=true]:text-foreground",
+            "dark:data-[hover=true]:bg-default-50",
+            "data-[pressed=true]:opacity-70",
+            "data-[hover=true]:bg-default-200",
+          ],
+        }}
+        className="max-h-60 sm:max-h-80 overflow-y-auto p-0"
+        items={searchQuery && showResults ? stateSearchResults || [] : []}
+        aria-label="Search Results"
+        disabledKeys={resultsExistingContentIndexes}
+      >
+        {(item) => {
+          itemIndex += 1;
 
-        const existingContent = resultsExistingContentIndexes.includes(`search_${itemIndex}`);
+          const existingContent = resultsExistingContentIndexes.includes(`search_${itemIndex}`);
 
-        return (
-          <ListboxItem
-            key={`search_${itemIndex}`}
-            textValue={item?.name}
-            onPress={() => onSearchResultClick(item)}
-          >
-            <SearchResult info={item} notPoster existingContent={existingContent} />
-          </ListboxItem>
-        );
-      }}
-    </Listbox>
+          return (
+            <ListboxItem
+              key={`search_${itemIndex}`}
+              textValue={item?.name}
+              onPress={() => onSearchResultClick(item)}
+            >
+              <SearchResult info={item} notPoster existingContent={existingContent} />
+            </ListboxItem>
+          );
+        }}
+      </Listbox>
+    </>
   );
 });
 

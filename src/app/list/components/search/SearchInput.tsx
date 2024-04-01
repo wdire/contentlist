@@ -131,6 +131,10 @@ const SearchInput = () => {
     dispatch(searchActions.setShowResults(focus));
   };
 
+  if (searchSource === "text") {
+    return null;
+  }
+
   return (
     <Input
       classNames={{

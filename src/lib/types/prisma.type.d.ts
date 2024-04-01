@@ -42,6 +42,7 @@ declare global {
       igdb?: IgdbDetailsType | null;
       wikipedia?: WikipediaDetailsType | null;
       clearbit?: ClearbitDetailsType | null;
+      text?: TextDetailsType | null;
     };
 
     type TmdbDetailsType = {
@@ -63,6 +64,10 @@ declare global {
     };
 
     type ClearbitDetailsType = {
+      id: string;
+    };
+
+    type TextDetailsType = {
       id: string;
     };
   }

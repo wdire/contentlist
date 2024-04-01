@@ -48,6 +48,10 @@ const SelectedSearchResult = () => {
       newContent.data.wikipedia = selectedResult.wikipedia;
     } else if (selectedResult.source === "clearbit") {
       newContent.data.clearbit = selectedResult.clearbit;
+    } else if (selectedResult.source === "text") {
+      newContent.data.text = {
+        id: generateId(),
+      };
     }
 
     dispatch(listActions.addContent(newContent));

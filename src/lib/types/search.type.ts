@@ -12,6 +12,7 @@ export const SearchSource = [
   "igdb",
   "wikipedia",
   "clearbit",
+  "text",
 ] as const;
 
 export type SearchSource = (typeof SearchSource)[number];

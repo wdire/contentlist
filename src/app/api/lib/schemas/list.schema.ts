@@ -46,6 +46,12 @@ const ListContentSchemaBase = z
       })
       .optional()
       .nullable(),
+    text: z
+      .object({
+        id: z.string(),
+      })
+      .optional()
+      .nullable(),
   })
   .strict();
 

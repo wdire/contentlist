@@ -41,8 +41,14 @@ export const searchSources: {
   {value: "igdb", label: "Game - IGDB"},
   {value: "wikipedia", label: "General - Wikipedia"},
   {value: "clearbit", label: "Companies - Clearbit"},
-
-  {value: "anilist_anime", label: "Anime - AniList"},
-  {value: "anilist_manga", label: "Manga - AniList"},
-  {value: "anilist_character", label: "Character - AniList"},
+  {value: "text", label: "Text - Write Yourself"},
+  {
+    value: "_group_",
+    label: "AniList",
+    items: [
+      {value: "anilist_anime", label: "Anime - AniList"},
+      {value: "anilist_manga", label: "Manga - AniList"},
+      {value: "anilist_character", label: "Character - AniList"},
+    ],
+  },
 ];

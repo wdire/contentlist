@@ -8,7 +8,7 @@ const ContentRowDragOverlay = () => {
   const activeContent = useAppSelector((state) => state.list.activeContent);
 
   return (
-    <DragOverlay>
+    <DragOverlay adjustScale={false}>
       {activeRow && <RowItem row={activeRow} />}
       {activeContent && <ContentCard content={activeContent} />}
     </DragOverlay>

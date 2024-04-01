@@ -93,6 +93,8 @@ export const convertReduxListForDBUpdate = (
                 newC.wikipedia = c.data.wikipedia;
               } else if (c.data.source === "clearbit") {
                 newC.clearbit = c.data.clearbit;
+              } else if (c.data.source === "text") {
+                newC.clearbit = c.data.text;
               } else {
                 console.error("Content source not found");
               }
@@ -128,6 +130,8 @@ export const convertReduxListForDBUpdate = (
           newC.wikipedia = c.data.wikipedia;
         } else if (c.data.source === "clearbit") {
           newC.clearbit = c.data.clearbit;
+        } else if (c.data.source === "text") {
+          newC.clearbit = c.data.text;
         } else {
           console.error("Content source not found");
         }

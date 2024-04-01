@@ -28,7 +28,7 @@ const SearchSourceSelect = () => {
         },
       }}
       classNames={{
-        listboxWrapper: "max-h-96",
+        listboxWrapper: "max-h-72 scrollbar-show",
       }}
       onChange={handleSelectChange}
     >

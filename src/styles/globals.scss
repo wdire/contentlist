@@ -70,14 +70,48 @@ body::-webkit-scrollbar {
 
 .hide-scrollbar {
   &::-webkit-scrollbar {
-    width: 0px !important;
-    height: 0px !important;
     display: none !important;
+  }
+}
+
+// Show ListBox scrollbar
+.scrollbar-show {
+  -ms-overflow-style: initial !important;
+  scrollbar-width: auto !important;
+
+  &::-webkit-scrollbar {
+    display: block !important;
   }
 }
 
 .content {
   @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left relative;
+
+  .content-text {
+    @apply border-y-1 border-primary relative;
+
+    &:after,
+    &:before {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 64%;
+      bottom: 0;
+      @apply bg-primary;
+    }
+
+    &:after {
+      left: calc(100% - 1px);
+    }
+
+    &:before {
+      right: calc(100% - 1px);
+    }
+  }
+
+  .content-name {
+    @apply absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50 pt-2 max-h-full md:text-sm;
+  }
 }
 
 .terms-container {
