@@ -11,10 +11,6 @@ import {ContentMediaName, getContentMediaType, getContentSourceUrl} from "@/lib/
 import {REMEMBERED_STATES_TYPES} from "@/lib/constants";
 import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
-interface Props {
-  content: Content;
-}
-
 export const useContentclassNames = ({
   isDragging = false,
   redirectSourcePage = false,
@@ -94,11 +90,15 @@ export const useContentclassNames = ({
   return classNames;
 };
 
-const ContentCardMemo = memo(function ContentCardMemo({
+export const ContentCardMemo = memo(function ContentCardMemo({
   content,
   isDragging,
   redirectSourcePage,
-}: Props & {isDragging: boolean; redirectSourcePage: boolean}) {
+}: {
+  content: Content;
+  isDragging: boolean;
+  redirectSourcePage: boolean;
+}) {
   const contentSize = useAppSelector((state) => state.list.contentSize);
   const showName = useAppSelector((state) => state.list.showName);
   const showSources = useAppSelector((state) => state.list.showSources);
@@ -166,15 +166,21 @@ const ContentCardMemo = memo(function ContentCardMemo({
   );
 });
 
+interface Props {
+  content: Content;
+  isDragoverlay?: boolean;
+}
+
 const ContentCard = memo(function ContentCard({content}: Props) {
   const redirectSourcePage = useAppSelector((state) => state.list.redirectSourcePage);
 
-  const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
+  const {setNodeRef, attributes, listeners, transform, isDragging} = useSortable({
     id: content.id,
     data: {
       type: "Content",
       content,
     },
+    transition: null,
     disabled: redirectSourcePage,
   });
 
@@ -182,11 +188,11 @@ const ContentCard = memo(function ContentCard({content}: Props) {
     <div
       ref={setNodeRef}
       style={{
-        transition,
         transform: CSS.Translate.toString(transform),
       }}
       {...attributes}
       {...listeners}
+      className={`touch-none select-none`}
       data-contentcard="true"
     >
       <ContentCardMemo

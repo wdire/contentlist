@@ -82,7 +82,7 @@ export const ALLOWED_HOSTNAMES = [
 export const MAX_LENGTHS = {
   list_title: 65,
   max_rows: 10,
-  max_contents: 500,
+  max_contents: 200,
   image_contents: 250,
   user_list_max_copy: 1,
 };

@@ -85,7 +85,7 @@ body::-webkit-scrollbar {
 }
 
 .content {
-  @apply overflow-hidden items-center select-none touch-none flex-shrink-0 flex text-left relative;
+  @apply overflow-hidden items-center flex-shrink-0 flex text-left relative;
 
   .content-text {
     @apply border-y-1 border-primary relative;
