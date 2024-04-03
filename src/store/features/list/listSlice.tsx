@@ -84,8 +84,9 @@ export const listSlice = createSlice({
           state.contents = UNSAVED_CHANGES.contents;
           state.rows = UNSAVED_CHANGES.rows;
 
-          toast("Applied not saved changes to list", {
+          toast("Applied unsaved changes to list", {
             type: "info",
+            autoClose: 3000,
             toastId: "applied_not_saved",
           });
         }
@@ -311,6 +312,10 @@ export const listSlice = createSlice({
 
       const isActiveAContent = activeType === "Content";
       const isOverAContent = overType === "Content";
+
+      console.log(
+        `activeId:${activeId}, activeType:${activeType}, overId:${overId}, overType:${overType}, isActiveAContent:${isActiveAContent}, isOverAContent:${isOverAContent}`,
+      );
 
       if (!isActiveAContent) return;
 

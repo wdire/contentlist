@@ -19,7 +19,7 @@ const ContentTrashbox = () => {
     <div
       ref={setNodeRef}
       className={clsx(
-        "w-24 h-24 md:w-32 md:h-32 rounded-bl-xl absolute left-0 top-0 flex justify-center items-center transition-all z-20",
+        "w-24 h-24 md:w-32 md:h-32 rounded-bl-xl absolute right-0 top-0 flex justify-center items-center transition-all z-20",
         {
           "scale-90 text-white bg-danger": isContentOver,
           "text-danger bg-danger/20": !isContentOver,

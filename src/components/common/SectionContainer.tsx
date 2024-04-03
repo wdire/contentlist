@@ -19,7 +19,7 @@ const SectionContainer = ({
       className={clsx(
         "max-w-full mx-auto",
         {
-          "w-[1200px]": !widthClass,
+          "w-[1150px] xl:w-[1310px] xl:px-15 2xl:w-[1500px]": !widthClass,
           [`${widthClass}`]: widthClass,
 
           "px-3 sm:px-5": !paddingClass,
