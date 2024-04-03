@@ -11,7 +11,9 @@ export const randColor = () => {
   return rowColors[Math.floor(Math.random() * rowColors.length)];
 };
 
-export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType | "game"]: string} = {
+export const ContentMediaName: {
+  [key in TmdbMediaType | AnilistMediaType | "game" | "text"]: string;
+} = {
   anime: "Anime",
   manga: "Manga",
   character: "Character",
@@ -19,6 +21,7 @@ export const ContentMediaName: {[key in TmdbMediaType | AnilistMediaType | "game
   person: "Person",
   tv: "Tv",
   game: "Game",
+  text: "Text",
 };
 
 export type ContentMediaName = keyof typeof ContentMediaName;
@@ -33,6 +36,9 @@ export const getContentMediaType = (content: PrismaJson.ContentType): ContentMed
   if (content.source === "igdb") {
     return "game" as ContentMediaName;
   }
+  if (content.source === "text") {
+    return "text" as ContentMediaName;
+  }
 
   return null;
 };
@@ -41,8 +47,8 @@ export const getContentSourceUrl = (content: PrismaJson.ContentType): string => 
   try {
     const sourceId = content[content.source]?.id;
 
-    if (!sourceId) {
-      throw new Error("No source id");
+    if (!sourceId && !(content.source === "text" || content.source === "clearbit")) {
+      throw new Error(`No source id ${content.source}`);
     }
 
     if (content.source === "tmdb") {
@@ -59,11 +65,17 @@ export const getContentSourceUrl = (content: PrismaJson.ContentType): string => 
       return `https://www.igdb.com/search?utf8=%E2%9C%93&q=${content.name}`;
     } else if (content.source === "wikipedia") {
       return `https://en.wikipedia.org/wiki?curid=${sourceId}`;
+    } else if (content.source === "clearbit" || content.source === "text") {
+      return `https://google.com/search?q=${content.name}`;
     }
 
     throw new Error("No source type matched");
   } catch (err) {
-    console.error(err);
+    if (err instanceof Error) {
+      console.error(err.message);
+    } else {
+      console.error(err);
+    }
     return "#error";
   }
 };

@@ -8,68 +8,108 @@ import clsx from "clsx";
 import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
 import {ContentMediaName, getContentMediaType, getContentSourceUrl} from "@/lib/utils/helper.utils";
+import {REMEMBERED_STATES_TYPES} from "@/lib/constants";
 import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
-interface Props {
-  content: Content;
-}
-
-const ContentCardMemo = memo(function ContentCardMemo({
-  content,
-  isDragging,
-  redirectSourcePage,
-}: Props & {isDragging: boolean; redirectSourcePage: boolean}) {
-  const contentSize = useAppSelector((state) => state.list.contentSize);
-  const showName = useAppSelector((state) => state.list.showName);
-  const showSources = useAppSelector((state) => state.list.showSources);
-
+export const useContentclassNames = ({
+  isDragging = false,
+  redirectSourcePage = false,
+  notPoster,
+  square,
+  contentSize = "1x",
+  isSearchResult = false,
+}: {
+  isDragging?: boolean;
+  redirectSourcePage?: boolean;
+  contentSize?: REMEMBERED_STATES_TYPES["CONTENT_SIZE"];
+  notPoster: boolean | undefined;
+  square: boolean | undefined;
+  isSearchResult?: boolean;
+}) => {
   const classNames = useMemo(() => {
     const wrapper = clsx("content", {
+      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      "min-h-14 max-h-[84px] w-14": isSearchResult,
+
       "opacity-50": isDragging,
 
-      "h-full": !content?.data?.notPoster,
+      "aspect-[2/3]": !square,
 
       "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
       "cursor-grab": !redirectSourcePage,
 
-      "w-[60px] max-h-[90px] md:w-[86px] md:max-h-[129px]": contentSize === "1x",
+      "w-[60px] max-h-[90px] md:w-[86px] md:max-h-[129px]": !isSearchResult && contentSize === "1x",
       "w-[84px] max-h-[126px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
       "w-[126px] max-h-[189px] md:w-[116px] md:max-h-[174px]": contentSize === "3x",
     });
 
-    const contentName = clsx(
-      "absolute left-0 bottom-0 wordb-break-word w-full max-w-full text-ellipsis bg-gradient-to-t from-80% from-black/50 pt-2",
-      "max-h-full !leading-3 md:text-sm md:!leading-4",
-      {
-        "text-[10px] line-clamp-5": contentSize === "1x",
-        "text-xs line-clamp-6": contentSize === "2x",
-        "text-sm !leading-4 line-clamp-[8]": contentSize === "3x",
-      },
-    );
+    const contentName = clsx("content-name !leading-3 md:!leading-4", {
+      "text-[10px] line-clamp-5": contentSize === "1x",
+      "text-xs line-clamp-6": contentSize === "2x",
+      "text-sm !leading-4 line-clamp-[8]": contentSize === "3x",
+    });
 
     const contentImage = clsx(
-      "w-full min-h-[60px] pointer-events-none block select-none max-h-full",
+      "w-full pointer-events-none block select-none max-h-full h-auto object-contain",
       {
-        "h-auto object-contain": content?.data?.notPoster,
-        "h-full object-cover": !content?.data?.notPoster,
+        "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+        "max-h-[84px]": isSearchResult,
 
-        "aspect-square": content?.data?.square,
-        "aspect-[2/3]": !content?.data?.square,
+        "aspect-square object-cover": square,
+        "h-full object-cover": !notPoster,
       },
     );
+
+    const contentText = clsx(
+      "content-text flex justify-center items-center text-center h-full w-full p-0.5 overflow-hidden",
+      {
+        "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+        "max-h-[84px]": isSearchResult,
+
+        "aspect-square": square,
+
+        "aspect-[2/3]": !notPoster && !square,
+      },
+    );
+
+    const contentTextSpan = clsx("text-ellipsis wordb-break-word md:text-sm", {
+      "text-[10px] line-clamp-5": contentSize === "1x",
+      "text-xs line-clamp-6": contentSize === "2x",
+      "text-sm line-clamp-[7]": contentSize === "3x",
+    });
 
     return {
       wrapper,
       contentName,
       contentImage,
+      contentText,
+      contentTextSpan,
     };
-  }, [
-    content?.data?.notPoster,
-    content?.data?.square,
+  }, [notPoster, square, contentSize, isDragging, redirectSourcePage, isSearchResult]);
+
+  return classNames;
+};
+
+export const ContentCardMemo = memo(function ContentCardMemo({
+  content,
+  isDragging,
+  redirectSourcePage,
+}: {
+  content: Content;
+  isDragging: boolean;
+  redirectSourcePage: boolean;
+}) {
+  const contentSize = useAppSelector((state) => state.list.contentSize);
+  const showName = useAppSelector((state) => state.list.showName);
+  const showSources = useAppSelector((state) => state.list.showSources);
+
+  const classNames = useContentclassNames({
     contentSize,
     isDragging,
     redirectSourcePage,
-  ]);
+    notPoster: content.data.notPoster,
+    square: content.data.square,
+  });
 
   const mediaName = useMemo(() => {
     const mediaType = getContentMediaType(content.data);
@@ -90,42 +130,57 @@ const ContentCardMemo = memo(function ContentCardMemo({
       className={classNames.wrapper}
       {...(redirectSourcePage && sourceUrl ? {href: sourceUrl, target: "_blank"} : {})}
     >
-      <Image
-        src={content.data.image_url}
-        width={84}
-        height={126}
-        sizes="84px"
-        alt={content.data.name}
-        className={classNames.contentImage}
-        unoptimized
-      />
-      {showName || showSources ? (
+      {content.data.source === "text" ? (
+        <div className={classNames.contentText}>
+          <span className={classNames.contentTextSpan}>{content.data.name}</span>
+        </div>
+      ) : (
+        <Image
+          src={content.data.image_url}
+          width={84}
+          height={126}
+          sizes="84px"
+          alt={content.data.name}
+          className={classNames.contentImage}
+          unoptimized
+        />
+      )}
+
+      {showSources || (showName && content.data.source !== "text") ? (
         <div className={classNames.contentName}>
           {showSources ? (
             <>
               <div className="md:text-xs leading-3 pb-1">
                 <div className="font-bold">{ContentSourceName[content.data.source]}</div>
-                <div>{mediaName ? ` ${mediaName}` : null}</div>
+                <div>{mediaName && content.data.source !== "text" ? ` ${mediaName}` : null}</div>
               </div>
-              {showName ? <div className="w-10 h-[1px] mb-1 bg-white" /> : null}
+              {showName && content.data.source !== "text" ? (
+                <div className="w-10 h-[1px] mb-1 bg-white" />
+              ) : null}
             </>
           ) : null}
-          {showName ? content.data.name : null}
+          {showName && content.data.source !== "text" ? content.data.name : null}
         </div>
       ) : null}
     </Component>
   );
 });
 
+interface Props {
+  content: Content;
+  isDragoverlay?: boolean;
+}
+
 const ContentCard = memo(function ContentCard({content}: Props) {
   const redirectSourcePage = useAppSelector((state) => state.list.redirectSourcePage);
 
-  const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
+  const {setNodeRef, attributes, listeners, transform, isDragging} = useSortable({
     id: content.id,
     data: {
       type: "Content",
       content,
     },
+    transition: null,
     disabled: redirectSourcePage,
   });
 
@@ -133,12 +188,11 @@ const ContentCard = memo(function ContentCard({content}: Props) {
     <div
       ref={setNodeRef}
       style={{
-        transition,
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
       }}
       {...attributes}
       {...listeners}
-      className={content.data.notPoster ? "self-center" : ""}
+      className={`touch-none select-none`}
       data-contentcard="true"
     >
       <ContentCardMemo

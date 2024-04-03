@@ -47,11 +47,15 @@ const ContentSources = () => {
           <p>Using IGDB API for adding Game contents to lists.</p>
         </div>
         <div className="flex flex-col gap-3">
-          <SourceTitle count="3" name="Wikipedia" link="https://www.wikipedia.org" />
+          <SourceTitle count="4" name="Wikipedia" link="https://www.wikipedia.org" />
           <p>
             Using Wikipedia API for adding general contents to lists. Using name and thumbnail of
             Wikipedia Article as content for ranking.
           </p>
+        </div>
+        <div className="flex flex-col gap-3">
+          <SourceTitle count="5" name="Clearbit" link="https://clearbit.com" />
+          <p>Using Clearbit{"'"}s Autocomplete API for adding Company contents to lists.</p>
         </div>
       </div>
     </SectionContainer>

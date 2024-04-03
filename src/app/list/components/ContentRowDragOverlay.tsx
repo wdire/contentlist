@@ -1,16 +1,17 @@
+"use client";
+
 import {DragOverlay} from "@dnd-kit/core";
 import {useAppSelector} from "@/store";
-import RowItem from "./RowItem";
-import ContentCard from "./ContentCard";
+import {ContentCardMemo} from "./ContentCard";
 
 const ContentRowDragOverlay = () => {
-  const activeRow = useAppSelector((state) => state.list.activeRow);
   const activeContent = useAppSelector((state) => state.list.activeContent);
 
   return (
-    <DragOverlay>
-      {activeRow && <RowItem row={activeRow} />}
-      {activeContent && <ContentCard content={activeContent} />}
+    <DragOverlay adjustScale={false}>
+      {activeContent && (
+        <ContentCardMemo isDragging={false} redirectSourcePage={false} content={activeContent} />
+      )}
     </DragOverlay>
   );
 };

@@ -7,16 +7,18 @@ import {
   DragMoveEvent,
   DragStartEvent,
   PointerSensor,
+  pointerWithin,
   TouchSensor,
   UniqueIdentifier,
-  pointerWithin,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import {useAppDispatch} from "@/store";
-import {restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {listActions} from "@/store/features/list/listSlice";
 import SectionContainer from "@/components/common/SectionContainer";
+import {restrictToWindowEdges} from "@dnd-kit/modifiers";
+import debounce from "lodash.debounce";
+import useIsMobile from "@/lib/hooks/useIsMobile";
 import StorageContainer from "./StorageContainer";
 import RightContainer from "./RightContainer";
 import RowsContainer from "./RowsContainer";
@@ -27,18 +29,7 @@ function ListViewContainer() {
 
   const lastOverId = useRef<UniqueIdentifier | null>(null);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    }),
-  );
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
   const handleDragStart = useCallback(
     async (event: DragStartEvent) => {
@@ -60,6 +51,7 @@ function ListViewContainer() {
           activeId: event.active.id,
           activeType: event.active.data.current?.type,
           overId: event?.over?.id,
+          overType: event.over?.data.current?.type,
         }),
       );
     },
@@ -90,6 +82,8 @@ function ListViewContainer() {
     [dispatch],
   );
 
+  const isMobile = useIsMobile();
+
   return (
     <SectionContainer paddingClass="px-0 sm:px-5">
       <div className="m-auto flex min-h-screen w-full items-start sm:overflow-x-auto sm:overflow-y-hidden py-page-top-space">
@@ -98,9 +92,9 @@ function ListViewContainer() {
           sensors={sensors}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          onDragMove={handleDragMove}
+          onDragOver={debounce(handleDragMove, 75)}
           onDragCancel={() => console.log("onDragCancel")}
-          autoScroll={false}
+          autoScroll={!isMobile}
           modifiers={[restrictToWindowEdges]}
           collisionDetection={pointerWithin}
         >

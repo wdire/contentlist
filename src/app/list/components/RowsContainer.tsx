@@ -1,6 +1,6 @@
 "use client";
 
-import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {SortableContext} from "@dnd-kit/sortable";
 import React, {useMemo} from "react";
 import {useAppSelector} from "@/store";
 import listSelectors from "@/store/features/list/listSelectors";
@@ -19,7 +19,7 @@ const RowsContainer = () => {
         className="flex flex-col gap-y-0.5 overflow-hidden relative bg-background"
         id={LIST_ROWS_ID}
       >
-        <SortableContext items={contentsId} strategy={verticalListSortingStrategy}>
+        <SortableContext items={contentsId}>
           {!fetchLoading ? (
             rows.map((row) => <RowItem key={row.id} row={row} />)
           ) : (

@@ -76,12 +76,13 @@ export const ALLOWED_HOSTNAMES = [
   "images.igdb.com",
   "s4.anilist.co",
   "upload.wikimedia.org",
+  "logo.clearbit.com",
 ];
 
 export const MAX_LENGTHS = {
   list_title: 65,
   max_rows: 10,
-  max_contents: 500,
+  max_contents: 200,
   image_contents: 250,
   user_list_max_copy: 1,
 };
@@ -94,4 +95,5 @@ export const CONTENT_IMAGE_BASES = {
     manga: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/",
     character: "https://s4.anilist.co/file/anilistcdn/character/large/",
   },
+  clearbit: "https://logo.clearbit.com/",
 } as const;

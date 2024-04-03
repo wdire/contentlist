@@ -1,10 +1,10 @@
 "use client";
 
-import {SortableContext, rectSortingStrategy, useSortable} from "@dnd-kit/sortable";
+import {SortableContext, useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import {memo, useMemo} from "react";
+import {memo, useMemo, useRef} from "react";
 import {useAppSelector} from "@/store";
-import {selectContentsByRowId} from "@/store/features/list/listSelectors";
+import {makeSelectContentsByRowId} from "@/store/features/list/listSelectors";
 import {Row} from "../../../lib/types/list.type";
 import RowOptionsPopover from "./RowOptionsPopover";
 import ContentCard from "./ContentCard";
@@ -13,33 +13,21 @@ interface Props {
   row: Row;
 }
 
-const RowItem = memo(function RowItem({row}: Props) {
-  const contents = useAppSelector((state) => selectContentsByRowId(state, row.id));
+const RowItemMemo = memo(function RowItemMemo({row}: Props) {
+  const selectContentsByRowId = useRef(makeSelectContentsByRowId(row.id));
+
+  const contents = useAppSelector((state) => selectContentsByRowId.current(state));
 
   const contentIds = useMemo(() => {
     return contents.map((content) => content.id);
   }, [contents]);
-
-  const {setNodeRef, transform, transition, isDragging} = useSortable({
-    id: row.id,
-    data: {
-      type: "Row",
-      row,
-    },
-  });
-
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-    opacity: isDragging ? 0.5 : 1,
-  };
 
   const contentsMemo = useMemo(() => {
     return contents.map((content) => <ContentCard key={content.id} content={content} />);
   }, [contents]);
 
   return (
-    <div ref={setNodeRef} style={style} className={"w-full flex bg-content1 relative"}>
+    <>
       <div
         style={{
           backgroundColor: `var(--rowColor-${row.color})`,
@@ -53,8 +41,8 @@ const RowItem = memo(function RowItem({row}: Props) {
         </div>
       </div>
       <div className="flex w-full">
-        <div className="flex flex-grow flex-wrap min-h-[60px] md:min-h-[80px] pl-0.5">
-          <SortableContext items={contentIds} strategy={rectSortingStrategy}>
+        <div className="row-items flex flex-grow flex-wrap min-h-[60px] md:min-h-[86px] pl-0.5">
+          <SortableContext id={`${row.id}`} items={contentIds}>
             {contentsMemo}
           </SortableContext>
         </div>
@@ -62,6 +50,27 @@ const RowItem = memo(function RowItem({row}: Props) {
           <RowOptionsPopover row={row} />
         </div>
       </div>
+    </>
+  );
+});
+
+const RowItem = memo(function RowItem({row}: Props) {
+  const {setNodeRef, transform, transition} = useSortable({
+    id: row.id,
+    data: {
+      type: "Row",
+      row,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className={"w-full flex bg-content1 relative"}>
+      <RowItemMemo row={row} />
     </div>
   );
 });

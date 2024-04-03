@@ -41,7 +41,7 @@ export const listThumbnailGenerate = async () => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
 
       // Remove content names or sources if showing any
-      clonedContentCard.querySelector("& > div > div")?.remove();
+      clonedContentCard.querySelector("& > div > .content-name")?.remove();
 
       tmpContentCardsContainer.append(clonedContentCard);
     });

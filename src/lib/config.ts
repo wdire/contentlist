@@ -40,8 +40,15 @@ export const searchSources: {
   {value: "tmdb", label: "Movie/TV/Person - TMDB"},
   {value: "igdb", label: "Game - IGDB"},
   {value: "wikipedia", label: "General - Wikipedia"},
-
-  {value: "anilist_anime", label: "Anime - AniList"},
-  {value: "anilist_manga", label: "Manga - AniList"},
-  {value: "anilist_character", label: "Character - AniList"},
+  {value: "clearbit", label: "Companies - Clearbit"},
+  {value: "text", label: "Text - Write Yourself"},
+  {
+    value: "_group_",
+    label: "AniList",
+    items: [
+      {value: "anilist_anime", label: "Anime - AniList"},
+      {value: "anilist_manga", label: "Manga - AniList"},
+      {value: "anilist_character", label: "Character - AniList"},
+    ],
+  },
 ];

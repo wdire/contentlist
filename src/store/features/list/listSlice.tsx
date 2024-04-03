@@ -234,16 +234,29 @@ export const listSlice = createSlice({
       action: PayloadAction<{
         activeType: string;
         activeId: UniqueIdentifier;
+        overType: string;
         overId: UniqueIdentifier | undefined;
       }>,
     ) => {
       state.activeRow = null;
       state.activeContent = null;
 
-      const {activeType, activeId, overId} = action.payload;
+      const {activeType, activeId, overId, overType} = action.payload;
       if (!overId) return;
 
       if (activeType === "Content") {
+        if (overType === "Content") {
+          const activeIndex = state.contents.findIndex((t) => t.id === activeId);
+          const overIndex = state.contents.findIndex((t) => t.id === overId);
+          if (activeIndex !== -1 && overIndex !== -1) {
+            state.contents.splice(
+              overIndex < 0 ? state.contents.length + overIndex : overIndex,
+              0,
+              state.contents.splice(activeIndex, 1)[0],
+            );
+          }
+        }
+
         state.contents = orderContentsByRows(state.contents, state.rows);
 
         rememberUnsavedChanges({
@@ -307,25 +320,16 @@ export const listSlice = createSlice({
         const activeIndex = state.contents.findIndex((t) => t.id === activeId);
         const overIndex = state.contents.findIndex((t) => t.id === overId);
 
-        state.hasUnsavedChanges = true;
-
         if (state.contents[activeIndex].rowId !== state.contents[overIndex].rowId) {
+          state.hasUnsavedChanges = true;
           state.contents[activeIndex].rowId = state.contents[overIndex].rowId;
-          state.contents = arrayMove(state.contents, activeIndex, overIndex - 1);
         }
-
-        state.contents = arrayMove(state.contents, activeIndex, overIndex);
       }
 
-      // Dropping Content over a Row
       if (isActiveAContent && isOverARow) {
         const activeIndex = state.contents.findIndex((t) => t.id === activeId);
-
-        state.contents[activeIndex].rowId = overId;
-
         state.hasUnsavedChanges = true;
-
-        state.contents = arrayMove(state.contents, activeIndex, activeIndex);
+        state.contents[activeIndex].rowId = overId;
       }
     },
   },

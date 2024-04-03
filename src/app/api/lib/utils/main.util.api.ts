@@ -13,7 +13,9 @@ export const getUrlParams = (fullUrl: string) => {
 
 export const cutContentImageUrlBase = (content: PrismaJson.ContentType) => {
   if (
-    (["tmdb", "anilist", "igdb"] as PrismaJson.ContentType["source"][]).includes(content.source)
+    (["tmdb", "anilist", "igdb", "clearbit"] as PrismaJson.ContentType["source"][]).includes(
+      content.source,
+    )
   ) {
     content.image_url = content.image_url.substring(content.image_url.lastIndexOf("/") + 1);
   }
@@ -32,6 +34,8 @@ export const addCuttedContentImageUrl = (content: PrismaJson.ContentType) => {
     } else if (content.anilist?.type === "character") {
       content.image_url = CONTENT_IMAGE_BASES.anilist.character + content.image_url;
     }
+  } else if (content.source === "clearbit") {
+    content.image_url = CONTENT_IMAGE_BASES.clearbit + content.image_url;
   }
 };
 

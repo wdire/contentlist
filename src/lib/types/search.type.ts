@@ -11,6 +11,8 @@ export const SearchSource = [
   "anilist_character",
   "igdb",
   "wikipedia",
+  "clearbit",
+  "text",
 ] as const;
 
 export type SearchSource = (typeof SearchSource)[number];

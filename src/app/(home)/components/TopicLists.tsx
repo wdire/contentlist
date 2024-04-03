@@ -7,7 +7,9 @@ const titleColors = [
   "text-rowColor-orange",
   "text-rowColor-light-orange",
   "text-rowColor-yellow",
-  "text-rowColor-lime",
+  "text-rowColor-lime-green",
+  "text-rowColor-turquoise",
+  "text-rowColor-light-blue",
 ];
 
 const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
