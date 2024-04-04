@@ -36,7 +36,7 @@ export const ListItemCard = ({
         "flex-shrink-0 inline-block rounded-xl overflow-hidden relative transition-[transform,opacity] active:scale-95 hover:opacity-80 bg-content1",
         {
           "pointer-events-none": isLoading,
-          "w-[calc(50%-10px)] pb-[33px] sm:pb-0 sm:w-[222px] sm:h-[266px]": !xScrollParent,
+          "w-[calc(50%-6px)] pb-[33px] sm:pb-0 sm:w-[222px] sm:h-[266px]": !xScrollParent,
           "w-[155px] h-[188px] sm:w-[222px] sm:h-[266px]": xScrollParent,
         },
       )}

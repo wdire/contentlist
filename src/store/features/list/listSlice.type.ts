@@ -33,6 +33,7 @@ export type ListState = {
     imageContents: string | null | undefined;
   };
   isLocalMode: boolean;
+  nowAddedNewItem: boolean;
 };
 
 export type InitListProps = Pick<

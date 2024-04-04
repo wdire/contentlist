@@ -32,9 +32,9 @@ const RowsContainer = () => {
 
 const Box = () => (
   <Skeleton className="sm:rounded-b-medium sm:overflow-hidden shadow-[0_-3px_3px_-3px_rgba(255,255,255,0.3)] sm:shadow-none sticky sm:relative bottom-0 z-20">
-    <div className="flex flex-col gap-3 md:gap-5">
+    <div className="flex flex-col gap-12 md:gap-6 pt-5 pb-2 sm:p-5">
       <h2 className="text-2xl">Box</h2>
-      <div className="flex flex-grow flex-wrap min-h-[90px] md:min-h-[131px]" />
+      <div className="flex flex-grow sm:flex-wrap min-h-[60px] md:min-h-[86px] w-full" />
     </div>
   </Skeleton>
 );

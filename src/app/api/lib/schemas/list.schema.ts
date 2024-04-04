@@ -9,46 +9,46 @@ import {TmdbMediaType} from "./tmdb.schema";
 
 const ListContentSchemaBase = z
   .object({
-    name: z.string(),
-    image_url: z.string(),
+    name: z.string().max(MAX_LENGTHS.content_name_length),
+    image_url: z.string().max(400),
     source: z.enum(ContentSourceType),
     notPoster: z.boolean().optional(),
     square: z.boolean().optional(),
     tmdb: z
       .object({
-        id: z.number(),
+        id: z.number().max(MAX_LENGTHS.max_num_id),
         media_type: z.enum(TmdbMediaType),
       })
       .optional()
       .nullable(),
     anilist: z
       .object({
-        id: z.number(),
+        id: z.number().max(MAX_LENGTHS.max_num_id),
         type: z.enum(AnilistMediaType),
       })
       .optional()
       .nullable(),
     igdb: z
       .object({
-        id: z.number(),
+        id: z.number().max(MAX_LENGTHS.max_num_id),
       })
       .optional()
       .nullable(),
     wikipedia: z
       .object({
-        id: z.number(),
+        id: z.number().max(MAX_LENGTHS.max_num_id),
       })
       .optional()
       .nullable(),
     clearbit: z
       .object({
-        id: z.string(),
+        id: z.string().max(100),
       })
       .optional()
       .nullable(),
     text: z
       .object({
-        id: z.string(),
+        id: z.string().max(MAX_LENGTHS.fe_generated_id),
       })
       .optional()
       .nullable(),
@@ -61,9 +61,15 @@ type _ZodContentEqualsPrisma_ = IsTrue<
 >;
 
 const ListContentSchema = ListContentSchemaBase.superRefine((data, ctx) => {
-  const isAllowed = ALLOWED_HOSTNAMES.some((allowedURL) => {
-    return data.image_url.startsWith(`https://${allowedURL}`);
-  });
+  let isAllowed = false;
+
+  if (data.source === "text" && data.image_url === "") {
+    isAllowed = true;
+  } else {
+    isAllowed = ALLOWED_HOSTNAMES.some((allowedURL) => {
+      return data.image_url.startsWith(`https://${allowedURL}`);
+    });
+  }
 
   if (!isAllowed) {
     ctx.addIssue({
@@ -105,7 +111,7 @@ const ListObjectRowsStorage = z
       z.object({
         name: z.string().max(MAX_LENGTHS.list_title),
         color: z.enum(rowColors),
-        row_id: z.string().max(50),
+        row_id: z.string().max(MAX_LENGTHS.fe_generated_id),
         contents: z.array(ListContentSchema),
       }),
     ),

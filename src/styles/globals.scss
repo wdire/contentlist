@@ -11,7 +11,6 @@ html,
 body {
   @apply bg-background text-foreground-700;
   scrollbar-color: hsl(var(--nextui-content4)) transparent;
-  scrollbar-width: thin;
 }
 
 body,
@@ -72,7 +71,7 @@ body main {
   @apply overflow-hidden items-center flex-shrink-0 flex text-left relative;
 
   .content-text {
-    @apply border-y-1 border-primary relative;
+    @apply border-y-1 border-primary border-t-white/80 border-t relative bg-primary-100 flex justify-center items-center text-center h-full w-full p-0.5 overflow-hidden;
 
     &:after,
     &:before {
@@ -123,6 +122,10 @@ body main {
 
   .wordb-break-word {
     word-break: break-word;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
   }
 }
 

@@ -33,7 +33,7 @@ const RowItemMemo = memo(function RowItemMemo({row}: Props) {
           backgroundColor: `var(--rowColor-${row.color})`,
         }}
         className={
-          "bg-opacity-50 w-[80px] md:w-[120px] flex-shrink-0 text-md py-3 sm:px-1.5 px-0.5 font-bold flex items-center justify-center relative"
+          "bg-opacity-50 transform w-[80px] md:w-[120px] flex-shrink-0 text-md py-3 sm:px-1.5 px-0.5 font-bold flex items-center justify-center relative"
         }
       >
         <div className="flex gap-2 text-zinc-900 font-normal text-xs md:text-base wordb-break-word text-center">
@@ -41,7 +41,9 @@ const RowItemMemo = memo(function RowItemMemo({row}: Props) {
         </div>
       </div>
       <div className="flex w-full">
-        <div className="row-items flex flex-grow flex-wrap min-h-[60px] md:min-h-[86px] pl-0.5">
+        <div
+          className={`row-items flex flex-grow flex-wrap pl-0.5 ${contentIds.length === 0 ? "min-h-[60px] md:min-h-[86px]" : ""}`}
+        >
           <SortableContext id={`${row.id}`} items={contentIds}>
             {contentsMemo}
           </SortableContext>

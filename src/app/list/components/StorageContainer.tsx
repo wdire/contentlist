@@ -1,6 +1,6 @@
 "use client";
 
-import {memo, useMemo, useRef, useState} from "react";
+import {memo, useEffect, useMemo, useRef, useState} from "react";
 import {
   horizontalListSortingStrategy,
   rectSortingStrategy,
@@ -14,6 +14,7 @@ import {Button} from "@nextui-org/react";
 import {ListState} from "@/store/features/list/listSlice.type";
 import {listActions} from "@/store/features/list/listSlice";
 import useIsMobile from "@/lib/hooks/useIsMobile";
+import {toast} from "react-toastify";
 import ContentCard from "./ContentCard";
 import ContentTrashbox from "./ContentTrashbox";
 import StorageSearchInput from "./StorageSearchInput";
@@ -23,12 +24,14 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
   const selectContentsByRowId = useRef(makeSelectContentsByRowId(STORAGE_ROW_ID));
   const storageContents = useAppSelector((state) => selectContentsByRowId.current(state));
   const contentSize = useAppSelector((state) => state.list.contentSize);
+  const nowAddedNewItem = useAppSelector((state) => state.list.nowAddedNewItem);
 
   const [searchValue, setSearchValue] = useState("");
 
   const isMobile = useIsMobile();
 
-  const boxRef = useRef<HTMLDivElement>(null);
+  const boxScrollToRef = useRef<HTMLDivElement>(null);
+  const storageRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -56,11 +59,11 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
     dispatch(listActions.setContentSize(size));
     if (!isMobile) {
       setTimeout(() => {
-        boxRef.current?.scrollIntoView({
+        boxScrollToRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "nearest",
+          block: "center",
         });
-      }, 250);
+      }, 500);
     }
   };
 
@@ -68,8 +71,48 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
     return isMobile ? horizontalListSortingStrategy : rectSortingStrategy;
   }, [isMobile]);
 
+  useEffect(() => {
+    if (nowAddedNewItem) {
+      toast(
+        () => {
+          return (
+            <>
+              Added new content to the box.
+              {storageRef.current ? (
+                <div
+                  onClick={() => {
+                    if (isMobile) {
+                      storageRef.current?.scrollTo({
+                        behavior: "smooth",
+                        left: storageRef.current.scrollWidth - storageRef.current.clientWidth,
+                      });
+                    } else {
+                      storageRef.current?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "end",
+                      });
+                    }
+                  }}
+                  className="text-primary transition-opacity hover:opacity-75"
+                >
+                  {" "}
+                  Want to go there?
+                </div>
+              ) : null}
+            </>
+          );
+        },
+        {
+          type: "success",
+          toastId: "new_content",
+        },
+      );
+    }
+  }, [nowAddedNewItem, isMobile]);
+
   return (
     <>
+      <div ref={boxScrollToRef} className="w-0 h-0 invisible -z-30 absolute -top-28" />
       <div className="flex gap-8 justify-between pt-5 px-3 pb-2 sm:p-0">
         <div className="flex items-center gap-5">
           <h2 className="text-2xl">Box</h2>
@@ -105,7 +148,10 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
           </div>
         </div>
       </div>
-      <div className="w-full relative overflow-x-scroll hide-scrollbar sm:overflow-auto sm:pt-6 pb-safe">
+      <div
+        ref={storageRef}
+        className="w-full relative overflow-x-scroll hide-scrollbar sm:overflow-auto sm:pt-6 pb-safe"
+      >
         {storageContentsMemo.length > 0 ? (
           <div className="sm:hidden flex select-none items-end justify-center w-full pb-3 h-12 text-xs text-default-800 left-0 top-0">
             {"< Touch here to swipe >"}
@@ -114,7 +160,7 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
           <div className="pl-4 pt-4 h-12 absolute">No matching contents</div>
         )}
 
-        <div className="flex flex-grow sm:flex-wrap min-h-[90px] md:min-h-[120px] w-full sm:overflow-y-auto pt-0">
+        <div className="flex flex-grow sm:flex-wrap min-h-[60px] md:min-h-[86px] w-full sm:overflow-y-auto pt-0">
           <SortableContext id={STORAGE_ROW_ID} items={contentIds} strategy={strategy}>
             {storageContentsMemo}
           </SortableContext>

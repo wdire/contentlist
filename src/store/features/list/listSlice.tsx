@@ -40,6 +40,7 @@ const initialState: ListState = {
     rows: [],
   },
   isLocalMode: false,
+  nowAddedNewItem: false,
 };
 
 export const listSlice = createSlice({
@@ -214,6 +215,9 @@ export const listSlice = createSlice({
         rows: state.rows,
         listId: state.info.id,
       });
+    },
+    setNowAddedNewItem: (state, action: PayloadAction<boolean>) => {
+      state.nowAddedNewItem = action.payload;
     },
     onDragStart: (
       state,

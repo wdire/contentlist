@@ -14,7 +14,7 @@ const titleColors = [
 
 const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
   const listsWrapperClass =
-    "flex gap-3 md:flex-wrap overflow-x-auto md:overflow-x-hidden pb-2 hide-scrollbar rounded-medium";
+    "flex gap-3 md:flex-wrap overflow-x-auto md:overflow-x-hidden pb-3 scrollbar-thin rounded-medium";
 
   return (
     <>

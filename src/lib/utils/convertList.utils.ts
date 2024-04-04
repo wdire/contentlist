@@ -94,7 +94,7 @@ export const convertReduxListForDBUpdate = (
               } else if (c.data.source === "clearbit") {
                 newC.clearbit = c.data.clearbit;
               } else if (c.data.source === "text") {
-                newC.clearbit = c.data.text;
+                newC.text = c.data.text;
               } else {
                 console.error("Content source not found");
               }
@@ -131,7 +131,7 @@ export const convertReduxListForDBUpdate = (
         } else if (c.data.source === "clearbit") {
           newC.clearbit = c.data.clearbit;
         } else if (c.data.source === "text") {
-          newC.clearbit = c.data.text;
+          newC.text = c.data.text;
         } else {
           console.error("Content source not found");
         }
