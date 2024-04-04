@@ -10,6 +10,7 @@ html {
 html,
 body {
   @apply bg-background text-foreground-700;
+  scrollbar-color: hsl(var(--nextui-content4)) transparent;
 }
 
 body,
@@ -50,24 +51,6 @@ body main {
   --rowColor-white: #e8e8e8;
 }
 
-body::-webkit-scrollbar {
-  width: 8px;
-  @apply bg-content1/70 p-2;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  @apply p-2;
-}
-
-::-webkit-scrollbar:horizontal {
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-content4 rounded-xl;
-}
-
 .hide-scrollbar {
   &::-webkit-scrollbar {
     display: none !important;
@@ -88,7 +71,7 @@ body::-webkit-scrollbar {
   @apply overflow-hidden items-center flex-shrink-0 flex text-left relative;
 
   .content-text {
-    @apply border-y-1 border-primary relative;
+    @apply border-y-1 border-primary border-t-white/80 border-t relative bg-primary-100 flex justify-center items-center text-center h-full w-full p-0.5 overflow-hidden;
 
     &:after,
     &:before {
@@ -139,6 +122,10 @@ body::-webkit-scrollbar {
 
   .wordb-break-word {
     word-break: break-word;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
   }
 }
 

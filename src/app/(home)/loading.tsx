@@ -4,8 +4,7 @@ import {ListItemCard} from "@/components/cards/ListItemCard";
 import {HomeDescriptionContent} from "./components/HomeDescriptionContent";
 
 const Loading = () => {
-  const listsWrapperClass =
-    "flex gap-3 md:flex-wrap overflow-x-auto md:overflow-x-hidden pb-2 hide-scrollbar rounded-medium";
+  const listsWrapperClass = "flex gap-3 md:flex-wrap pb-2 hide-scrollbar rounded-medium";
 
   return (
     <>

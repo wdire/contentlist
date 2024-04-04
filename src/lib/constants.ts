@@ -85,6 +85,9 @@ export const MAX_LENGTHS = {
   max_contents: 200,
   image_contents: 250,
   user_list_max_copy: 1,
+  content_name_length: 100,
+  max_num_id: 1e10,
+  fe_generated_id: 10,
 };
 
 export const CONTENT_IMAGE_BASES = {

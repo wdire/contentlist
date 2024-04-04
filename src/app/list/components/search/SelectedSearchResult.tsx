@@ -4,10 +4,9 @@ import {Button, Switch, Tooltip} from "@nextui-org/react";
 import {X} from "lucide-react";
 import {searchActions} from "@/store/features/search/searchSlice";
 import {listActions} from "@/store/features/list/listSlice";
-import {STORAGE_ROW_ID} from "@/lib/constants";
+import {MAX_LENGTHS, STORAGE_ROW_ID} from "@/lib/constants";
 import {generateId} from "@/lib/utils/helper.utils";
 import {Content} from "@/lib/types/list.type";
-import {toast} from "react-toastify";
 import SearchResult from "./SearchResult";
 
 const SelectedSearchResult = () => {
@@ -23,7 +22,10 @@ const SelectedSearchResult = () => {
     const newContent: Content = {
       data: {
         image_url: selectedResult.image_url,
-        name: selectedResult.name,
+        name:
+          selectedResult.name.length > MAX_LENGTHS.content_name_length
+            ? `${selectedResult.name.slice(0, 97)}...`
+            : selectedResult.name,
         source: selectedResult.source,
       },
       id: generateId(),
@@ -58,9 +60,10 @@ const SelectedSearchResult = () => {
     dispatch(searchActions.setSelectedResult(null));
     dispatch(searchActions.setSearchQuery(""));
 
-    toast("Added new content to the box", {
-      type: "success",
-    });
+    dispatch(listActions.setNowAddedNewItem(true));
+    setTimeout(() => {
+      dispatch(listActions.setNowAddedNewItem(false));
+    }, 1000);
   };
 
   const handleCloseClick = () => {

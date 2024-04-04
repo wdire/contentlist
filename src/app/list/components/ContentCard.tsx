@@ -32,8 +32,7 @@ export const useContentclassNames = ({
       "min-h-14 max-h-[84px] w-14": isSearchResult,
 
       "opacity-50": isDragging,
-
-      "aspect-[2/3]": !square,
+      "aspect-[2/3]": !notPoster,
 
       "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
       "cursor-grab": !redirectSourcePage,
@@ -60,17 +59,14 @@ export const useContentclassNames = ({
       },
     );
 
-    const contentText = clsx(
-      "content-text flex justify-center items-center text-center h-full w-full p-0.5 overflow-hidden",
-      {
-        "min-h-[60px] md:min-h-[86px]": !isSearchResult,
-        "max-h-[84px]": isSearchResult,
+    const contentText = clsx("content-text", {
+      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      "max-h-[84px]": isSearchResult,
 
-        "aspect-square": square,
+      "aspect-square": square,
 
-        "aspect-[2/3]": !notPoster && !square,
-      },
-    );
+      "aspect-[2/3]": !notPoster && !square,
+    });
 
     const contentTextSpan = clsx("text-ellipsis wordb-break-word md:text-sm", {
       "text-[10px] line-clamp-5": contentSize === "1x",

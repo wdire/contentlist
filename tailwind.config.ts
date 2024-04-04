@@ -14,6 +14,10 @@ const config = {
       spacing: {
         "header-height": "var(--header-height)",
         "page-top-space": "var(--page-top-space)",
+        "header-height_gap": "calc(var(--header-height) + 20px)",
+      },
+      maxHeight: {
+        "sticky-right": "calc(100vh - var(--header-height) - 20px)",
       },
       colors: {
         "rowColor-red": "var(--rowColor-red)",

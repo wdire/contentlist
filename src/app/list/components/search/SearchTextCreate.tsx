@@ -2,12 +2,20 @@ import {useAppDispatch, useAppSelector} from "@/store";
 import {searchActions} from "@/store/features/search/searchSlice";
 import {Input} from "@nextui-org/react";
 import debounce from "lodash.debounce";
-import {useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 const SearchTextCreate = () => {
   const dispatch = useAppDispatch();
 
   const searchSource = useAppSelector((state) => state.search.searchSource);
+  const nowAddedNewItem = useAppSelector((state) => state.list.nowAddedNewItem);
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (nowAddedNewItem) {
+      setInputValue("");
+    }
+  }, [nowAddedNewItem]);
 
   const debounceSetSelectedResult = useMemo(
     () =>
@@ -32,6 +40,7 @@ const SearchTextCreate = () => {
   }
 
   const onContentNameInputChange = (value: string) => {
+    setInputValue(value);
     debounceSetSelectedResult(value.trim());
   };
 
@@ -40,6 +49,7 @@ const SearchTextCreate = () => {
       <Input
         size="sm"
         maxLength={65}
+        value={inputValue}
         onValueChange={onContentNameInputChange}
         placeholder="Write Content Name"
       />

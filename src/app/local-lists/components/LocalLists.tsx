@@ -42,7 +42,7 @@ const LocalLists = () => {
           Create Local List
         </Button>
       </div>
-      <div className="flex gap-3 md:flex-wrap overflow-x-auto md:overflow-x-hidden pb-2 rounded-medium">
+      <div className="flex gap-3 flex-wrap pb-2">
         {localLists === null ? (
           <div className="italic">
             No local contents added. <br />
