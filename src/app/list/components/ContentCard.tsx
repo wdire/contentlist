@@ -130,9 +130,9 @@ export const ContentCardMemo = memo(function ContentCardMemo({
       ) : (
         <Image
           src={content.data.image_url}
-          width={84}
-          height={126}
-          sizes="84px"
+          width={86}
+          height={129}
+          sizes="86px"
           alt={content.data.name}
           className={classNames.contentImage}
           unoptimized
