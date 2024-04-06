@@ -185,11 +185,6 @@ export const ListSchemas = {
       id: ZodDbId,
     }),
   },
-  "/list/getAllByUserId": {
-    params: z.object({
-      userId: z.string().min(10),
-    }),
-  },
 };
 
 export type ListRequestTypes = {

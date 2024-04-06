@@ -72,7 +72,7 @@ function ListViewContainer() {
   );
 
   return (
-    <SectionContainer paddingClass="px-0 sm:px-5">
+    <SectionContainer paddingClass="px-0 sm:px-5" type="list-page">
       <div className="m-auto flex min-h-screen w-full items-start py-page-top-space">
         <DndContext
           id="main-dnd"
@@ -84,7 +84,7 @@ function ListViewContainer() {
           autoScroll={false}
           collisionDetection={pointerWithin}
         >
-          <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-5 max-w-full relative">
+          <div className="flex flex-col-reverse lg:flex-row justify-center w-full gap-2.5 max-w-full relative">
             <div className="flex flex-col gap-3 flex-1 w-full">
               <RowsContainer />
               <StorageContainer />

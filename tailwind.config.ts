@@ -11,13 +11,16 @@ const config = {
   purgeLayersByDefault: true,
   theme: {
     extend: {
+      screens: {
+        "3xl": "1650px",
+      },
       spacing: {
         "header-height": "var(--header-height)",
         "page-top-space": "var(--page-top-space)",
         "header-height_gap": "calc(var(--header-height) + 20px)",
       },
       maxHeight: {
-        "sticky-right": "calc(100vh - var(--header-height) - 20px)",
+        "sticky-right": "calc(100vh - var(--header-height) - 40px)",
       },
       colors: {
         "rowColor-red": "var(--rowColor-red)",

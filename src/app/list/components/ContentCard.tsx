@@ -48,16 +48,13 @@ export const useContentclassNames = ({
       "text-sm !leading-4 line-clamp-[8]": contentSize === "3x",
     });
 
-    const contentImage = clsx(
-      "w-full pointer-events-none block select-none max-h-full h-auto object-contain",
-      {
-        "min-h-[60px] md:min-h-[86px]": !isSearchResult,
-        "max-h-[84px]": isSearchResult,
+    const contentImage = clsx("content-img", {
+      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      "max-h-[84px]": isSearchResult,
 
-        "aspect-square object-cover": square,
-        "h-full object-cover": !notPoster,
-      },
-    );
+      "aspect-square object-cover": square,
+      "h-full object-cover": !notPoster,
+    });
 
     const contentText = clsx("content-text", {
       "min-h-[60px] md:min-h-[86px]": !isSearchResult,
