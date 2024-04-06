@@ -39,6 +39,9 @@ export const listThumbnailGenerate = async () => {
 
     contentCards.forEach((contentCard) => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
+      clonedContentCard
+        .querySelector("& img")
+        ?.setAttribute("style", "object-fit:cover!important;");
 
       // Remove content names or sources if showing any
       clonedContentCard.querySelector("& > div > .content-name")?.remove();
