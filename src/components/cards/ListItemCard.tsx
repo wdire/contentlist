@@ -46,7 +46,7 @@ export const ListItemCard = ({
       ) : (
         <Image
           width={222}
-          height={266}
+          height={222}
           alt={`${list.name} list image`}
           className="object-cover object-bottom w-full rounded-none pointer-events-none aspect-square"
           src={getListCloudinaryImage({

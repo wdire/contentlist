@@ -27,8 +27,8 @@ const RightContainer = () => {
   return fetchLoading ? (
     <ListSkeletons.RightContainer />
   ) : (
-    <div className="w-full lg:w-[260px] rounded-medium px-3 lg:px-0">
-      <div className="w-full h-max relative rounded-medium lg:sticky  lg:hide-scrollbar lg:top-header-height_gap scrollbar-thin lg:overflow-y-auto lg:max-h-sticky-right lg:pb-4">
+    <div className="w-full lg:w-[270px] rounded-medium px-3 lg:px-0">
+      <div className="w-full h-max relative rounded-medium lg:sticky lg:hide-scrollbar lg:top-header-height_gap lg:overflow-y-auto scrollbar-on-hover lg:max-h-sticky-right lg:pb-4">
         {!fetchLoading ? (
           <div className="mb-5 px-4 py-4 bg-content1 rounded-medium">
             <div className="text-2xl">

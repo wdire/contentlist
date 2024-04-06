@@ -40,7 +40,7 @@ const Box = () => (
 );
 
 const RightContainer = () => (
-  <div className="w-full lg:w-[260px] rounded-medium px-3 lg:px-0">
+  <div className="w-full lg:w-[270px] rounded-medium px-3 lg:px-0 ml-2">
     <Skeleton className="w-full mb-5 h-[124px] rounded-medium" />
     <Skeleton className="w-full h-[182px] sm:h-[326px] rounded-medium" />
   </div>

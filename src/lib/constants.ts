@@ -83,7 +83,7 @@ export const MAX_LENGTHS = {
   list_title: 65,
   max_rows: 10,
   max_contents: 200,
-  image_contents: 250,
+  image_contents: 500,
   user_list_max_copy: 1,
   content_name_length: 100,
   max_num_id: 1e10,
