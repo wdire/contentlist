@@ -51,9 +51,7 @@ const ListCopyButton = () => {
               autoClose: 10000,
             },
           );
-        }
-
-        if (response.data?.redirectListId) {
+        } else if (response.data?.redirectListId) {
           deleteRememberedState({key: "UNSAVED_CHANGES", listId: list.info.id});
           router.push(`/list/${response.data.redirectListId}`);
         } else {
