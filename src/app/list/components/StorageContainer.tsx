@@ -157,7 +157,9 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
             {"< Touch here to swipe >"}
           </div>
         ) : (
-          <div className="pl-4 pt-4 h-12 absolute">No matching contents</div>
+          <div className="pl-3 pt-4 sm:p-0 h-12 absolute">
+            {searchValue ? "No matching contents" : "No contents"}
+          </div>
         )}
 
         <div className="flex flex-grow sm:flex-wrap min-h-[60px] md:min-h-[86px] w-full sm:overflow-y-auto pt-0">

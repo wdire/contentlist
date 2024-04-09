@@ -88,6 +88,7 @@ export const MAX_LENGTHS = {
   content_name_length: 100,
   max_num_id: 1e10,
   fe_generated_id: 10,
+  max_row_name_length: 55,
 };
 
 export const CONTENT_IMAGE_BASES = {

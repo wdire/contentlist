@@ -1,3 +1,4 @@
+import {MAX_LENGTHS} from "@/lib/constants";
 import {Row} from "@/lib/types/list.type";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {listActions} from "@/store/features/list/listSlice";
@@ -126,7 +127,7 @@ const RowOptionsPopover = ({row}: {row: Row}) => {
               onKeyDown={(key) =>
                 (key.key === "Enter" || key.which === 13) && handleEditButtonClick()
               }
-              maxLength={40}
+              maxLength={MAX_LENGTHS.max_row_name_length}
               size="sm"
             />
           </div>

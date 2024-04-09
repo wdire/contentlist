@@ -317,10 +317,6 @@ export const listSlice = createSlice({
       const isActiveAContent = activeType === "Content";
       const isOverAContent = overType === "Content";
 
-      console.log(
-        `activeId:${activeId}, activeType:${activeType}, overId:${overId}, overType:${overType}, isActiveAContent:${isActiveAContent}, isOverAContent:${isOverAContent}`,
-      );
-
       if (!isActiveAContent) return;
 
       const isOverARow = overType === "Row";
