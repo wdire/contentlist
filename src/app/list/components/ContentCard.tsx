@@ -53,7 +53,9 @@ export const useContentclassNames = ({
       "max-h-[84px]": isSearchResult,
 
       "aspect-square object-cover": square,
-      "h-full object-cover": !notPoster,
+      "aspect-[2/3] object-cover": !notPoster,
+
+      "object-contain": !square && notPoster,
     });
 
     const contentText = clsx("content-text", {

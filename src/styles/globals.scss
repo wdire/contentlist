@@ -109,7 +109,7 @@ body::-webkit-scrollbar {
   }
 
   .content-img {
-    @apply w-full pointer-events-none block select-none max-h-full h-auto object-contain;
+    @apply w-full pointer-events-none block select-none max-h-full h-auto;
   }
 }
 
