@@ -42,13 +42,13 @@ const RowItemMemo = memo(function RowItemMemo({row}: Props) {
       </div>
       <div className="flex w-full">
         <div
-          className={`row-items flex flex-grow flex-wrap pl-0.5 ${contentIds.length === 0 ? "min-h-[60px] md:min-h-[86px]" : ""}`}
+          className={`flex flex-grow flex-wrap pl-0.5 ${contentIds.length === 0 ? "min-h-[60px] md:min-h-[86px]" : ""}`}
         >
           <SortableContext id={`${row.id}`} items={contentIds}>
             {contentsMemo}
           </SortableContext>
         </div>
-        <div className="flex justify-center items-center w-10 sm:w-14">
+        <div data-name="row-options" className="flex justify-center items-center w-10 sm:w-14">
           <RowOptionsPopover row={row} />
         </div>
       </div>

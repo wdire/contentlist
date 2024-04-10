@@ -1,14 +1,16 @@
 import Link from "next/link";
 import {LEGAL_LINKS} from "@/lib/constants";
 import SectionContainer from "../common/SectionContainer";
+import MobileOpenConsole from "../helper/MobileOpenConsole";
 
 const Footer = () => {
   const linkClass = "underline transition-opacity hover:opacity-80";
   const policyClass = "text-gray-400 transition-opacity hover:opacity-80";
 
   return (
-    <div className="bg-content1 py-3">
-      <SectionContainer className="h-full ">
+    <div className="bg-content1 py-3 relative">
+      <MobileOpenConsole />
+      <SectionContainer className="h-full">
         <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap mb-2">
           <div className="text-sm">
             Using contents from{" "}

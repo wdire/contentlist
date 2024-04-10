@@ -1,4 +1,10 @@
 declare global {
+  interface Window {
+    eruda?: {
+      init: () => void;
+    };
+  }
+
   namespace NodeJS {
     interface ProcessEnv {
       [key: string]: string | undefined;

@@ -81,6 +81,7 @@ function ListViewContainer() {
           onDragEnd={handleDragEnd}
           onDragOver={debounce(handleDragMove, 75)}
           onDragCancel={() => console.log("onDragCancel")}
+          // TODO: Add onDragCancel handle here, set activeContent to null
           autoScroll={false}
           collisionDetection={pointerWithin}
         >

@@ -39,12 +39,10 @@ export const listThumbnailGenerate = async () => {
 
     contentCards.forEach((contentCard) => {
       const clonedContentCard = contentCard.cloneNode(true) as HTMLDivElement;
-      clonedContentCard
-        .querySelector("& img")
-        ?.setAttribute("style", "object-fit:cover!important;");
+      clonedContentCard.querySelector("img")?.setAttribute("style", "object-fit:cover!important;");
 
       // Remove content names or sources if showing any
-      clonedContentCard.querySelector("& > div > .content-name")?.remove();
+      clonedContentCard.querySelector(".content-name")?.remove();
 
       tmpContentCardsContainer.append(clonedContentCard);
     });
@@ -55,6 +53,11 @@ export const listThumbnailGenerate = async () => {
     const style = document.createElement("style");
     document.body.prepend(style);
     style.sheet?.insertRule("body > div:last-child img { display: inline-block; }");
+
+    // Lazy loading breaks image generate on older Safari versions
+    Object.values(tmpContentCardsContainer.querySelectorAll("img")).forEach((e) => {
+      e.setAttribute("loading", "eager");
+    });
 
     document.body.append(tmpContentCardsContainer);
 
@@ -68,6 +71,7 @@ export const listThumbnailGenerate = async () => {
       onclone: (_doc, element) => {
         element.style.display = "grid";
       },
+      ignoreElements: (el) => el.getAttribute("loading") === "lazy", // also required to fix Safari break
     });
     style.remove();
     tmpContentCardsContainer.remove();
@@ -142,9 +146,12 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
     bottomWrapper.appendChild(logoImg);
 
     // Remove row options buttons
-    Object.values(
-      clonedElm.querySelectorAll("& > div > div:nth-child(2) > div:nth-child(2)"),
-    ).forEach((e) => e.remove());
+    Object.values(clonedElm.querySelectorAll("[data-name=row-options]")).forEach((e) => e.remove());
+
+    // Lazy loading breaks image generate on older Safari versions
+    Object.values(clonedElm.querySelectorAll("img")).forEach((e) => {
+      e.setAttribute("loading", "eager");
+    });
 
     clonedElm.appendChild(bottomWrapper);
 
@@ -162,6 +169,7 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
       onclone: (_doc, element) => {
         element.style.display = "flex";
       },
+      ignoreElements: (el) => el.getAttribute("loading") === "lazy", // also required to fix Safari break
     });
     style.remove();
     clonedElm.remove();
