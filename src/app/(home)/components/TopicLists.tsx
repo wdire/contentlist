@@ -19,7 +19,7 @@ const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
   return (
     <>
       <SectionContainer className="pt-7 md:pt-11">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-10">
           {!homeLists || homeLists.length === 0 ? (
             <div>No content found</div>
           ) : (

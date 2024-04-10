@@ -46,7 +46,7 @@ const SearchResults = memo(function SearchResults() {
             "data-[hover=true]:bg-default-200",
           ],
         }}
-        className="max-h-60 sm:max-h-80 overflow-y-auto p-0"
+        className="max-h-60 sm:max-h-80 overflow-y-auto p-0 scrollbar-thin"
         items={searchQuery && showResults ? stateSearchResults || [] : []}
         aria-label="Search Results"
         disabledKeys={resultsExistingContentIndexes}

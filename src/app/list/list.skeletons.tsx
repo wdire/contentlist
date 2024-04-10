@@ -1,8 +1,8 @@
 import {Skeleton} from "@nextui-org/react";
 
 const RowsContainer = () => {
-  const rowHead = "w-[80px] h-[60px] sm:w-[120px] sm:h-[80px] flex-shrink-0";
-  const rowBody = "ml-0.5 w-full h-[60px] sm:h-[80px]";
+  const rowHead = "w-[80px] sm:w-[120px] flex-shrink-0";
+  const rowBody = "ml-0.5 w-full min-h-[60px] md:min-h-[86px]";
 
   return (
     <>
@@ -40,7 +40,7 @@ const Box = () => (
 );
 
 const RightContainer = () => (
-  <div className="w-full lg:w-[270px] rounded-medium px-3 lg:px-0 ml-2">
+  <div className="w-full lg:w-[270px] rounded-medium px-3 lg:px-0 ml-2 mb-5">
     <Skeleton className="w-full mb-5 h-[124px] rounded-medium" />
     <Skeleton className="w-full h-[182px] sm:h-[326px] rounded-medium" />
   </div>

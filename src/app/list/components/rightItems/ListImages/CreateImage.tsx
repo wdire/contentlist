@@ -73,7 +73,7 @@ const CreateImage = () => {
                 <ModalHeader>List Image</ModalHeader>
                 <ModalBody>
                   <p>You can copy paste or download image.</p>
-                  <div className="overflow-y-auto max-h-[350px] sm:max-h-[500px]">
+                  <div className="overflow-y-auto scrollbar-thin max-h-[350px] sm:max-h-[500px]">
                     <Image
                       src={imgUrl}
                       width={500}

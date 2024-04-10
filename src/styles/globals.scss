@@ -51,17 +51,13 @@ body main {
   --rowColor-white: #e8e8e8;
 }
 
-.scrollbar-on-hover {
+.right-c-scrollbar-hover {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
 
-  @supports (scrollbar-gutter: stable) {
+  @media screen and (min-width: 1024px) {
     scrollbar-gutter: stable;
     margin-left: 10px;
-  }
-
-  @supports not (scrollbar-gutter: stable) {
-    margin-right: 10px;
   }
 
   &:hover {
@@ -94,7 +90,7 @@ body::-webkit-scrollbar {
 // Show ListBox scrollbar
 .scrollbar-show {
   -ms-overflow-style: initial !important;
-  scrollbar-width: auto !important;
+  scrollbar-width: thin !important;
 
   &::-webkit-scrollbar {
     display: block !important;
@@ -113,7 +109,7 @@ body::-webkit-scrollbar {
   }
 
   .content-img {
-    @apply w-full pointer-events-none block select-none max-h-full h-auto object-contain;
+    @apply w-full pointer-events-none block select-none max-h-full h-auto;
   }
 }
 

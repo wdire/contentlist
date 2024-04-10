@@ -3,7 +3,7 @@ import {LIST_ROWS_ID} from "../constants";
 const THUMBNAIL_SIZE = 600;
 let thumbnail_image: File | null = null;
 
-const PREVIEW_SIZE = 880;
+const PREVIEW_SIZE = 1000;
 
 export const getGeneratedThumbnailImage = () => {
   return thumbnail_image;
@@ -128,6 +128,7 @@ export const listPreviewGenerate = async ({listName}: {listName: string}) => {
 
     // Bottom list name
     const listNameDiv = document.createElement("div");
+    listNameDiv.className = "wordb-break-word";
     listNameDiv.innerText = listName || "";
 
     // Bottom list image
