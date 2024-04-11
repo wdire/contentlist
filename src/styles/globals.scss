@@ -143,6 +143,10 @@ body::-webkit-scrollbar {
   .scrollbar-thin {
     scrollbar-width: thin;
   }
+
+  .scrollbar-content4 {
+    scrollbar-color: hsl(var(--nextui-content4)) transparent;
+  }
 }
 
 // Bottom privacy choices

@@ -27,7 +27,7 @@ const config = {
         "rowColor-orange": "var(--rowColor-orange)",
         "rowColor-light-orange": "var(--rowColor-light-orange)",
         "rowColor-yellow": "var(--rowColor-yellow)",
-        "rowColor-lime": "var(--rowColor-lime)",
+        "rowColor-lime-green": "var(--rowColor-lime-green)",
         "rowColor-green": "var(--rowColor-green)",
         "rowColor-turquoise": "var(--rowColor-turquoise)",
         "rowColor-light-blue": "var(--rowColor-light-blue)",
