@@ -21,13 +21,14 @@ const config = {
       },
       maxHeight: {
         "sticky-right": "calc(100vh - var(--header-height) - 40px)",
+        inherit: "inherit",
       },
       colors: {
         "rowColor-red": "var(--rowColor-red)",
         "rowColor-orange": "var(--rowColor-orange)",
         "rowColor-light-orange": "var(--rowColor-light-orange)",
         "rowColor-yellow": "var(--rowColor-yellow)",
-        "rowColor-lime": "var(--rowColor-lime)",
+        "rowColor-lime-green": "var(--rowColor-lime-green)",
         "rowColor-green": "var(--rowColor-green)",
         "rowColor-turquoise": "var(--rowColor-turquoise)",
         "rowColor-light-blue": "var(--rowColor-light-blue)",

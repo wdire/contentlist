@@ -269,6 +269,7 @@ export const listSlice = createSlice({
           rows: state.rows,
           listId: state.info.id,
         });
+        state.hasUnsavedChanges = true;
       }
 
       if (activeId === overId) return;
@@ -280,6 +281,8 @@ export const listSlice = createSlice({
           rows: state.rows,
           listId: state.info.id,
         });
+
+        state.hasUnsavedChanges = true;
       }
 
       if (activeType !== "Row") return;
