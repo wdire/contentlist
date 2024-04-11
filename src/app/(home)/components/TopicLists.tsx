@@ -5,10 +5,11 @@ import {ListHomeListsResponse} from "@/services/actions/list.actions";
 const titleColors = [
   "text-rowColor-red",
   "text-rowColor-green",
-  "text-rowColor-turquoise",
-  "text-rowColor-orange",
-  "text-rowColor-light-blue",
   "text-rowColor-yellow",
+  "text-rowColor-orange",
+  "text-rowColor-turquoise",
+  "text-rowColor-magenta",
+  "text-rowColor-light-blue",
 ];
 
 const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
@@ -22,7 +23,7 @@ const TopicLists = ({homeLists}: {homeLists: ListHomeListsResponse}) => {
           {!homeLists || homeLists.length === 0 ? (
             <div>No lists found</div>
           ) : (
-            homeLists.concat(homeLists).map((topic, topicIndex) => {
+            homeLists.map((topic, topicIndex) => {
               if (topic.ListInTopic?.length > 0) {
                 return (
                   <div key={topicIndex}>

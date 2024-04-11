@@ -340,6 +340,11 @@ export const listSlice = createSlice({
         state.contents[activeIndex].rowId = overId;
       }
     },
+
+    onDragCancel: (state) => {
+      state.activeRow = null;
+      state.activeContent = null;
+    },
   },
 });
 
