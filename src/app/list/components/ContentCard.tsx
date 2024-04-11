@@ -56,10 +56,10 @@ export const useContentclassNames = ({
         !isSearchResult,
       "max-h-[84px]": isSearchResult,
 
-      "aspect-square object-cover": square,
-      "aspect-[2/3] object-cover": !notPoster,
+      "aspect-square object-cover": square, // if square
+      "aspect-[2/3] object-cover": !notPoster, // if poster
 
-      "object-contain": !square && notPoster,
+      "!max-h-inherit object-contain": !square && notPoster, // if not square and not poster
     });
 
     const contentText = clsx("content-text", {

@@ -21,6 +21,7 @@ const config = {
       },
       maxHeight: {
         "sticky-right": "calc(100vh - var(--header-height) - 40px)",
+        inherit: "inherit",
       },
       colors: {
         "rowColor-red": "var(--rowColor-red)",
