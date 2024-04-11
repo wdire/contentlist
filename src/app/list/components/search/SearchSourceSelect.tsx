@@ -45,7 +45,11 @@ const SearchSourceSelect = () => {
               }}
             >
               {source?.items?.map((subSource) => (
-                <SelectItem key={subSource.value} value={subSource.value}>
+                <SelectItem
+                  key={subSource.value}
+                  value={subSource.value}
+                  hideSelectedIcon={searchSource !== subSource.value}
+                >
                   {subSource.label}
                 </SelectItem>
               )) || []}
@@ -54,7 +58,11 @@ const SearchSourceSelect = () => {
         }
 
         return (
-          <SelectItem key={source.value} value={source.value}>
+          <SelectItem
+            key={source.value}
+            value={source.value}
+            hideSelectedIcon={searchSource !== source.value}
+          >
             {source.label}
           </SelectItem>
         );

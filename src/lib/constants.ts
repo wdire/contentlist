@@ -101,3 +101,30 @@ export const CONTENT_IMAGE_BASES = {
   },
   clearbit: "https://logo.clearbit.com/",
 } as const;
+
+export const CONTENTCARD_SIZE_CLASSES = {
+  "min-h-": "min-h-[60px]",
+  "md:min-h-": "md:min-h-[86px]",
+
+  _1x: {
+    "w-": "w-[60px]",
+    "max-h-": "max-h-[90px]",
+    //
+    "md:w-": "md:w-[86px]",
+    "md:max-h-": "md:max-h-[129px]",
+  },
+  _2x: {
+    "w-": "w-[84px]",
+    "max-h-": "max-h-[126px]",
+    //
+    "md:w-": "md:w-[100px]",
+    "md:max-h-": "md:max-h-[150px]",
+  },
+  _3x: {
+    "w-": "w-[126px]",
+    "max-h-": "max-h-[189px]",
+    //
+    "md:w-": "md:w-[116px]",
+    "md:max-h-": "md:max-h-[174px]",
+  },
+} as const;

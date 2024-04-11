@@ -5,6 +5,7 @@ import {CSS} from "@dnd-kit/utilities";
 import {memo, useMemo, useRef} from "react";
 import {useAppSelector} from "@/store";
 import {makeSelectContentsByRowId} from "@/store/features/list/listSelectors";
+import {CONTENTCARD_SIZE_CLASSES} from "@/lib/constants";
 import {Row} from "../../../lib/types/list.type";
 import RowOptionsPopover from "./RowOptionsPopover";
 import ContentCard from "./ContentCard";
@@ -42,7 +43,7 @@ const RowItemMemo = memo(function RowItemMemo({row}: Props) {
       </div>
       <div className="flex w-full">
         <div
-          className={`flex flex-grow flex-wrap pl-0.5 ${contentIds.length === 0 ? "min-h-[60px] md:min-h-[86px]" : ""}`}
+          className={`flex flex-grow flex-wrap pl-0.5 ${contentIds.length === 0 ? `${CONTENTCARD_SIZE_CLASSES["min-h-"]} ${CONTENTCARD_SIZE_CLASSES["md:min-h-"]}` : ""}`}
         >
           <SortableContext id={`${row.id}`} items={contentIds}>
             {contentsMemo}
