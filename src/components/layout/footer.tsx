@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <div className="bg-content1 py-3 relative">
       <MobileOpenConsole />
-      <SectionContainer className="h-full">
+      <SectionContainer className="h-full relative z-10">
         <div className="flex items-center justify-between w-full h-full text-sm gap-3 flex-wrap mb-2">
           <div className="text-sm">
             Using contents from{" "}
