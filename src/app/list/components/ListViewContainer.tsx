@@ -71,6 +71,11 @@ function ListViewContainer() {
     [dispatch],
   );
 
+  const handleDragCancel = useCallback(() => {
+    console.log("drag cancel");
+    dispatch(listActions.onDragCancel());
+  }, [dispatch]);
+
   return (
     <SectionContainer paddingClass="px-0 sm:px-5" type="list-page">
       <div className="m-auto flex min-h-screen w-full items-start py-page-top-space">
@@ -80,8 +85,7 @@ function ListViewContainer() {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           onDragOver={debounce(handleDragMove, 75)}
-          onDragCancel={() => console.log("onDragCancel")}
-          // TODO: Add onDragCancel handle here, set activeContent to null
+          onDragCancel={handleDragCancel}
           autoScroll={false}
           collisionDetection={pointerWithin}
         >
