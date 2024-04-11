@@ -1,4 +1,4 @@
-"use clerk";
+"use client";
 
 import {useClerk, useUser} from "@clerk/nextjs";
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";

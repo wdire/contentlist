@@ -94,7 +94,7 @@ export default function RootLayout({
           `}
         </Script>
 
-        {process.env.NODE_ENV === "production" ? (
+        {process.env.VERCEL_ENV === "production" ? (
           <>
             <Script id="script_cookie_1" strategy="afterInteractive">
               {`

@@ -8,7 +8,7 @@ import clsx from "clsx";
 import {memo, useMemo} from "react";
 import {useAppSelector} from "@/store";
 import {ContentMediaName, getContentMediaType, getContentSourceUrl} from "@/lib/utils/helper.utils";
-import {REMEMBERED_STATES_TYPES} from "@/lib/constants";
+import {CONTENTCARD_SIZE_CLASSES, REMEMBERED_STATES_TYPES} from "@/lib/constants";
 import {Content, ContentSourceName} from "../../../lib/types/list.type";
 
 export const useContentclassNames = ({
@@ -27,19 +27,22 @@ export const useContentclassNames = ({
   isSearchResult?: boolean;
 }) => {
   const classNames = useMemo(() => {
+    const {_1x, _2x, _3x} = CONTENTCARD_SIZE_CLASSES;
     const wrapper = clsx("content", {
-      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      [`${CONTENTCARD_SIZE_CLASSES["min-h-"]} ${CONTENTCARD_SIZE_CLASSES["md:min-h-"]}`]:
+        !isSearchResult,
       "min-h-14 max-h-[84px] w-14": isSearchResult,
 
       "opacity-50": isDragging,
-      "aspect-[2/3]": !notPoster,
 
       "cursor-pointer transition-opacity hover:opacity-75": redirectSourcePage,
       "cursor-grab": !redirectSourcePage,
 
-      "w-[60px] max-h-[90px] md:w-[86px] md:max-h-[129px]": !isSearchResult && contentSize === "1x",
-      "w-[84px] max-h-[126px] md:w-[100px] md:max-h-[150px]": contentSize === "2x",
-      "w-[126px] max-h-[189px] md:w-[116px] md:max-h-[174px]": contentSize === "3x",
+      // "w-[60px] max-h-[90px] md:w-[86px] md:max-h-[129px]": !isSearchResult && contentSize === "1x",
+      [`${_1x["w-"]} ${_1x["max-h-"]} ${_1x["md:w-"]} ${_1x["md:max-h-"]}`]:
+        !isSearchResult && contentSize === "1x",
+      [`${_2x["w-"]} ${_2x["max-h-"]} ${_2x["md:w-"]} ${_2x["md:max-h-"]}`]: contentSize === "2x",
+      [`${_3x["w-"]} ${_3x["max-h-"]} ${_3x["md:w-"]} ${_3x["md:max-h-"]}`]: contentSize === "3x",
     });
 
     const contentName = clsx("content-name !leading-3 md:!leading-4", {
@@ -49,7 +52,8 @@ export const useContentclassNames = ({
     });
 
     const contentImage = clsx("content-img", {
-      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      [`${CONTENTCARD_SIZE_CLASSES["min-h-"]} ${CONTENTCARD_SIZE_CLASSES["md:min-h-"]}`]:
+        !isSearchResult,
       "max-h-[84px]": isSearchResult,
 
       "aspect-square object-cover": square,
@@ -59,7 +63,8 @@ export const useContentclassNames = ({
     });
 
     const contentText = clsx("content-text", {
-      "min-h-[60px] md:min-h-[86px]": !isSearchResult,
+      [`${CONTENTCARD_SIZE_CLASSES["min-h-"]} ${CONTENTCARD_SIZE_CLASSES["md:min-h-"]}`]:
+        !isSearchResult,
       "max-h-[84px]": isSearchResult,
 
       "aspect-square": square,

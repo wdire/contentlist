@@ -7,7 +7,7 @@ import {
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
-import {STORAGE_ROW_ID} from "@/lib/constants";
+import {CONTENTCARD_SIZE_CLASSES, STORAGE_ROW_ID} from "@/lib/constants";
 import {useAppDispatch, useAppSelector} from "@/store";
 import listSelectors, {makeSelectContentsByRowId} from "@/store/features/list/listSelectors";
 import {Button} from "@nextui-org/react";
@@ -162,7 +162,9 @@ const StorageContainerMemo = memo(function StorageContainermemo() {
           </div>
         )}
 
-        <div className="flex flex-grow sm:flex-wrap min-h-[60px] md:min-h-[86px] w-full sm:overflow-y-auto pt-0">
+        <div
+          className={`flex flex-grow sm:flex-wrap w-full sm:overflow-y-auto pt-0 ${CONTENTCARD_SIZE_CLASSES["min-h-"]} ${CONTENTCARD_SIZE_CLASSES["md:min-h-"]}`}
+        >
           <SortableContext id={STORAGE_ROW_ID} items={contentIds} strategy={strategy}>
             {storageContentsMemo}
           </SortableContext>

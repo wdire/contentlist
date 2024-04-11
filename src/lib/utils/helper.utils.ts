@@ -251,3 +251,16 @@ export const getExistingSearchResultIndexes = ({
 
   return indexes;
 };
+
+export const detectDoubleTapClosure = (callback: () => void) => {
+  let lastTap = 0;
+
+  return () => {
+    const curTime = new Date().getTime();
+    const tapLen = curTime - lastTap;
+    if (tapLen < 300 && tapLen > 0) {
+      callback();
+    }
+    lastTap = curTime;
+  };
+};
