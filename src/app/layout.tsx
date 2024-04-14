@@ -100,7 +100,7 @@ export default function RootLayout({
             <Script id="script_cookie_1" strategy="afterInteractive">
               {`
               var _iub = _iub || [];
-              _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"cookiePolicyInOtherWindow":true,"enableFadp":true,"enableLgpd":true,"enableUspr":true,"fadpApplies":true,"floatingPreferencesButtonColor":"#00FF0A00","floatingPreferencesButtonDisplay":"bottom-right","floatingPreferencesButtonZIndex":-100,"lang":"en","perPurposeConsent":true,"siteId":3553985,"usprApplies":true,"whitelabel":false,"cookiePolicyId":93141495, "banner":{ "acceptButtonDisplay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"float-bottom-right","rejectButtonDisplay":true,"showTitle":false }};
+              _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"cookiePolicyInOtherWindow":true,"enableFadp":true,"enableLgpd":true,"enableUspr":true,"fadpApplies":true,"floatingPreferencesButtonColor":"#00FF0A00","floatingPreferencesButtonDisplay":"bottom-right","floatingPreferencesButtonZIndex":-100,"lang":"en","perPurposeConsent":true,"siteId":3553985,"usprApplies":true,"cookiePolicyId":93141495,"i18n":{"en":{"banner":{"title":"Cookie Consent"}}}, "banner":{ "acceptButtonDisplay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"logo":null,"position":"float-bottom-right","rejectButtonDisplay":true }};
               `}
             </Script>
             <Script
