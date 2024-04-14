@@ -44,7 +44,7 @@ const Box = () => (
 
 const RightContainer = () => (
   <div className="w-full lg:w-[270px] mb-5 rounded-medium px-3 lg:px-0 right-c-scrollbar-hover">
-    <Skeleton className="w-full mb-5 h-[124px] rounded-medium" />
+    <Skeleton className="w-full mb-5 h-[92px] rounded-medium" />
     <Skeleton className="w-full h-[182px] sm:h-[326px] rounded-medium" />
   </div>
 );
