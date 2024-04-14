@@ -10,15 +10,17 @@ const Loading = () => {
     <>
       <SectionContainer className="pt-page-top-space">
         <div>
-          <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-[89px] sm:w-[124px] mr-2" />
-          <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-48 sm:w-72" />
+          <div className="flex">
+            <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-[89px] sm:w-[124px] mr-2" />
+            <Skeleton className="inline-block rounded-lg h-9 sm:h-10 w-48 sm:w-72" />
+          </div>
           <Skeleton className="rounded-lg mt-4">
             <HomeDescriptionContent />
           </Skeleton>
         </div>
       </SectionContainer>
       <SectionContainer className="pt-7 md:pt-11">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-9 md:gap-12">
           <div>
             <Skeleton className="w-32 rounded-medium h-8 mb-4" />
             <div className={listsWrapperClass}>
