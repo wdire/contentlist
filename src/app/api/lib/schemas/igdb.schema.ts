@@ -27,4 +27,5 @@ type IgdbGamesSearchResultItem = {
     image_id: string;
   };
   name: string;
+  slug: string;
 };

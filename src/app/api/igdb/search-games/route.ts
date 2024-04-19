@@ -15,7 +15,7 @@ export const POST = (_request: Request) =>
         await igdbAxios({
           url: "/games",
           method: "POST",
-          data: `search "${body.query}"; fields name, cover.image_id; where category = 0;`,
+          data: `search "${body.query}"; fields name, slug, cover.image_id; where category = 0;`,
         });
 
       return CreateResponse<ApiRequestTypes["/igdb/search-games"]["response"]["data"]>({
