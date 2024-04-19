@@ -31,6 +31,7 @@ const ListContentSchemaBase = z
     igdb: z
       .object({
         id: z.number().max(MAX_LENGTHS.max_num_id),
+        slug: z.string().max(150).optional(),
       })
       .optional()
       .nullable(),

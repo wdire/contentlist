@@ -57,6 +57,7 @@ declare global {
 
     type IgdbDetailsType = {
       id: number;
+      slug?: string;
     };
 
     type WikipediaDetailsType = {

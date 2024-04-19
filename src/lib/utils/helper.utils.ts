@@ -62,6 +62,9 @@ export const getContentSourceUrl = (content: PrismaJson.ContentType): string => 
       }
       throw new Error("Anilist no type");
     } else if (content.source === "igdb") {
+      if (content.igdb?.slug) {
+        return `https://www.igdb.com/games/${content.igdb?.slug}`;
+      }
       return `https://www.igdb.com/search?utf8=%E2%9C%93&q=${content.name}`;
     } else if (content.source === "wikipedia") {
       return `https://en.wikipedia.org/wiki?curid=${sourceId}`;

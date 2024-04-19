@@ -111,6 +111,7 @@ export const getContentInfoFromIgdbGame = ({
           source: "igdb",
           igdb: {
             id: item.id,
+            slug: item?.slug,
           },
         };
 
